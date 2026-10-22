@@ -1,0 +1,16 @@
+{
+  "title": "Tonight the Moon disappears",
+  "voice": "am_michael",
+  "scenes": [
+    {"text": "Tonight, the Moon disappears.", "clip": "moon_eclipse", "ss": 3, "flash": "GONE"},
+    {"text": "No warning. No trace. Just darkness.", "clip": "moon_ksc", "ss": 40},
+    {"text": "The oceans go haywire. Tides collapse by two thirds.", "clip": "tides", "ss": 31},
+    {"text": "Animals that steer by moonlight? Their compass is gone.", "clip": "moon_new_orleans", "ss": 2},
+    {"text": "But here's the twist. After twenty four hours, almost nothing bad happens.", "clip": "earth_night", "ss": 4, "flash": "TWIST"},
+    {"text": "The real nightmare? If it never comes back.", "clip": "moon_ksc", "ss": 200, "flash": "FOREVER"},
+    {"text": "The Moon is the anchor holding Earth's tilt steady.", "clip": "earth_night", "ss": 14},
+    {"text": "Lose it, and over millions of years, our seasons could swing from freezing to scorching.", "clip": "earth_night", "ss": 26},
+    {"text": "Now look up tonight. It's still there. For now.", "clip": "moon_eclipse", "ss": 10},
+    {"text": "Comment what should vanish next.", "clip": "moon_rise_vert", "ss": 5}
+  ]
+}

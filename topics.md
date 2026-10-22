@@ -1,0 +1,16 @@
+# Topic backlog (space / science, NASA footage). Mark used topics with [x].
+- [x] Tonight, the Moon disappears (what if the Moon vanished)
+- [ ] What if the Sun turned off for one second? (8 minutes of light travel; we'd not notice for 8 min)
+- [ ] The Moon is slowly leaving us (about 3.8 cm per year)
+- [ ] A day on Venus is longer than its year
+- [ ] You'd weigh less on the Moon (and how much)
+- [ ] The loudest sound ever recorded vs space is silent
+- [ ] Why the Sun is not on fire (fusion, not burning)
+- [ ] Footprints on the Moon will last millions of years
+- [ ] What if Earth stopped spinning
+- [ ] Astronauts grow taller in space
+- [ ] The International Space Station orbits Earth every 90 minutes
+- [ ] Lunar eclipse: why the Moon turns red
+- [ ] Jupiter's Great Red Spot is shrinking
+- [ ] Neutron stars: a teaspoon weighs a billion tons
+- [ ] Sunsets on Mars are blue
