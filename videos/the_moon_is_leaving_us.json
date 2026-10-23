@@ -1,0 +1,17 @@
+{
+  "title": "The Moon is leaving us",
+  "voice": "am_michael",
+  "scenes": [
+    {"text": "The Moon is leaving us. Right now.", "clip": "moon_ksc2", "ss": 40, "flash": "LEAVING"},
+    {"text": "Every year, it drifts about four centimeters farther away.", "clip": "moon_ksc2", "ss": 170},
+    {"text": "That's roughly how fast your fingernails grow.", "clip": "earth4k", "ss": 375},
+    {"text": "We know because Apollo astronauts left mirrors up there.", "clip": "moon_ksc2", "ss": 307},
+    {"text": "Scientists bounce lasers off them and time the trip.", "clip": "earth4k", "ss": 875, "flash": "LASERS"},
+    {"text": "The culprit? Tides. Earth's oceans tug on the Moon and slowly fling it outward.", "clip": "earth4k", "ss": 1375},
+    {"text": "And the Moon pulls back, slowing our spin. Our days keep getting longer.", "clip": "earth4k", "ss": 2375},
+    {"text": "Billions of years ago, the Moon looked far bigger in the sky.", "clip": "moon_ksc2", "ss": 238, "flash": "HUGE"},
+    {"text": "Someday, it will look too small to fully cover the Sun.", "clip": "moon_ksc2", "ss": 784},
+    {"text": "Total solar eclipses will end. Hundreds of millions of years from now.", "clip": "earth4k", "ss": 1875},
+    {"text": "So go look at one while you can. Comment if you'd miss it.", "clip": "moon_ksc2", "ss": 102}
+  ]
+}
