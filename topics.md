@@ -1,6 +1,6 @@
 # Topic backlog (space / science, NASA footage). Mark used topics with [x].
 - [x] Tonight, the Moon disappears (what if the Moon vanished)
-- [ ] What if the Sun turned off for one second? (8 minutes of light travel; we'd not notice for 8 min)
+- [x] What if the Sun turned off for one second? (8 minutes of light travel; we'd not notice for 8 min)
 - [ ] The Moon is slowly leaving us (about 3.8 cm per year)
 - [ ] A day on Venus is longer than its year
 - [ ] You'd weigh less on the Moon (and how much)
