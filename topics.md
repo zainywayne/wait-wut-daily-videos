@@ -5,7 +5,7 @@
 ## DONE
 - [x] Tonight, the Moon disappears
 - [x] The Sun turns off for one second
-- [x] The Moon is leaving us (informational, already rendered; pending upload, not to be redone)
+- [x] The Moon is leaving us (informational; Zain chose to DROP it, file moved to unused/, never upload)
 
 ## QUEUE (what ifs)
 - [ ] What if Earth stopped spinning? (ground stops, air and oceans keep moving ~1,000 mph at the equator; huge winds and waves; day would last a year)
