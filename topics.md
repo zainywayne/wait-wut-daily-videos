@@ -1,7 +1,7 @@
 # Topic backlog (space / science, NASA footage). Mark used topics with [x].
 - [x] Tonight, the Moon disappears (what if the Moon vanished)
 - [x] What if the Sun turned off for one second? (8 minutes of light travel; we'd not notice for 8 min)
-- [ ] The Moon is slowly leaving us (about 3.8 cm per year)
+- [x] The Moon is slowly leaving us (about 3.8 cm per year) (rendered 2026-10-23, upload blocked by quota, pending)
 - [ ] A day on Venus is longer than its year
 - [ ] You'd weigh less on the Moon (and how much)
 - [ ] The loudest sound ever recorded vs space is silent
