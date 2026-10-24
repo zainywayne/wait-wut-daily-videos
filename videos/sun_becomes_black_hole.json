@@ -1,0 +1,149 @@
+{
+ "title": "Tonight, the Sun becomes a black hole",
+ "voice": "am_michael",
+ "scenes": [
+  {
+   "text": "Tonight, the Sun becomes a black hole.",
+   "flash": "COLLAPSE",
+   "shots": [
+    {
+     "clip": "sdo_eclipse_flare",
+     "ss": 11
+    }
+   ]
+  },
+  {
+   "text": "For eight minutes, nothing seems to change.",
+   "shots": [
+    {
+     "clip": "flare_trio",
+     "ss": 26
+    }
+   ]
+  },
+  {
+   "text": "Earth keeps orbiting, as if nothing happened.",
+   "shots": [
+    {
+     "clip": "giant_sunspot",
+     "ss": 20
+    },
+    {
+     "clip": "idalia",
+     "ss": 440
+    }
+   ]
+  },
+  {
+   "text": "Then the light runs out.",
+   "flash": "DARK",
+   "shots": [
+    {
+     "clip": "blackholes_nustar",
+     "ss": 16
+    }
+   ]
+  },
+  {
+   "text": "But here's the twist. Earth doesn't get sucked in.",
+   "flash": "TWIST",
+   "shots": [
+    {
+     "clip": "blackholes_nustar",
+     "ss": 81
+    },
+    {
+     "clip": "earth_night",
+     "ss": 14
+    }
+   ]
+  },
+  {
+   "text": "A black hole with the Sun's mass has the same gravity as the Sun, so we'd keep orbiting it.",
+   "shots": [
+    {
+     "clip": "idalia",
+     "ss": 700
+    },
+    {
+     "clip": "flare_april",
+     "ss": 20
+    },
+    {
+     "clip": "airglow",
+     "ss": 132
+    }
+   ]
+  },
+  {
+   "text": "The Sun would shrink to just six kilometers across.",
+   "shots": [
+    {
+     "clip": "blackholes_nustar",
+     "ss": 38
+    },
+    {
+     "clip": "blackholes_nustar",
+     "ss": 135
+    }
+   ]
+  },
+  {
+   "text": "But without sunlight, the surface could start freezing within days.",
+   "shots": [
+    {
+     "clip": "earth_night",
+     "ss": 47
+    },
+    {
+     "clip": "airglow",
+     "ss": 76
+    }
+   ]
+  },
+  {
+   "text": "Oceans would slowly freeze over, and most life on the surface would struggle to survive.",
+   "shots": [
+    {
+     "clip": "idalia",
+     "ss": 460
+    },
+    {
+     "clip": "airglow",
+     "ss": 47
+    }
+   ]
+  },
+  {
+   "text": "The good news? The Sun isn't massive enough to ever do this.",
+   "shots": [
+    {
+     "clip": "flare_trio",
+     "ss": 50
+    },
+    {
+     "clip": "giant_sunspot",
+     "ss": 86
+    }
+   ]
+  },
+  {
+   "text": "Comment what should vanish next.",
+   "shots": [
+    {
+     "clip": "hubble_galaxies",
+     "ss": 179
+    }
+   ]
+  }
+ ],
+ "yt_title": "Tonight, the Sun becomes a black hole #shorts",
+ "yt_description": "What if the Sun turned into a black hole? Earth wouldn't get sucked in, but it would freeze.\n\nFootage: NASA\n\n#shorts #space #blackhole #sun #whatif",
+ "yt_tags": [
+  "shorts",
+  "space",
+  "black hole",
+  "sun",
+  "what if"
+ ]
+}

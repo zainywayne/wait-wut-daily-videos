@@ -110,36 +110,74 @@ grad = np.ones((H, W, 1), dtype=np.float32)
 ys = np.linspace(0, 1, H)[:, None, None]
 grad = 1 - 0.55 * np.clip((ys - 0.55) / 0.45, 0, 1) - 0.25 * np.clip((0.2 - ys) / 0.2, 0, 1)
 
+# ---------- shot plan + quality validation ----------
+# A scene is either {"clip","ss"} (single shot) or {"shots":[{"clip","ss","mode"?,"x"?},...]}.
+# mode "fill" (default) crops the 16:9 source to fill the vertical frame; x (0-1) picks the crop centre.
+# mode "fit" shows the whole frame over a blurred copy. Renderer REFUSES to render weak edits.
+MAX_SHOT = 3.3      # seconds: longer than this must be split into more shots
+MIN_CLIPS = 5       # distinct source files per video
+MIN_GAP = 8.0       # seconds apart inside the same source file (else it looks like a repeat)
+plan, used = [], 0
+for si, seg in enumerate(segs):
+    n = int(round(seg["dur"] * FPS))
+    if si == len(segs) - 1:
+        n = nframes - used
+    shots = seg.get("shots") or [{"clip": seg["clip"], "ss": seg.get("ss", 0)}]
+    per = n // len(shots)
+    for hi, sh in enumerate(shots):
+        cnt = per if hi < len(shots) - 1 else n - per * (len(shots) - 1)
+        plan.append((si, sh, cnt))
+    used += n
+errs = []
+for si, seg in enumerate(segs):
+    ns = len(seg.get("shots") or [1])
+    if seg["dur"] / ns > MAX_SHOT:
+        errs.append(f"scene {si+1} ('{seg['text'][:30]}...'): {seg['dur']/ns:.1f}s per shot, needs at least {int(seg['dur']/MAX_SHOT)+1} shots")
+seen = {}
+for si, sh, cnt in plan:
+    for ss2 in seen.get(sh["clip"], []):
+        if abs(sh.get("ss", 0) - ss2) < MIN_GAP:
+            errs.append(f"scene {si+1}: clip '{sh['clip']}' at {sh.get('ss',0)}s is within {MIN_GAP}s of an earlier shot from the same clip (repeat)")
+    seen.setdefault(sh["clip"], []).append(sh.get("ss", 0))
+if len(seen) < MIN_CLIPS:
+    errs.append(f"only {len(seen)} distinct source clips; need at least {MIN_CLIPS}")
+if errs:
+    print("REFUSING TO RENDER, fix the script:\n - " + "\n - ".join(errs)); sys.exit(2)
+print(f"plan ok: {len(plan)} shots, {len(seen)} source clips")
+
 silent = os.path.join(work, "silent.mp4")
 ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS),
                        "-i", "-", "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", silent], stdin=subprocess.PIPE)
 gf = 0
-for si, seg in enumerate(segs):
-    n = int(round(seg["dur"] * FPS))
-    if si == len(segs) - 1:
-        n = nframes - gf
-    dec = subprocess.Popen(["ffmpeg", "-loglevel", "error", "-ss", str(seg.get("ss", 0)), "-stream_loop", "-1", "-i", os.path.join(CLIPS, seg["clip"] + ".mp4"),
-                            "-filter_complex", f"[0:v]fps={FPS},split[a][b];[a]scale=-2:{H},crop={W}:{H},boxblur=25:3,eq=brightness=-0.15[bg];[b]scale={W}:-2[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2", "-frames:v", str(n), "-pix_fmt", "rgb24", "-f", "rawvideo", "-"],
-                           stdout=subprocess.PIPE)
-    for k in range(n):
+scene_start = {}
+for si, sh, cnt in plan:
+    seg = segs[si]
+    scene_start.setdefault(si, gf)
+    mode = sh.get("mode", "fill")
+    if mode == "fit":
+        vf = f"fps={FPS},split[a][b];[a]scale=-2:{H},crop={W}:{H},boxblur=25:3,eq=brightness=-0.15[bg];[b]scale={W}:-2[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2"
+    else:
+        vf = f"fps={FPS},scale=-2:{H},crop={W}:{H}:(iw-{W})*{sh.get('x', 0.5)}:0"
+    dec = subprocess.Popen(["ffmpeg", "-loglevel", "error", "-ss", str(sh.get("ss", 0)), "-stream_loop", "-1", "-i", os.path.join(CLIPS, sh["clip"] + ".mp4"),
+                            "-vf", vf, "-frames:v", str(cnt), "-pix_fmt", "rgb24", "-f", "rawvideo", "-"], stdout=subprocess.PIPE)
+    for k in range(cnt):
         raw = dec.stdout.read(W * H * 3)
         if len(raw) < W * H * 3:
             break
         arr = (np.frombuffer(raw, dtype=np.uint8).reshape(H, W, 3).astype(np.float32) * grad).astype(np.uint8)
         im = Image.fromarray(arr)
-        z = 1.0 + 0.14 * min(1.0, k / max(1, n))
+        z = 1.0 + 0.10 * min(1.0, k / max(1, cnt))
         bw, bh = W / z, H / z
         im = im.resize((W, H), Image.BILINEAR, box=((W - bw) / 2, (H - bh) / 2, (W + bw) / 2, (H + bh) / 2))
         ft = gf / FPS
-        lt = k / FPS
+        lt = (gf - scene_start[si]) / FPS
         d = ImageDraw.Draw(im)
         if ft < 2.2:
             for i, ln in enumerate(wrap(d, script["title"].upper(), font_title, W - 80)):
                 d.text((W / 2, 130 + i * 70), ln, font=font_title, fill=(255, 235, 59), anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0))
         if seg.get("flash") and lt < 1.0:
             pop = 1.0 + 0.25 * max(0, 1 - lt / 0.25)
-            ff_big = ImageFont.truetype(FONT, int(150 * pop))
-            d.text((W / 2, 560), seg["flash"], font=ff_big, fill=(255, 235, 59), anchor="mm", stroke_width=8, stroke_fill=(0, 0, 0))
+            d.text((W / 2, 560), seg["flash"], font=ImageFont.truetype(FONT, int(150 * pop)), fill=(255, 235, 59), anchor="mm", stroke_width=8, stroke_fill=(0, 0, 0))
         if lt < seg["speech"] + 0.05:
             captions(im, seg, lt)
         ff.stdin.write(im.tobytes())
