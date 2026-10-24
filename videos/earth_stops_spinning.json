@@ -1,0 +1,73 @@
+{
+  "title": "Tonight, Earth stops spinning",
+  "voice": "am_michael",
+  "scenes": [
+    {
+      "text": "Tonight, the Earth stops spinning.",
+      "clip": "earth_night",
+      "ss": 4,
+      "flash": "STOPPED"
+    },
+    {
+      "text": "Right now, the ground at the equator moves about a thousand miles an hour.",
+      "clip": "earth_night",
+      "ss": 13
+    },
+    {
+      "text": "Now it stops. But the air and the oceans don't.",
+      "clip": "idalia",
+      "ss": 420
+    },
+    {
+      "text": "Winds could tear across the surface at hundreds of miles an hour.",
+      "clip": "idalia",
+      "ss": 500,
+      "flash": "WIND"
+    },
+    {
+      "text": "Oceans would surge inland. A wall of water, hitting the coasts.",
+      "clip": "idalia",
+      "ss": 660
+    },
+    {
+      "text": "Loose objects, even buildings, could be hurled forward.",
+      "clip": "idalia",
+      "ss": 380
+    },
+    {
+      "text": "But here's the twist. One day would now last a whole year.",
+      "clip": "earth_night",
+      "ss": 47,
+      "flash": "TWIST"
+    },
+    {
+      "text": "Six months of blazing sunlight on one side.",
+      "clip": "idalia",
+      "ss": 700
+    },
+    {
+      "text": "Six months of freezing darkness on the other.",
+      "clip": "earth_night",
+      "ss": 57.8
+    },
+    {
+      "text": "The good news? Nothing we know of could stop Earth this fast.",
+      "clip": "idalia",
+      "ss": 780
+    },
+    {
+      "text": "Comment what we should break next.",
+      "clip": "earth_night",
+      "ss": 14
+    }
+  ],
+  "yt_title": "Tonight, Earth stops spinning #shorts",
+  "yt_description": "What if the Earth suddenly stopped spinning? Violent winds, flooding oceans, and a day that lasts a whole year.\n\nFootage: NASA\n\n#shorts #space #earth #whatif #science",
+  "yt_tags": [
+    "shorts",
+    "space",
+    "earth",
+    "what if",
+    "science"
+  ]
+}

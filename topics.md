@@ -8,7 +8,7 @@
 - [x] The Moon is leaving us (informational; Zain chose to DROP it, file moved to unused/, never upload)
 
 ## QUEUE (what ifs)
-- [ ] What if Earth stopped spinning? (ground stops, air and oceans keep moving ~1,000 mph at the equator; huge winds and waves; day would last a year)
+- [x] What if Earth stopped spinning? (rendered 2026-10-23, pending upload due to quota; videos/earth_stops_spinning.mp4) (ground stops, air and oceans keep moving ~1,000 mph at the equator; huge winds and waves; day would last a year)
 - [ ] What if the Sun became a black hole of the same mass? (Earth keeps orbiting; same gravity; but no light or heat, so it freezes; we'd see nothing change for 8 minutes)
 - [ ] What if a Carrington-size solar storm hit today? (1859 storm fried telegraphs; today it could damage power grids and satellites; real risk scientists study)
 - [ ] What if Earth lost its atmosphere? (unconscious in roughly 15 seconds, water boils at low pressure, sky goes black, temperature swings)

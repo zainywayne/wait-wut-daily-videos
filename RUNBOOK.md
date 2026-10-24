@@ -3,7 +3,7 @@
 Goal: make and publish ONE new vertical short per run, public, using only free tools. Footage is NASA public domain only (until a Pexels key exists). Do not post if quality checks fail; report instead.
 
 ## Steps
-0. PENDING CHECK FIRST: list `videos/*.mp4` and compare against `published.md`. Any video in `videos/` that is NOT logged in `published.md` is a rendered-but-not-uploaded short (usually a quota failure). If one exists, DO NOT make a new short: skip to step 6 and upload that one (title/description from its matching .json if present), then log it in `published.md` (step 7) and report. Only if nothing is pending, continue to step 1.
+0. PENDING CHECK FIRST: list `videos/*.mp4` and compare against `published.md`. Any video in `videos/` that is NOT logged in `published.md` is a rendered-but-not-uploaded short (usually a quota failure). If one exists, DO NOT make a new short: skip to step 6 and upload that one (use `yt_title`, `yt_description`, `yt_tags` from its matching .json if present), then log it in `published.md` (step 7) and report. Only if nothing is pending, continue to step 1.
 1. Read `topics.md` (backlog) and `published.md` (log). Pick the first unused topic. Never repeat a topic.
 2. `bash tools/setup.sh` (installs voice model, font). Set `export SHORTS_DIR=/home/claude/shorts_work`.
 3. Find footage: `python3 tools/get_nasa_clip.py "<query>"` lists NASA videos; download 4-6 with `--id <nasa_id> <name>`. Build a contact sheet (ffmpeg frames every few seconds, PIL grid), LOOK at it, and choose clean segments: no baked-in text banners, no logos, no black frames. Clips can be reused within a video via `ss` offsets.
