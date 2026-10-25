@@ -15,4 +15,4 @@ Take the first unchecked park. If its NPS footage can't fill ~3.5 minutes of cle
 (Add more hidden gems here when the queue runs low: check footage first with tools/nps_clips.py list.)
 
 ## DONE
-- [x] slbe | Sleeping Bear Dunes National Lakeshore | rendered 2026-10-24, uploaded by the 2026-10-25 run
+- [x] slbe | Sleeping Bear Dunes National Lakeshore | rendered 2026-10-24, uploaded 2026-10-25 (_arBU4cC1Y4)
