@@ -23,5 +23,8 @@ for t in (want, other[want]):
         break
 tomorrow = other[want]
 make = tomorrow if not buf[tomorrow] else (want if not buf[want] else None)
-print(json.dumps({"date": str(today), "scheduled_type": want, "post": post, "make": make,
+post_after_make = False
+if post is None:  # nothing ready tonight: make tonight's type and post it straight away
+    make, post_after_make = want, True
+print(json.dumps({"date": str(today), "scheduled_type": want, "post": post, "make": make, "post_after_make": post_after_make,
                   "buffer_after_post": {k: len(v) for k, v in buf.items()}}, indent=1))
