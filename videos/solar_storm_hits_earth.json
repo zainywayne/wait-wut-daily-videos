@@ -1,0 +1,147 @@
+{
+ "title": "Tonight, a solar storm hits Earth",
+ "voice": "am_michael",
+ "scenes": [
+  {
+   "text": "Tonight, a Carrington-size solar storm hits Earth.",
+   "shots": [
+    {
+     "clip": "arching",
+     "ss": 28
+    }
+   ],
+   "flash": "STORM"
+  },
+  {
+   "text": "The Sun throws a giant cloud of plasma straight at us.",
+   "shots": [
+    {
+     "clip": "firework",
+     "ss": 22
+    },
+    {
+     "clip": "flare16",
+     "ss": 24
+    }
+   ]
+  },
+  {
+   "text": "It arrives in a day or two.",
+   "shots": [
+    {
+     "clip": "eclflare",
+     "ss": 22
+    },
+    {
+     "clip": "bigspot",
+     "ss": 132
+    }
+   ]
+  },
+  {
+   "text": "The sky lights up. Auroras glow far from the poles.",
+   "shots": [
+    {
+     "clip": "steve",
+     "ss": 74
+    },
+    {
+     "clip": "arching",
+     "ss": 67
+    }
+   ],
+   "flash": "AURORA"
+  },
+  {
+   "text": "Satellites could be damaged, and GPS could fail.",
+   "shots": [
+    {
+     "clip": "earthorbit",
+     "ss": 82
+    },
+    {
+     "clip": "firework",
+     "ss": 32
+    }
+   ]
+  },
+  {
+   "text": "Power grids could overload, and blackouts could last for weeks.",
+   "shots": [
+    {
+     "clip": "nightearth",
+     "ss": 24
+    },
+    {
+     "clip": "nightearth",
+     "ss": 46
+    },
+    {
+     "clip": "nightearth",
+     "ss": 13
+    }
+   ],
+   "flash": "BLACKOUT"
+  },
+  {
+   "text": "In 1859, the real one set telegraph lines sparking.",
+   "shots": [
+    {
+     "clip": "sunspot2",
+     "ss": 28
+    },
+    {
+     "clip": "arching",
+     "ss": 54
+    }
+   ]
+  },
+  {
+   "text": "In 1989, a smaller storm blacked out Quebec for nine hours.",
+   "shots": [
+    {
+     "clip": "xflares",
+     "ss": 62
+    },
+    {
+     "clip": "flare16",
+     "ss": 35
+    }
+   ]
+  },
+  {
+   "text": "But here's the twist. In 2012, one just as big missed Earth by about a week.",
+   "shots": [
+    {
+     "clip": "iris",
+     "ss": 22
+    },
+    {
+     "clip": "xflares",
+     "ss": 152
+    }
+   ],
+   "flash": "TWIST"
+  },
+  {
+   "text": "Comment what should break next.",
+   "shots": [
+    {
+     "clip": "bigspot",
+     "ss": 80
+    }
+   ]
+  }
+ ],
+ "yt_title": "Tonight, a solar storm hits Earth #shorts",
+ "yt_description": "What if a Carrington-size solar storm hit Earth today? Power grids and satellites could be at risk.\n\nFootage: NASA\n\n#shorts #space #sun #solarstorm #whatif",
+ "yt_tags": [
+  "shorts",
+  "space",
+  "solar storm",
+  "Carrington event",
+  "sun",
+  "what if"
+ ],
+ "categoryId": "28"
+}

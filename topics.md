@@ -9,8 +9,8 @@
 
 ## QUEUE (what ifs)
 - [x] What if Earth stopped spinning? (published 2026-10-24, sAJTq4XsIao) (ground stops, air and oceans keep moving ~1,000 mph at the equator; huge winds and waves; day would last a year)
-- [ ] What if the Sun became a black hole of the same mass? (Earth keeps orbiting; same gravity; but no light or heat, so it freezes; we'd see nothing change for 8 minutes)
-- [ ] What if a Carrington-size solar storm hit today? (1859 storm fried telegraphs; today it could damage power grids and satellites; real risk scientists study)
+- [x] What if the Sun became a black hole of the same mass? (Earth keeps orbiting; same gravity; but no light or heat, so it freezes; we'd see nothing change for 8 minutes)
+- [x] What if a Carrington-size solar storm hit today? (1859 storm fried telegraphs; today it could damage power grids and satellites; real risk scientists study)
 - [ ] What if Earth lost its atmosphere? (unconscious in roughly 15 seconds, water boils at low pressure, sky goes black, temperature swings)
 - [ ] What if a dinosaur-killer asteroid was heading for Earth tomorrow? (NASA DART 2022 hit a small asteroid and changed its orbit; we can only deflect with years of warning)
 - [ ] What if all satellites stopped working at once? (GPS, weather, banking timing, phones, flights; about how much we depend on them)
