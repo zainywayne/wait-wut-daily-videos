@@ -239,6 +239,103 @@ def bg_end(p):
 BG = {"town": lambda p: bg_town(p, 1.0), "sign": bg_sign, "room": bg_room, "phone": bg_phone, "door": bg_door,
       "peephole": bg_peephole, "window": bg_window, "street": bg_street, "end": bg_end}
 
+
+# ---------------- desert / gas station set ----------------
+D_SKY_T, D_SKY_B = (16, 14, 34), (64, 44, 70)
+SAND = (120, 86, 64); SAND_D = (92, 64, 50); MESA = (72, 46, 52); ROAD = (44, 42, 48)
+def desert_base(sky=True):
+    im = grad(BW, BH, D_SKY_T, D_SKY_B); d = ImageDraw.Draw(im); stars(d, BW, BH, 140, 0.55)
+    d.ellipse([BW * 0.72, BH * 0.1, BW * 0.82, BH * 0.1 + BW * 0.1], fill=(236, 226, 200))
+    d.polygon([(0, BH * 0.6), (BW * 0.08, BH * 0.5), (BW * 0.3, BH * 0.5), (BW * 0.36, BH * 0.6)], fill=MESA)
+    d.polygon([(BW * 0.6, BH * 0.6), (BW * 0.66, BH * 0.46), (BW * 0.94, BH * 0.46), (BW, BH * 0.54), (BW, BH * 0.6)], fill=MESA)
+    d.rectangle([0, BH * 0.6, BW, BH], fill=SAND)
+    return im, d
+def cactus(d, x, y, k=1.0, col=(46, 70, 54)):
+    d.rounded_rectangle([x - 12 * k, y - 140 * k, x + 12 * k, y], radius=int(12 * k), fill=col)
+    d.rounded_rectangle([x - 46 * k, y - 100 * k, x - 28 * k, y - 50 * k], radius=int(9 * k), fill=col); d.rectangle([x - 46 * k, y - 60 * k, x, y - 46 * k], fill=col)
+    d.rounded_rectangle([x + 28 * k, y - 120 * k, x + 46 * k, y - 70 * k], radius=int(9 * k), fill=col); d.rectangle([x, y - 80 * k, x + 46 * k, y - 66 * k], fill=col)
+def car(d, cx, y, k=1.0, col=(120, 40, 40), lights=False):
+    d.rounded_rectangle([cx - 110 * k, y - 50 * k, cx + 110 * k, y], radius=int(14 * k), fill=col)
+    d.polygon([(cx - 60 * k, y - 50 * k), (cx - 36 * k, y - 92 * k), (cx + 46 * k, y - 92 * k), (cx + 70 * k, y - 50 * k)], fill=col)
+    d.polygon([(cx - 50 * k, y - 52 * k), (cx - 32 * k, y - 84 * k), (cx + 4 * k, y - 84 * k), (cx + 4 * k, y - 52 * k)], fill=(40, 50, 70))
+    d.polygon([(cx + 10 * k, y - 52 * k), (cx + 10 * k, y - 84 * k), (cx + 42 * k, y - 84 * k), (cx + 60 * k, y - 52 * k)], fill=(40, 50, 70))
+    for wx in (-64, 64): d.ellipse([cx + (wx - 24) * k, y - 22 * k, cx + (wx + 24) * k, y + 24 * k], fill=(22, 22, 26))
+    if lights: d.ellipse([cx + 96 * k, y - 40 * k, cx + 116 * k, y - 22 * k], fill=(255, 240, 180))
+def sign_board(d, x, y, num, k=1.0, glow=True):
+    d.rectangle([x - 8 * k, y, x + 8 * k, y + 260 * k], fill=(50, 50, 56))
+    d.rectangle([x - 90 * k, y - 170 * k, x + 90 * k, y], fill=(30, 30, 34)); d.rectangle([x - 84 * k, y - 164 * k, x + 84 * k, y - 120 * k], fill=(200, 60, 50))
+    d.text((x, y - 142 * k), "GAS", font=ImageFont.truetype(FONT, int(30 * k)), fill=(255, 255, 255), anchor="mm")
+    d.rectangle([x - 84 * k, y - 112 * k, x + 84 * k, y - 8 * k], fill=(12, 12, 14))
+    d.text((x, y - 60 * k), num, font=ImageFont.truetype(FONT, int(70 * k)), fill=(255, 70, 60) if glow else (70, 30, 30), anchor="mm")
+def bg_desert(p):
+    im, d = desert_base()
+    d.polygon([(BW * 0.47, BH * 0.6), (BW * 0.53, BH * 0.6), (BW * 0.9, BH), (BW * 0.1, BH)], fill=ROAD)
+    for i in range(7):
+        y0 = BH * (0.62 + i * 0.055); w0 = 3 + i * 3
+        d.rectangle([BW / 2 - w0 / 2, y0, BW / 2 + w0 / 2, y0 + 10 + i * 6], fill=(220, 190, 80))
+    cactus(d, BW * 0.15, BH * 0.8, 1.2); cactus(d, BW * 0.86, BH * 0.72, 0.8)
+    if p.get("headlights"):
+        d.ellipse([BW * 0.48, BH * 0.595, BW * 0.495, BH * 0.605], fill=(255, 245, 200)); d.ellipse([BW * 0.505, BH * 0.595, BW * 0.52, BH * 0.605], fill=(255, 245, 200))
+    if p.get("sign"): sign_board(d, BW * 0.74, BH * 0.5, p["sign"], 1.3)
+    return im
+def bg_station(p):
+    im, d = desert_base()
+    d.rectangle([0, BH * 0.78, BW, BH], fill=ROAD)
+    d.rectangle([BW * 0.05, BH * 0.36, BW * 0.95, BH * 0.4], fill=(220, 220, 226)); d.rectangle([BW * 0.05, BH * 0.4, BW * 0.95, BH * 0.415], fill=(200, 60, 50))
+    for x in (0.14, 0.86): d.rectangle([BW * x - 10, BH * 0.415, BW * x + 10, BH * 0.7], fill=(200, 200, 206))
+    glow = Image.new("L", (BW, BH), 0); ImageDraw.Draw(glow).rectangle([BW * 0.1, BH * 0.415, BW * 0.9, BH * 0.72], fill=60)
+    im = Image.composite(Image.new("RGB", (BW, BH), (250, 240, 210)), im, glow.filter(ImageFilter.GaussianBlur(40))); d = ImageDraw.Draw(im)
+    for x in (0.34, 0.66):
+        d.rounded_rectangle([BW * x - 34, BH * 0.56, BW * x + 34, BH * 0.7], radius=8, fill=(220, 70, 60)); d.rectangle([BW * x - 22, BH * 0.575, BW * x + 22, BH * 0.61], fill=(30, 30, 36))
+    d.rectangle([BW * 0.05, BH * 0.7, BW * 0.95, BH * 0.715], fill=(150, 150, 156))
+    if p.get("car"): car(d, BW * 0.5, BH * 0.86, 1.3, (120, 40, 40))
+    if p.get("sign"): sign_board(d, BW * 0.9, BH * 0.5, p["sign"], 0.8)
+    return im
+def bg_store(p):
+    dark = p.get("dark", 0.0)
+    im = Image.new("RGB", (BW, BH), lerp((214, 220, 210), (60, 66, 70), dark)); d = ImageDraw.Draw(im)
+    d.rectangle([0, BH * 0.76, BW, BH], fill=lerp((170, 170, 160), (60, 60, 60), dark))
+    for i, x in enumerate(np.linspace(0, BW, 12)): d.rectangle([x, BH * 0.76, x + 3, BH], fill=lerp((150, 150, 140), (50, 50, 50), dark))
+    # big window onto the pumps / highway
+    wx, wy, ww, wh = BW * 0.04, BH * 0.14, BW * 0.48, BH * 0.34
+    win = grad(int(ww), int(wh), D_SKY_T, D_SKY_B); wd = ImageDraw.Draw(win); stars(wd, int(ww), int(wh), 30, 0.5)
+    wd.rectangle([0, wh * 0.66, ww, wh], fill=SAND_D); wd.rectangle([0, wh * 0.8, ww, wh], fill=ROAD)
+    if p.get("sign"): sign_board(wd, ww * 0.62, wh * 0.66, p["sign"], 0.75)
+    if p.get("headlights"): wd.ellipse([ww * 0.05, wh * 0.82, ww * 0.12, wh * 0.86], fill=(255, 245, 200)); wd.ellipse([ww * 0.14, wh * 0.82, ww * 0.21, wh * 0.86], fill=(255, 245, 200))
+    if p.get("car_outside"): car(wd, ww * 0.35, wh * 0.95, 0.5, (120, 40, 40))
+    im.paste(win, (int(wx), int(wy))); d.rectangle([wx - 8, wy - 8, wx + ww + 8, wy + wh + 8], outline=(90, 94, 100), width=10)
+    # shelves
+    for r in range(3):
+        y = BH * (0.2 + r * 0.12); d.rectangle([BW * 0.64, y, BW * 0.98, y + 10], fill=(120, 120, 126))
+        rr = random.Random(r)
+        for x in np.arange(BW * 0.65, BW * 0.97, 26): d.rectangle([x, y - 50 - rr.random() * 20, x + 20, y], fill=rr.choice([(200, 70, 60), (60, 120, 200), (230, 190, 60), (80, 160, 90)]))
+    # counter + register
+    d.rectangle([BW * 0.0, BH * 0.62, BW * 0.7, BH * 0.78], fill=lerp((110, 90, 70), (50, 42, 36), dark)); d.rectangle([0, BH * 0.6, BW * 0.72, BH * 0.625], fill=lerp((150, 128, 100), (70, 60, 50), dark))
+    d.rectangle([BW * 0.08, BH * 0.54, BW * 0.24, BH * 0.6], fill=(50, 50, 56)); d.rectangle([BW * 0.1, BH * 0.55, BW * 0.22, BH * 0.575], fill=(60, 200, 120))
+    person(d, BW * 0.57, BH * 0.62, 1.0, p.get("face", "calm"), dark)
+    if dark > 0.5:
+        glow = Image.new("L", (BW, BH), 0); ImageDraw.Draw(glow).rectangle([wx, wy, wx + ww, wy + wh], fill=70)
+        im = Image.composite(Image.new("RGB", (BW, BH), (255, 90, 70)), im, glow.filter(ImageFilter.GaussianBlur(50)))
+    return im
+def bg_cctv(p):
+    im, d = desert_base()
+    d.rectangle([0, BH * 0.72, BW, BH], fill=ROAD)
+    d.rectangle([BW * 0.0, BH * 0.36, BW * 1.0, BH * 0.4], fill=(220, 220, 226))
+    for x in (0.3, 0.7): d.rounded_rectangle([BW * x - 34, BH * 0.56, BW * x + 34, BH * 0.7], radius=8, fill=(220, 70, 60))
+    if p.get("car"): car(d, BW * 0.62, BH * 0.76, 1.6, (120, 40, 40), lights=p.get("car_lights", False))
+    if p.get("sign"): sign_board(d, BW * 0.25, BH * 0.5, p["sign"], 1.25)
+    if p.get("figure"): figure(d, BW * 0.52, BH * 0.72, 0.6)
+    a = np.asarray(im.convert("L")).astype(np.float32)
+    a = np.clip(a * 1.25 + 18, 0, 255) + np.random.default_rng(4).normal(0, 9, a.shape)
+    g = np.stack([a * 0.55, a * 0.95, a * 0.6], -1).clip(0, 255).astype(np.uint8)
+    im = Image.fromarray(g); d = ImageDraw.Draw(im)
+    for y in range(0, BH, 6): d.line([0, y, BW, y], fill=(0, 0, 0), width=1)
+    d.text((40, 60), "CAM 02  PUMPS", font=ImageFont.truetype(FONT, 34), fill=(230, 255, 230))
+    d.text((40, 104), p.get("stamp", "03:12:44"), font=ImageFont.truetype(FONT, 34), fill=(230, 255, 230))
+    d.ellipse([BW - 90, 70, BW - 60, 100], fill=(230, 40, 40))
+    return im
+BG.update({"desert": bg_desert, "station": bg_station, "store": bg_store, "cctv": bg_cctv})
+
 # ---------------- narration ----------------
 from kokoro_onnx import Kokoro
 k = Kokoro(WORK + "/tts/kokoro-v1.0.onnx", WORK + "/tts/voices-v1.0.bin")
@@ -309,7 +406,7 @@ def chunks(text, n=6):
     return out
 
 flakes = [[rnd.random() * W, rnd.random() * H, 1 + rnd.random() * 2.5, 20 + rnd.random() * 50] for _ in range(110)]
-OUTDOOR = {"town", "sign", "street", "window", "peephole"}
+OUTDOOR = {"town", "sign", "street", "window", "peephole"} if S.get("weather", "snow") == "snow" else set()
 ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", "-i", wav,
                        "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k", "-shortest", OUT], stdin=subprocess.PIPE)
 nfr = int(total * FPS); si = 0; cache = {}
@@ -346,6 +443,8 @@ for f in range(nfr):
         d.rounded_rectangle([W / 2 - 92, 120, W / 2 + 92, 168], radius=24, fill=(20, 20, 26))
         d.ellipse([W / 2 - 76, 136, W / 2 - 60, 152], fill=(220, 50, 50))
         d.text((W / 2 + 10, 144), sg["clock"], font=ImageFont.truetype(FONT, 28), fill=(240, 240, 240), anchor="mm")
+    if sg["scene"] == "store" and sg.get("flicker") and (int(ft * 7) % 9 == 0):
+        im = Image.blend(im, Image.new("RGB", (W, H), (0, 0, 0)), 0.5); d = ImageDraw.Draw(im)
     # fade from black at each scene start (dread pacing)
     if lt < 0.18:
         im = Image.blend(Image.new("RGB", (W, H), (0, 0, 0)), im, lt / 0.18); d = ImageDraw.Draw(im)
