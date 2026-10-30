@@ -1,0 +1,15 @@
+{"series": "The Quiet Hour", "part": 1, "voice": "am_onyx", "speed": 0.92,
+ "yt_title": "Every night at 3 AM, the power goes out in this town. Part 1 #shorts",
+ "scenes": [
+  {"scene": "town", "text": "Every night at three A.M., the power in Alder Creek goes out. For exactly one hour.", "lights_out": true, "hit_at": 2.6},
+  {"scene": "sign", "text": "Population: nine hundred. Nobody here talks about it.", "name": "ALDER CREEK", "pop": "900"},
+  {"scene": "room", "text": "You moved in last week. You thought it was just old wiring.", "clock": "2:57 AM", "curtains": "closed"},
+  {"scene": "phone", "text": "Then, at two fifty-eight, your phone buzzes.", "time": "2:58", "title": "Message", "sender": "Landlord", "lines": ["Whatever you hear", "tonight,", "don't answer it."]},
+  {"scene": "room", "text": "Three A.M. The lights die.", "clock": "3:00 AM", "curtains": "closed", "face": "scared", "lights_out": true, "hit_at": 1.0},
+  {"scene": "room", "text": "Silence. Then...", "clock": "3:04 AM", "curtains": "closed", "face": "scared", "dark": 1.0, "sfx": "none"},
+  {"scene": "door", "text": "three slow knocks.", "knocks": 3, "pause": 1.4},
+  {"scene": "peephole", "text": "You look through the peephole. There's no one there.", "figure": false},
+  {"scene": "phone", "text": "Your phone lights up again. Same number.", "time": "3:09", "title": "Message", "sender": "Landlord", "lines": ["Why did you", "open the curtains?"]},
+  {"scene": "window", "text": "You never touched the curtains.", "curtains": "open", "figure": true, "sfx": "hit", "pause": 1.2},
+  {"scene": "end", "text": "", "hold": 2.2}
+ ]}
