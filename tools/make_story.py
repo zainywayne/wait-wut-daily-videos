@@ -60,8 +60,8 @@ def house(d, x, y, w, h, lit, roof=ROOF, body=HOUSE):
         d.line([wx + ww / 2, y + h * 0.25, wx + ww / 2, y + h * 0.25 + ww * 1.1], fill=body, width=2)
     d.rectangle([x + w * 0.42, y + h * 0.5, x + w * 0.58, y + h], fill=DOOR_D)
 
-def person(d, cx, base, scale=1.0, face="calm", dark=0.0, turned=False):
-    k = scale; sk = lerp(SKIN, (70, 66, 74), dark); sh = lerp(SHIRT, (24, 28, 40), dark); pa = lerp(PANTS, (18, 20, 28), dark)
+def person(d, cx, base, scale=1.0, face="calm", dark=0.0, turned=False, coat=None, skin=None, hair=None):
+    k = scale; sk = lerp(skin or SKIN, (70, 66, 74), dark); sh = lerp(coat or SHIRT, (24, 28, 40), dark); pa = lerp(PANTS, (18, 20, 28), dark)
     d.rectangle([cx - 22 * k, base - 110 * k, cx - 4 * k, base], fill=pa)
     d.rectangle([cx + 4 * k, base - 110 * k, cx + 22 * k, base], fill=pa)
     d.rounded_rectangle([cx - 38 * k, base - 260 * k, cx + 38 * k, base - 100 * k], radius=int(16 * k), fill=sh)
@@ -71,12 +71,14 @@ def person(d, cx, base, scale=1.0, face="calm", dark=0.0, turned=False):
     d.ellipse([cx + 38 * k, base - 150 * k, cx + 52 * k, base - 132 * k], fill=sk)
     hy = base - 330 * k
     d.ellipse([cx - 40 * k, hy, cx + 40 * k, hy + 84 * k], fill=sk)
-    d.chord([cx - 42 * k, hy - 6 * k, cx + 42 * k, hy + 60 * k], 180, 360, fill=HAIR)
+    d.chord([cx - 42 * k, hy - 6 * k, cx + 42 * k, hy + 60 * k], 180, 360, fill=hair or HAIR)
     if not turned:
         ey = hy + 40 * k
         for ex in (-14, 14):
             d.ellipse([cx + (ex - 4) * k, ey - 4 * k, cx + (ex + 4) * k, ey + 4 * k], fill=(30, 26, 26))
-        if face == "scared":
+        if face == "smile":
+            d.arc([cx - 26 * k, ey, cx + 26 * k, ey + 34 * k], 20, 160, fill=(70, 30, 30), width=max(2, int(4 * k)))
+        elif face == "scared":
             d.ellipse([cx - 7 * k, ey + 16 * k, cx + 7 * k, ey + 32 * k], fill=(60, 30, 30))
         else:
             d.line([cx - 9 * k, ey + 22 * k, cx + 9 * k, ey + 22 * k], fill=(90, 50, 44), width=max(2, int(3 * k)))
@@ -336,6 +338,97 @@ def bg_cctv(p):
     return im
 BG.update({"desert": bg_desert, "station": bg_station, "store": bg_store, "cctv": bg_cctv})
 
+
+# ---------------- school bus set ----------------
+BUS_Y = (238, 178, 36); BUS_YD = (196, 140, 24)
+def snow_trees(d, w, y, n=9, seed=2, col=(26, 36, 46)):
+    r = random.Random(seed)
+    for _ in range(n):
+        x = r.random() * w; s_ = 60 + r.random() * 70
+        d.polygon([(x, y - s_ * 2.2), (x - s_ * 0.6, y), (x + s_ * 0.6, y)], fill=col)
+        d.polygon([(x, y - s_ * 2.2), (x - s_ * 0.25, y - s_ * 1.4), (x + s_ * 0.25, y - s_ * 1.4)], fill=(220, 228, 240))
+def bus_side(d, x, y, k=1.0):
+    d.rounded_rectangle([x, y - 220 * k, x + 560 * k, y], radius=int(26 * k), fill=BUS_Y)
+    d.rectangle([x, y - 70 * k, x + 560 * k, y - 50 * k], fill=(30, 30, 30))
+    for i in range(6): d.rectangle([x + (40 + i * 82) * k, y - 190 * k, x + (100 + i * 82) * k, y - 120 * k], fill=(40, 48, 66))
+    d.rectangle([x + 530 * k, y - 160 * k, x + 560 * k, y - 120 * k], fill=(255, 245, 200))
+    for wx in (110, 450): d.ellipse([x + (wx - 44) * k, y - 44 * k, x + (wx + 44) * k, y + 44 * k], fill=(24, 24, 28))
+    d.text((x + 300 * k, y - 95 * k), "SCHOOL BUS", font=ImageFont.truetype(FONT, int(30 * k)), fill=(30, 30, 30), anchor="mm")
+    d.rectangle([x - 6, y - 10 * k, x + 560 * k + 6, y + 30 * k], fill=SNOW)  # buried in snow
+def bg_road(p):
+    im = grad(BW, BH, SKY_T, SKY_B); d = ImageDraw.Draw(im); stars(d, BW, BH, 40, 0.3)
+    snowground(d, BH * 0.6, BW, BH); snow_trees(d, BW, BH * 0.62, 11)
+    d.polygon([(BW * 0.0, BH * 0.78), (BW, BH * 0.7), (BW, BH * 0.8), (0, BH * 0.9)], fill=(196, 204, 220))
+    bus_side(d, BW * 0.12, BH * 0.8, 1.15)
+    if p.get("headlights"): d.ellipse([BW * 0.86, BH * 0.62, BW * 0.9, BH * 0.64], fill=(255, 245, 200)); d.ellipse([BW * 0.92, BH * 0.62, BW * 0.96, BH * 0.64], fill=(255, 245, 200))
+    return im
+KIDHAIR = [(40, 30, 26), (200, 150, 70), (110, 60, 30), (20, 20, 20), (160, 90, 40), (230, 200, 120)]
+KIDSKIN = [(238, 206, 170), (196, 150, 110), (120, 84, 60), (230, 190, 150)]
+def bg_busin(p):
+    dark = p.get("dark", 0.3)
+    im = Image.new("RGB", (BW, BH), lerp((150, 150, 140), (40, 42, 50), dark)); d = ImageDraw.Draw(im)
+    # ceiling + windows both sides in perspective
+    vx, vy = BW / 2, BH * 0.36
+    d.polygon([(0, 0), (BW, 0), (vx + 90, vy - 60), (vx - 90, vy - 60)], fill=lerp((220, 220, 210), (60, 62, 70), dark))
+    d.polygon([(0, BH), (BW, BH), (vx + 90, vy + 90), (vx - 90, vy + 90)], fill=lerp((90, 90, 96), (30, 30, 36), dark))
+    for side in (-1, 1):
+        for i in range(5):
+            t0, t1 = i / 5, (i + 0.7) / 5
+            x0 = BW / 2 + side * (BW / 2 - (BW / 2 - 90) * t0); x1 = BW / 2 + side * (BW / 2 - (BW / 2 - 90) * t1)
+            ya0, yb0 = BH * 0.12 + (vy - 50 - BH * 0.12) * t0, BH * 0.4 + (vy + 20 - BH * 0.4) * t0
+            ya1, yb1 = BH * 0.12 + (vy - 50 - BH * 0.12) * t1, BH * 0.4 + (vy + 20 - BH * 0.4) * t1
+            d.polygon([(x0, ya0), (x1, ya1), (x1, yb1), (x0, yb0)], fill=(30, 38, 58))
+    d.rectangle([vx - 90, vy - 60, vx + 90, vy + 90], fill=(28, 34, 52))
+    # seats rows (back to front) with kids
+    r = random.Random(11); kid = 0
+    for row in range(5, -1, -1):
+        t = row / 6; sc = 1 - t * 0.75
+        y = BH * 0.95 - (BH * 0.95 - vy - 90) * t
+        for side in (-1, 1):
+            cx = BW / 2 + side * (150 + 120 * (1 - t)) * sc * 1.6
+            sw = 230 * sc
+            d.rounded_rectangle([cx - sw / 2, y - 210 * sc, cx + sw / 2, y], radius=int(20 * sc), fill=lerp((60, 90, 140), (26, 34, 52), dark))
+            if r.random() < 0.85 and kid < 12:
+                kid += 1; hx = cx + (r.random() - 0.5) * sw * 0.4; hs = 46 * sc
+                hy = y - 210 * sc - hs * 0.9
+                sk = lerp(r.choice(KIDSKIN), (60, 56, 64), dark)
+                d.ellipse([hx - hs, hy - hs, hx + hs, hy + hs], fill=sk)
+                d.chord([hx - hs * 1.05, hy - hs * 1.1, hx + hs * 1.05, hy + hs * 0.6], 180, 360, fill=lerp(r.choice(KIDHAIR), (20, 20, 24), dark))
+                if row < 3:
+                    for ex in (-0.35, 0.35): d.ellipse([hx + ex * hs - 4 * sc, hy - 2, hx + ex * hs + 4 * sc, hy + 8 * sc], fill=(26, 22, 22))
+            d.rounded_rectangle([cx - sw / 2, y - 160 * sc, cx + sw / 2, y], radius=int(16 * sc), fill=lerp((70, 104, 160), (30, 40, 60), dark))
+    return im
+def bg_busdoor(p):
+    im = Image.new("RGB", (BW, BH), (30, 32, 40)); d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, BW, BH], fill=BUS_YD)
+    gx0, gx1, gy0, gy1 = BW * 0.14, BW * 0.86, BH * 0.1, BH * 0.86
+    view = grad(int(gx1 - gx0), int(gy1 - gy0), SKY_T, SKY_B); vd = ImageDraw.Draw(view); vw, vh = view.size
+    snowground(vd, vh * 0.62, vw, vh); snow_trees(vd, vw, vh * 0.64, 6, 5)
+    if p.get("man"):
+        person(vd, vw * 0.5, vh * 0.98, 2.2, "smile", 0.25, coat=(170, 36, 40))
+    im.paste(view, (int(gx0), int(gy0)))
+    for gx in (gx0, (gx0 + gx1) / 2, gx1): d.rectangle([gx - 14, gy0, gx + 14, gy1], fill=(40, 40, 46))
+    d.rectangle([gx0, gy0 - 14, gx1, gy0 + 14], fill=(40, 40, 46)); d.rectangle([gx0, gy0 + (gy1 - gy0) * 0.7 - 10, gx1, gy0 + (gy1 - gy0) * 0.7 + 10], fill=(40, 40, 46))
+    d.rectangle([gx0, gy1 - 14, gx1, gy1 + 14], fill=(40, 40, 46))
+    d.rectangle([0, BH * 0.9, BW, BH], fill=(50, 50, 56))
+    if p.get("lever"):
+        d.line([BW * 0.06, BH * 1.0, BW * 0.2, BH * 0.72], fill=(160, 160, 166), width=18); d.ellipse([BW * 0.16, BH * 0.68, BW * 0.26, BH * 0.75], fill=(30, 30, 30))
+        d.ellipse([BW * 0.13, BH * 0.7, BW * 0.27, BH * 0.79], fill=SKIN)
+    return im
+def bg_kidclose(p):
+    im = Image.new("RGB", (BW, BH), (34, 38, 52)); d = ImageDraw.Draw(im)
+    d.rectangle([0, BH * 0.15, BW, BH * 0.4], fill=(26, 32, 48))
+    cx, cy, hs = BW * 0.5, BH * 0.42, 230
+    d.rounded_rectangle([cx - 260, cy + 160, cx + 260, BH], radius=80, fill=(150, 90, 140))
+    d.ellipse([cx - hs, cy - hs, cx + hs, cy + hs], fill=(230, 196, 160))
+    d.chord([cx - hs * 1.08, cy - hs * 1.15, cx + hs * 1.08, cy + hs * 0.55], 180, 360, fill=(110, 60, 30))
+    d.rectangle([cx - hs * 1.08, cy - hs * 0.3, cx - hs * 0.8, cy + hs * 1.2], fill=(110, 60, 30)); d.rectangle([cx + hs * 0.8, cy - hs * 0.3, cx + hs * 1.08, cy + hs * 1.2], fill=(110, 60, 30))
+    for ex in (-80, 80):
+        d.ellipse([cx + ex - 24, cy - 10, cx + ex + 24, cy + 38], fill=(255, 255, 255)); d.ellipse([cx + ex - 12, cy + 2, cx + ex + 12, cy + 30], fill=(30, 24, 24))
+    d.ellipse([cx - 18, cy + 100, cx + 18, cy + 130], fill=(90, 40, 40))
+    return im
+BG.update({"road": bg_road, "busin": bg_busin, "busdoor": bg_busdoor, "kidclose": bg_kidclose})
+
 # ---------------- narration ----------------
 from kokoro_onnx import Kokoro
 k = Kokoro(WORK + "/tts/kokoro-v1.0.onnx", WORK + "/tts/voices-v1.0.bin")
@@ -406,7 +499,7 @@ def chunks(text, n=6):
     return out
 
 flakes = [[rnd.random() * W, rnd.random() * H, 1 + rnd.random() * 2.5, 20 + rnd.random() * 50] for _ in range(110)]
-OUTDOOR = {"town", "sign", "street", "window", "peephole"} if S.get("weather", "snow") == "snow" else set()
+OUTDOOR = {"town", "sign", "street", "window", "peephole", "road", "busdoor"} if S.get("weather", "snow") == "snow" else set()
 ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", "-i", wav,
                        "-c:v", "libx264", "-preset", "veryfast", "-crf", "19", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k", "-shortest", OUT], stdin=subprocess.PIPE)
 nfr = int(total * FPS); si = 0; cache = {}

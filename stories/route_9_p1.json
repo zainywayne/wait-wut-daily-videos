@@ -1,0 +1,18 @@
+{"series": "Route 9", "part": 1, "voice": "am_onyx", "speed": 0.93, "weather": "snow",
+ "yt_title": "Do NOT open the bus door. Part 1 #shorts",
+ "yt_description": "Part 2 tomorrow. #horror #scarystories #story #shorts",
+ "scenes": [
+  {"scene": "road", "text": "The storm hit faster than anyone said it would. Your school bus is stuck on Route Nine, twenty miles from town."},
+  {"scene": "busin", "text": "Twelve kids. One heater. And you, the driver.", "dark": 0.2},
+  {"scene": "phone", "text": "Then every phone on the bus goes off at once.", "time": "9:14", "alert": true, "title": "Emergency Alert", "lines": ["Stay in your vehicle.", "Do NOT open doors", "for anyone."], "sfx": "buzz"},
+  {"scene": "busin", "text": "The kids go quiet. Somebody in the back starts crying.", "dark": 0.45, "clock": "9:15 PM"},
+  {"scene": "road", "text": "Forty minutes later, headlights pull up behind you. Then they shut off.", "headlights": true, "clock": "9:55 PM"},
+  {"scene": "busdoor", "text": "Three knocks on the door.", "knocks": 3, "sfx": "knock", "pause": 1.0},
+  {"scene": "busdoor", "text": "A man in a red coat. Smiling. He says, I'm Eli's dad. I came to take him home.", "man": true},
+  {"scene": "busin", "text": "Eli jumps up. Dad! Dad's here!", "dark": 0.45},
+  {"scene": "busdoor", "text": "Your hand is already on the lever. He knows Eli's name. He knows the bus number.", "man": true, "lever": true},
+  {"scene": "kidclose", "text": "Then a girl from the back tugs your sleeve and whispers.", "pause": 0.4},
+  {"scene": "kidclose", "text": "Eli's dad died two years ago. I was at the funeral.", "sfx": "hit", "pause": 1.0},
+  {"scene": "busdoor", "text": "The man taps the glass. Still smiling. Open the door, Mister Hale.", "man": true, "pause": 1.2},
+  {"scene": "end", "text": "", "hold": 2.2}
+ ]}
