@@ -18,7 +18,7 @@ Goal: make and publish ONE new vertical short per run, public, using only free t
 8. LEAN: keep usage low. At most 2 preview rounds and 2 render rounds; read each contact sheet once; no narration between steps; final report is 2 lines.
 
 ## QUALITY RULES v2 (Zain asked for much better shorts, 2026-10-30) - mandatory
-- FOOTAGE MUST SHOW WHAT IS BEING SAID. Every scene gets its own NASA search for its subject (satellites -> "satellite orbit", power grid/blackout -> "city lights night ISS", auroras -> "aurora ISS", oceans -> "ocean from space", ice -> "Antarctica ice", storms -> "hurricane from space"). Never fill more than 40% of a short with the same subject (e.g. close-ups of the Sun). Download 10-14 clips covering the different subjects in the script.
+- FOOTAGE MUST SHOW WHAT IS BEING SAID. preview_shots.py prints the spoken line under every shot: go through the sheet line by line and replace any shot whose picture does not match its words (Zain rejected a short for this). Every scene gets its own NASA search for its subject (satellites -> "satellite orbit", power grid/blackout -> "city lights night ISS", auroras -> "aurora ISS", oceans -> "ocean from space", ice -> "Antarctica ice", storms -> "hurricane from space"). Never fill more than 40% of a short with the same subject (e.g. close-ups of the Sun). Download 10-14 clips covering the different subjects in the script.
 - 25-32 seconds, 8-10 scenes. Every sentence under 12 words. Cut anything that sounds like a lecture.
 - HOOK: scene 1 is one shocking present-tense line, under 8 words, with a `flash` word.
 - `flash` on 3-4 scenes total (hook, the turn, the twist, the biggest number). One word or a number, max 10 characters.
