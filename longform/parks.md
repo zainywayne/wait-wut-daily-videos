@@ -2,8 +2,7 @@
 Take the first unchecked park. If its NPS footage can't fill ~3.5 minutes of clean scenic shots (step 3 of RUNBOOK_LONG.md), mark it "[skip: not enough footage]" and try the next.
 
 ## QUEUE
-- [ ] piro | Pictured Rocks National Lakeshore (Michigan) | painted sandstone cliffs over Lake Superior, Grand Sable Dunes, waterfalls, frozen falls
-- [ ] blca | Black Canyon of the Gunnison National Park (Colorado) | one of the steepest, deepest, darkest canyons in North America, the Painted Wall
+- [skip: not enough footage] piro | Pictured Rocks National Lakeshore (Michigan) | painted sandstone cliffs over Lake Superior, Grand Sable Dunes, waterfalls, frozen falls
 - [ ] havo | Hawaii Volcanoes National Park | active lava lakes and fountains at Kilauea
 - [ ] glba | Glacier Bay National Park & Preserve (Alaska) | tidewater glaciers, fjords, whales
 - [ ] lacl | Lake Clark National Park & Preserve (Alaska) | volcanoes, turquoise lakes, bears, almost no visitors
@@ -16,3 +15,5 @@ Take the first unchecked park. If its NPS footage can't fill ~3.5 minutes of cle
 
 ## DONE
 - [x] slbe | Sleeping Bear Dunes National Lakeshore | rendered 2026-10-24, uploaded 2026-10-25 (_arBU4cC1Y4)
+
+- [x] blca | Black Canyon of the Gunnison National Park | rendered 2026-10-30 (buffered, not yet uploaded)
