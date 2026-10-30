@@ -54,7 +54,11 @@ for sg in segs[1:]:
     whoosh(max(0, sg["start"] - 0.12))
 nb = int(1.2 * sr)
 fx[:nb] += 0.55 * np.sin(2 * np.pi * 48 * np.arange(nb) / sr) * np.exp(-np.arange(nb) / (0.35 * sr))
-v = np.zeros(N); v[:len(audio)] = audio[:N]
+for sg in segs[1:]:
+    if sg.get("flash"):
+        i0 = int(sg["start"] * sr); nb2 = int(0.9 * sr)
+        if i0 + nb2 < N: fx[i0:i0 + nb2] += 0.45 * np.sin(2 * np.pi * 52 * np.arange(nb2) / sr) * np.exp(-np.arange(nb2) / (0.25 * sr))
+v = np.zeros(N); v[:len(audio)] = audio[:N] * 1.15
 mix = v * 0.95 + drone + fx
 mix = mix / max(1.0, np.abs(mix).max() / 0.95)
 sf.write(wav, mix.astype(np.float32), sr)
@@ -63,7 +67,7 @@ nframes = int(total * FPS)
 
 import random
 font_cap = ImageFont.truetype(FONT, 62)
-font_title = ImageFont.truetype(FONT, 54)
+font_title = ImageFont.truetype(FONT, 66)
 CLIPS = WORK + "/clips"
 def wrap(draw, text, font, maxw):
     lines, cur = [], ""
@@ -76,33 +80,35 @@ def wrap(draw, text, font, maxw):
     if cur: lines.append(cur)
     return lines
 
+CAP_FONT = ImageFont.truetype(FONT, 86)
 def captions(im, seg, lt):
-    d = ImageDraw.Draw(im)
+    """2-word pop-in captions, current word yellow, centred in the lower-middle (clear of YouTube UI)."""
     words = seg["text"].split()
-    lens = [len(w) + 1 for w in words]
-    tot = sum(lens)
+    lens = [len(w) + 1 for w in words]; tot = sum(lens)
     acc, idx = 0, len(words) - 1
     for i, l in enumerate(lens):
         acc += l
         if lt <= seg["speech"] * acc / tot:
             idx = i; break
-    # show chunks of 4 words, highlight current
-    chunk = idx // 3
-    cw = words[chunk * 3: chunk * 3 + 3]
-    ci = idx - chunk * 3
-    y = 930
-    lines = wrap(d, " ".join(cw), font_cap, W - 80)
-    wi = 0
+    chunk = idx // 2
+    cw = words[chunk * 2: chunk * 2 + 2]; ci = idx - chunk * 2
+    # time since this chunk started -> pop scale
+    c0 = seg["speech"] * sum(lens[:chunk * 2]) / tot
+    pop = 1.0 + 0.22 * max(0.0, 1 - (lt - c0) / 0.12)
+    layer = Image.new("RGBA", (W, 260), (0, 0, 0, 0)); d = ImageDraw.Draw(layer)
+    lines = wrap(d, " ".join(cw).upper(), CAP_FONT, W - 70)
+    y = 130 - 52 * len(lines); wi = 0
     for ln in lines:
-        x = (W - d.textlength(ln, font=font_cap)) / 2
+        x = (W - d.textlength(ln, font=CAP_FONT)) / 2
         for w in ln.split():
-            col = (255, 235, 59) if wi == ci else (255, 255, 255)
-            for ox, oy in [(-3, 0), (3, 0), (0, -3), (0, 3), (3, 3), (-3, -3)]:
-                d.text((x + ox, y + oy), w, font=font_cap, fill=(0, 0, 0))
-            d.text((x, y), w, font=font_cap, fill=col)
-            x += d.textlength(w + " ", font=font_cap)
-            wi += 1
-        y += 80
+            col = (255, 226, 40) if wi == ci else (255, 255, 255)
+            d.text((x, y), w, font=CAP_FONT, fill=col, stroke_width=9, stroke_fill=(0, 0, 0))
+            x += d.textlength(w + " ", font=CAP_FONT); wi += 1
+        y += 104
+    if pop > 1.001:
+        nw, nh = int(W * pop), int(260 * pop)
+        layer = layer.resize((nw, nh), Image.BILINEAR).crop(((nw - W) // 2, (nh - 260) // 2, (nw - W) // 2 + W, (nh - 260) // 2 + 260))
+    im.paste(layer, (0, 700), layer)
 
 
 # darken bottom for caption legibility
@@ -166,7 +172,8 @@ for si, sh, cnt in plan:
             break
         arr = (np.frombuffer(raw, dtype=np.uint8).reshape(H, W, 3).astype(np.float32) * grad).astype(np.uint8)
         im = Image.fromarray(arr)
-        z = 1.0 + 0.10 * min(1.0, k / max(1, cnt))
+        tk = k / FPS
+        z = 1.0 + 0.08 * min(1.0, k / max(1, cnt)) + 0.10 * max(0.0, 1 - tk / 0.22) ** 2
         bw, bh = W / z, H / z
         im = im.resize((W, H), Image.BILINEAR, box=((W - bw) / 2, (H - bh) / 2, (W + bw) / 2, (H + bh) / 2))
         ft = gf / FPS
@@ -174,10 +181,17 @@ for si, sh, cnt in plan:
         d = ImageDraw.Draw(im)
         if ft < 2.2:
             for i, ln in enumerate(wrap(d, script["title"].upper(), font_title, W - 80)):
-                d.text((W / 2, 130 + i * 70), ln, font=font_title, fill=(255, 235, 59), anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0))
+                d.text((W / 2, 150 + i * 82), ln, font=font_title, fill=(255, 255, 255), anchor="mm", stroke_width=7, stroke_fill=(0, 0, 0))
+        if seg.get("flash") and lt < 0.08:
+            im = Image.blend(im, Image.new("RGB", (W, H), (255, 255, 255)), 0.55); d = ImageDraw.Draw(im)
+        if seg.get("flash") and lt < 0.35:
+            sx, sy = int(12 * math.sin(lt * 90)), int(9 * math.cos(lt * 77))
+            im = im.transform((W, H), Image.AFFINE, (1, 0, sx, 0, 1, sy)); d = ImageDraw.Draw(im)
         if seg.get("flash") and lt < 1.0:
             pop = 1.0 + 0.25 * max(0, 1 - lt / 0.25)
-            d.text((W / 2, 560), seg["flash"], font=ImageFont.truetype(FONT, int(150 * pop)), fill=(255, 235, 59), anchor="mm", stroke_width=8, stroke_fill=(0, 0, 0))
+            fs = 150
+            while fs > 60 and d.textlength(seg["flash"], font=ImageFont.truetype(FONT, fs)) > W - 70: fs -= 6
+            d.text((W / 2, 560), seg["flash"], font=ImageFont.truetype(FONT, int(fs * pop)), fill=(255, 226, 40), anchor="mm", stroke_width=9, stroke_fill=(0, 0, 0))
         if lt < seg["speech"] + 0.05:
             captions(im, seg, lt)
         ff.stdin.write(im.tobytes())

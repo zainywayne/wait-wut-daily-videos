@@ -6,12 +6,13 @@ import datetime, glob, json, os, zoneinfo
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 posted = set(open(f"{R}/posted.txt").read().split())
 today = datetime.datetime.now(zoneinfo.ZoneInfo("America/Toronto")).date()
-want = "long" if (today - datetime.date(2026, 10, 25)).days % 2 == 0 else "short"
+SHORTS_ONLY = True  # Zain 2026-10-30: long-form paused, shorts every day
+want = "short" if SHORTS_ONLY else ("long" if (today - datetime.date(2026, 10, 25)).days % 2 == 0 else "short")
 other = {"long": "short", "short": "long"}
 buf = {"short": sorted(f for f in (os.path.relpath(p, R) for p in glob.glob(f"{R}/videos/*.mp4")) if f not in posted),
        "long": sorted(f for f in (os.path.relpath(p, R) for p in glob.glob(f"{R}/longform/*.mp4")) if f not in posted)}
 post = None
-for t in (want, other[want]):
+for t in ((want,) if SHORTS_ONLY else (want, other[want])):
     if buf[t]:
         f = buf[t].pop(0); slug = os.path.splitext(f)[0]
         meta = json.load(open(f"{R}/{slug}.json")) if os.path.exists(f"{R}/{slug}.json") else {}
@@ -22,7 +23,7 @@ for t in (want, other[want]):
                 "off_schedule": t != want}
         break
 tomorrow = other[want]
-make = tomorrow if not buf[tomorrow] else (want if not buf[want] else None)
+make = ("short" if not buf["short"] else None) if SHORTS_ONLY else (tomorrow if not buf[tomorrow] else (want if not buf[want] else None))
 post_after_make = False
 if post is None:  # nothing ready tonight: make tonight's type and post it straight away
     make, post_after_make = want, True
