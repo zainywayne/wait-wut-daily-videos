@@ -3,3 +3,4 @@ videos/the_sun_turns_off.mp4
 videos/earth_stops_spinning.mp4
 longform/sleeping_bear_dunes.mp4
 videos/solar_storm_hits_earth.mp4
+videos/sun_becomes_black_hole.mp4
