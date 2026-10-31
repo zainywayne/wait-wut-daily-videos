@@ -1,0 +1,17 @@
+{"voice": "am_michael", "speed": 1.12,
+ "yt_title": "How does water actually get to your tap? #shorts",
+ "yt_description": "Build a town's water system from scratch. #science #howitworks #water #shorts",
+ "scenes": [
+  {"shot": "thirsty", "text": "You're thirsty. But your house has no running water."},
+  {"shot": "lake", "text": "The nearest lake is a long walk away. Carrying buckets every day? No thanks."},
+  {"shot": "pipe", "text": "So you lay a pipe from the lake, all the way to your house."},
+  {"shot": "dry", "text": "But nothing comes out. Water doesn't push itself through a pipe."},
+  {"shot": "tower", "text": "So you build a big tank way up high, and pump the lake water into it."},
+  {"shot": "flow", "text": "Now gravity does the work. The weight of all that water pushes it down, and out of your tap."},
+  {"shot": "dirty", "text": "But it's lake water. It's brown, and it smells."},
+  {"shot": "filter", "text": "So first, you run it through layers of gravel and sand. It comes out clear."},
+  {"shot": "chlorine", "text": "There are still germs you can't see. A tiny bit of chlorine takes care of them."},
+  {"shot": "town", "text": "Then you run pipes to every house in town."},
+  {"shot": "tap", "text": "Twist it open. Congratulations. You built a water system."},
+  {"shot": "blackout", "text": "And that's why in a lot of towns, your tap still works in a blackout. The tower does the pushing."}
+ ]}
