@@ -1,0 +1,172 @@
+{
+ "title": "Tonight, the air vanishes",
+ "voice": "am_michael",
+ "scenes": [
+  {
+   "text": "Tonight, the air vanishes.",
+   "shots": [
+    {
+     "clip": "idalia",
+     "ss": 41
+    },
+    {
+     "clip": "airglow",
+     "ss": 3
+    }
+   ],
+   "flash": "GONE"
+  },
+  {
+   "text": "The sky turns black at noon.",
+   "shots": [
+    {
+     "clip": "moon",
+     "ss": 21
+    },
+    {
+     "clip": "idalia",
+     "ss": 124
+    }
+   ]
+  },
+  {
+   "text": "Sound stops. Silence everywhere.",
+   "shots": [
+    {
+     "clip": "airglow",
+     "ss": 12
+    },
+    {
+     "clip": "epic",
+     "ss": 15
+    }
+   ]
+  },
+  {
+   "text": "No wind. No rain. No clouds. Just stillness.",
+   "shots": [
+    {
+     "clip": "clouds",
+     "ss": 22
+    },
+    {
+     "clip": "idalia",
+     "ss": 700
+    }
+   ]
+  },
+  {
+   "text": "You black out in fifteen seconds.",
+   "shots": [
+    {
+     "clip": "idalia",
+     "ss": 300
+    },
+    {
+     "clip": "epic",
+     "ss": 25
+    }
+   ],
+   "flash": "15"
+  },
+  {
+   "text": "Water starts boiling, even when it's cold.",
+   "shots": [
+    {
+     "clip": "clouds",
+     "ss": 4
+    },
+    {
+     "clip": "clouds",
+     "ss": 62
+    },
+    {
+     "clip": "hurr",
+     "ss": 100
+    }
+   ],
+   "flash": "BOIL"
+  },
+  {
+   "text": "Oceans bubble away into nothing.",
+   "shots": [
+    {
+     "clip": "epic",
+     "ss": 36
+    },
+    {
+     "clip": "clouds",
+     "ss": 75
+    }
+   ]
+  },
+  {
+   "text": "Plants wither. Nothing alive lasts long.",
+   "shots": [
+    {
+     "clip": "idalia",
+     "ss": 200
+    },
+    {
+     "clip": "venus2",
+     "ss": 30
+    }
+   ]
+  },
+  {
+   "text": "Days scorch. Nights freeze.",
+   "shots": [
+    {
+     "clip": "venus2",
+     "ss": 70
+    },
+    {
+     "clip": "moon",
+     "ss": 51
+    }
+   ],
+   "flash": "EXTREME"
+  },
+  {
+   "text": "The twist? Earth would look like Mars.",
+   "shots": [
+    {
+     "clip": "mars",
+     "ss": 11
+    },
+    {
+     "clip": "mars",
+     "ss": 20
+    }
+   ],
+   "flash": "MARS"
+  },
+  {
+   "text": "Dead, red, and silent. And it all starts the moment",
+   "shots": [
+    {
+     "clip": "mars",
+     "ss": 2
+    },
+    {
+     "clip": "idalia",
+     "ss": 536
+    },
+    {
+     "clip": "clouds",
+     "ss": 47
+    }
+   ]
+  }
+ ],
+ "yt_title": "Tonight, the air vanishes #shorts",
+ "yt_description": "What if Earth lost its atmosphere? You would black out in about 15 seconds, and the planet would start to look like Mars.\n\nFootage: NASA\n\n#shorts #space #whatif #earth #atmosphere",
+ "yt_tags": [
+  "shorts",
+  "space",
+  "what if",
+  "earth",
+  "atmosphere"
+ ],
+ "categoryId": "28"
+}
