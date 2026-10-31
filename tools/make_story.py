@@ -429,6 +429,120 @@ def bg_kidclose(p):
     return im
 BG.update({"road": bg_road, "busin": bg_busin, "busdoor": bg_busdoor, "kidclose": bg_kidclose})
 
+
+# ---------------- caveman / invention set ----------------
+DAY_T, DAY_B = (120, 170, 220), (200, 226, 240)
+GRASS = (110, 160, 80); GRASS_D = (84, 130, 62); ROCK = (128, 124, 120); ROCK_D = (100, 96, 94)
+FUR = (176, 124, 66); FUR_D = (130, 86, 44); CAVE_HAIR = (34, 26, 22)
+def caveman(d, cx, base, k=1.0, face="calm"):
+    person(d, cx, base, k, face, 0.0, coat=FUR, hair=CAVE_HAIR)
+    for (ox, oy) in ((-20, -220), (14, -180), (-8, -140), (22, -240)):
+        d.ellipse([cx + (ox - 9) * k, base + (oy - 7) * k, cx + (ox + 9) * k, base + (oy + 7) * k], fill=FUR_D)
+    hy = base - 330 * k
+    d.rectangle([cx - 44 * k, hy + 10 * k, cx - 32 * k, hy + 110 * k], fill=CAVE_HAIR); d.rectangle([cx + 32 * k, hy + 10 * k, cx + 44 * k, hy + 110 * k], fill=CAVE_HAIR)
+def steak(d, x, y, k=1.0, bad=False):
+    col = (120, 140, 70) if bad else (196, 70, 70)
+    d.ellipse([x - 50 * k, y - 30 * k, x + 50 * k, y + 30 * k], fill=col); d.ellipse([x - 30 * k, y - 16 * k, x + 20 * k, y + 14 * k], fill=(240, 220, 200) if not bad else (160, 170, 110))
+    d.rectangle([x + 40 * k, y - 6 * k, x + 90 * k, y + 6 * k], fill=(240, 236, 220)); d.ellipse([x + 82 * k, y - 14 * k, x + 100 * k, y + 2 * k], fill=(240, 236, 220)); d.ellipse([x + 82 * k, y - 2 * k, x + 100 * k, y + 14 * k], fill=(240, 236, 220))
+    if bad:
+        for i, ox in enumerate((-30, 0, 30)):
+            pts = [(x + ox * k + 10 * math.sin(j * 1.2 + i) * k, y - 40 * k - j * 16 * k) for j in range(8)]
+            d.line(pts, fill=(120, 200, 60), width=max(3, int(5 * k)))
+def day_base(ground=GRASS, sky=(DAY_T, DAY_B)):
+    im = grad(BW, BH, *sky); d = ImageDraw.Draw(im)
+    d.ellipse([BW * 0.74, BH * 0.06, BW * 0.9, BH * 0.06 + BW * 0.16], fill=(255, 236, 150))
+    for cx_, cy_ in ((0.2, 0.12), (0.55, 0.2)):
+        for dx in (-50, 0, 50): d.ellipse([BW * cx_ + dx - 60, BH * cy_ - 30, BW * cx_ + dx + 60, BH * cy_ + 30], fill=(250, 252, 255))
+    d.rectangle([0, BH * 0.62, BW, BH], fill=ground)
+    return im, d
+def pines(d, y, seed=3, n=6, col=(40, 96, 60), snow=False):
+    r = random.Random(seed)
+    for _ in range(n):
+        x = r.random() * BW; s_ = 50 + r.random() * 50
+        d.polygon([(x, y - s_ * 2.4), (x - s_ * 0.7, y), (x + s_ * 0.7, y)], fill=col)
+        if snow: d.polygon([(x, y - s_ * 2.4), (x - s_ * 0.28, y - s_ * 1.5), (x + s_ * 0.28, y - s_ * 1.5)], fill=SNOW)
+def bg_cave(p):
+    im, d = day_base(); pines(d, BH * 0.63, 3, 5)
+    d.ellipse([-BW * 0.2, BH * 0.3, BW * 0.9, BH * 0.9], fill=ROCK); d.ellipse([-BW * 0.1, BH * 0.36, BW * 0.4, BH * 0.6], fill=ROCK_D)
+    d.chord([BW * 0.12, BH * 0.44, BW * 0.5, BH * 0.86], 180, 360, fill=(14, 12, 14)); d.rectangle([BW * 0.12, BH * 0.65, BW * 0.5, BH * 0.66], fill=(14, 12, 14))
+    d.rectangle([0, BH * 0.66, BW, BH], fill=GRASS); d.rectangle([0, BH * 0.72, BW, BH], fill=(150, 116, 80))
+    caveman(d, BW * 0.6, BH * 0.88, 1.15, p.get("face", "calm"))
+    if p.get("steak"): steak(d, BW * 0.26, BH * 0.8, 1.3, bad=p.get("bad", False))
+    return im
+def bg_river(p):
+    im, d = day_base(); pines(d, BH * 0.63, 5, 7)
+    d.polygon([(0, BH * 0.68), (BW, BH * 0.64), (BW, BH * 0.8), (0, BH * 0.86)], fill=(70, 140, 200))
+    for i in range(10): d.line([(BW * i / 10, BH * 0.74 + (i % 3) * 14), (BW * i / 10 + 50, BH * 0.74 + (i % 3) * 14)], fill=(200, 230, 250), width=4)
+    caveman(d, BW * 0.7, BH * 0.98, 1.1, p.get("face", "calm"))
+    d.line([(BW * 0.62, BH * 0.78), (BW * 0.4, BH * 0.75)], fill=(90, 70, 40), width=5)
+    steak(d, BW * 0.33, BH * 0.75, 1.0, bad=False)
+    if p.get("fish"):
+        fx, fy = BW * 0.36, BH * 0.7
+        d.ellipse([fx - 60, fy - 26, fx + 60, fy + 26], fill=(150, 160, 170)); d.polygon([(fx + 50, fy), (fx + 100, fy - 34), (fx + 100, fy + 34)], fill=(150, 160, 170))
+        d.ellipse([fx - 44, fy - 10, fx - 32, fy + 2], fill=(20, 20, 20)); d.chord([fx - 66, fy - 4, fx - 36, fy + 22], 0, 180, fill=(80, 30, 30))
+    return im
+def bg_snowfield(p):
+    if p.get("summer"):
+        im, d = day_base(); pines(d, BH * 0.63, 7, 7)
+        d.ellipse([BW * 0.12, BH * 0.72, BW * 0.5, BH * 0.8], fill=(120, 160, 200))
+        steak(d, BW * 0.3, BH * 0.74, 1.1, bad=True)
+    else:
+        im, d = day_base(SNOW, ((150, 170, 196), (214, 222, 234))); pines(d, BH * 0.63, 7, 7, (40, 80, 70), True)
+        d.ellipse([BW * 0.1, BH * 0.66, BW * 0.5, BH * 0.84], fill=(240, 244, 250)); d.ellipse([BW * 0.1, BH * 0.66, BW * 0.5, BH * 0.84], outline=SNOW_SH, width=4)
+        d.rectangle([BW * 0.29, BH * 0.62, BW * 0.31, BH * 0.68], fill=(240, 236, 220)); d.ellipse([BW * 0.28, BH * 0.6, BW * 0.32, BH * 0.63], fill=(240, 236, 220))
+    caveman(d, BW * 0.7, BH * 0.9, 1.1, p.get("face", "calm"))
+    return im
+def bg_cellar(p):
+    im, d = day_base(); pines(d, BH * 0.36, 2, 6)
+    d.rectangle([0, BH * 0.36, BW, BH * 0.4], fill=GRASS); d.rectangle([0, BH * 0.4, BW, BH], fill=(120, 86, 58))
+    for y in (0.55, 0.72, 0.88): d.line([(0, BH * y), (BW, BH * y + 12)], fill=(100, 72, 48), width=6)
+    d.rectangle([BW * 0.2, BH * 0.4, BW * 0.8, BH * 0.86], fill=(66, 48, 36))
+    for y in np.arange(BH * 0.42, BH * 0.86, 50): d.line([(BW * 0.26, y), (BW * 0.36, y)], fill=(170, 130, 80), width=8)
+    d.line([(BW * 0.26, BH * 0.4), (BW * 0.26, BH * 0.86)], fill=(170, 130, 80), width=8); d.line([(BW * 0.36, BH * 0.4), (BW * 0.36, BH * 0.86)], fill=(170, 130, 80), width=8)
+    steak(d, BW * 0.6, BH * 0.82, 1.0)
+    caveman(d, BW * 0.66, BH * 0.36, 0.7, p.get("face", "calm"))
+    d.text((BW * 0.86, BH * 0.62), "-3 m", font=ImageFont.truetype(FONT, 36), fill=(240, 230, 210), anchor="mm")
+    return im
+def bg_icehouse(p):
+    im, d = day_base(SNOW, ((150, 170, 196), (214, 222, 234))); pines(d, BH * 0.63, 9, 6, (40, 80, 70), True)
+    x0, x1, y0, y1 = BW * 0.08, BW * 0.92, BH * 0.36, BH * 0.86
+    d.polygon([(x0 - 30, y0), ((x0 + x1) / 2, BH * 0.22), (x1 + 30, y0)], fill=(110, 76, 50))
+    d.rectangle([x0, y0, x1, y1], fill=(150, 110, 70)); d.rectangle([x0 + 24, y0 + 24, x1 - 24, y1 - 10], fill=(214, 176, 120))
+    for r_ in range(4):
+        for c_ in range(4):
+            bx = x0 + 70 + c_ * 140; by = y0 + 70 + r_ * 100
+            d.rectangle([bx, by, bx + 120, by + 80], fill=(200, 230, 246)); d.line([(bx + 10, by + 10), (bx + 40, by + 10)], fill=(255, 255, 255), width=5)
+    r = random.Random(4)
+    for _ in range(260): x = r.uniform(x0 + 30, x1 - 30); y = r.uniform(y0 + 30, y1 - 16); d.point((x, y), fill=(160, 120, 70))
+    caveman(d, BW * 0.82, BH * 0.98, 0.9, p.get("face", "smile"))
+    return im
+def clay_pot(d, cx, y, w, h, col=(190, 110, 70)):
+    d.polygon([(cx - w * 0.5, y), (cx + w * 0.5, y), (cx + w * 0.38, y + h), (cx - w * 0.38, y + h)], fill=col)
+    d.ellipse([cx - w * 0.52, y - h * 0.08, cx + w * 0.52, y + h * 0.08], fill=lerp(col, (0, 0, 0), 0.25))
+def bg_pots(p):
+    im, d = day_base(); pines(d, BH * 0.63, 11, 4)
+    d.polygon([(0, BH * 0.3), (BW * 0.6, BH * 0.22), (BW * 0.7, BH * 0.3)], fill=(110, 76, 50)); d.rectangle([BW * 0.06, BH * 0.3, BW * 0.1, BH * 0.7], fill=(110, 76, 50)); d.rectangle([BW * 0.6, BH * 0.3, BW * 0.64, BH * 0.7], fill=(110, 76, 50))
+    d.polygon([(0, BH * 0.32), (BW * 0.66, BH * 0.32), (BW * 0.8, BH * 0.7), (0, BH * 0.7)], fill=(90, 130, 70))
+    cx = BW * 0.36
+    clay_pot(d, cx, BH * 0.5, 330, 230, (170, 96, 60) if p.get("wet") else (200, 120, 76))
+    if p.get("inner"):
+        d.ellipse([cx - 160, BH * 0.5 - 18, cx + 160, BH * 0.5 + 18], fill=(210, 190, 140))
+        clay_pot(d, cx, BH * 0.47, 210, 200, (214, 134, 84)); steak(d, cx - 20, BH * 0.46, 0.7)
+    if p.get("wet"):
+        for i in range(5): d.line([(cx - 130 + i * 60, BH * 0.45 - 10), (cx - 140 + i * 60, BH * 0.4)], fill=(220, 236, 250), width=4)
+    caveman(d, BW * 0.78, BH * 0.92, 1.0, p.get("face", "calm"))
+    return im
+def bg_fridge(p):
+    im, d = day_base(); pines(d, BH * 0.63, 13, 5)
+    d.rounded_rectangle([BW * 0.12, BH * 0.3, BW * 0.5, BH * 0.84], radius=26, fill=(240, 244, 248)); d.line([(BW * 0.12, BH * 0.5), (BW * 0.5, BH * 0.5)], fill=(190, 196, 206), width=6)
+    d.rectangle([BW * 0.44, BH * 0.36, BW * 0.46, BH * 0.46], fill=(170, 176, 186)); d.rectangle([BW * 0.44, BH * 0.54, BW * 0.46, BH * 0.7], fill=(170, 176, 186))
+    if p.get("queue"):
+        for i, x in enumerate((0.58, 0.72, 0.86)): caveman(d, BW * x, BH * 0.9, 0.75, "smile"); steak(d, BW * x - 10, BH * 0.68, 0.6)
+    else:
+        caveman(d, BW * 0.74, BH * 0.92, 1.1, "smile")
+    return im
+BG.update({"cave": bg_cave, "river": bg_river, "snowfield": bg_snowfield, "cellar": bg_cellar, "icehouse": bg_icehouse, "pots": bg_pots, "fridge": bg_fridge})
+
 # ---------------- narration ----------------
 from kokoro_onnx import Kokoro
 k = Kokoro(WORK + "/tts/kokoro-v1.0.onnx", WORK + "/tts/voices-v1.0.bin")
@@ -472,7 +586,16 @@ for sg in segs:
         for i in range(sg.get("knocks", 3)): put(sg["start"] + 0.1 + i * 0.55, knock())
     elif sfx == "buzz": put(sg["start"], buzz())
     elif sfx == "hit": put(sg["start"] + sg.get("hit_at", 0.0), hit())
-mix = voice * 1.0 + drone + wind * 0.05 + fx
+if S.get("mood") == "light":
+    notes = [261.6, 329.6, 392.0, 523.3, 392.0, 329.6]; mus = np.zeros(N)
+    for i, t0 in enumerate(np.arange(0, total, 0.32)):
+        n = int(0.3 * sr); i0 = int(t0 * sr)
+        if i0 + n >= N: break
+        x = np.arange(n) / sr; f = notes[i % len(notes)] * (0.5 if (i // 12) % 2 else 1)
+        mus[i0:i0 + n] += np.sin(2 * np.pi * f * x) * np.exp(-x * 9) * 0.05
+    mix = voice * 1.0 + mus + fx * 0.5
+else:
+    mix = voice * 1.0 + drone + wind * 0.05 + fx
 mix *= np.minimum(1, (total - tt) / 1.0)
 mix /= max(1.0, np.abs(mix).max() / 0.95)
 wav = work + "/audio.wav"; sf.write(wav, mix.astype(np.float32), sr)
@@ -543,7 +666,9 @@ for f in range(nfr):
         im = Image.blend(Image.new("RGB", (W, H), (0, 0, 0)), im, lt / 0.18); d = ImageDraw.Draw(im)
     if sg["scene"] == "end":
         d.text((W / 2, H * 0.42), S.get("series", "").upper(), font=TITLE, fill=(236, 238, 246), anchor="mm")
-        d.text((W / 2, H * 0.5), f"PART {S.get('part', 1) + 1} TOMORROW", font=PART, fill=(200, 60, 60), anchor="mm")
+        et = S.get("end_text") or f"PART {S.get('part', 1) + 1} TOMORROW"; fs = 46
+        while fs > 24 and d.textlength(et, font=ImageFont.truetype(FONT, fs)) > W - 80: fs -= 2
+        d.text((W / 2, H * 0.5), et, font=ImageFont.truetype(FONT, fs), fill=(200, 60, 60), anchor="mm")
     if sg.get("text") and lt < sg["speech"] + 0.25:
         cs = chunks(sg["text"]); lens = [len(c) for c in cs]; acc = 0; ci = len(cs) - 1
         for i, l in enumerate(lens):
@@ -552,7 +677,7 @@ for f in range(nfr):
         lines = wrap(d, cs[ci].upper(), CAP, W - 110); y = H * 0.6 - 33 * len(lines)
         for ln in lines:
             d.text((W / 2, y), ln, font=CAP, fill=(255, 255, 255), anchor="mm", stroke_width=6, stroke_fill=(0, 0, 0)); y += 66
-    if sg["scene"] != "end":
+    if sg["scene"] != "end" and S.get("part"):
         d.text((W / 2, H * 0.85), f"Part {S.get('part', 1)}", font=PART, fill=(255, 255, 255), anchor="mm", stroke_width=4, stroke_fill=(0, 0, 0))
     ff.stdin.write(im.tobytes())
 ff.stdin.close(); ff.wait()

@@ -1,0 +1,20 @@
+{"series": "wait wut daily", "part": 0, "voice": "am_michael", "speed": 1.05, "weather": "none", "mood": "light",
+ "end_text": "WHAT SHOULD YOU INVENT NEXT?",
+ "yt_title": "You're a caveman and your meat keeps going bad #shorts",
+ "yt_description": "How would you invent the fridge with nothing but rocks, snow and clay? #caveman #invention #history #shorts",
+ "yt_tags": ["shorts", "caveman", "invention", "fridge", "history", "how it was invented"],
+ "scenes": [
+  {"scene": "cave", "text": "You're a caveman, and your mammoth steak has gone bad. Again.", "steak": true, "bad": true, "face": "scared", "sfx": "none"},
+  {"scene": "cave", "text": "It's been two days. Something has to change.", "sfx": "none"},
+  {"scene": "river", "text": "So you tie it up in the ice-cold river. It stays fresh...", "sfx": "none"},
+  {"scene": "river", "text": "until a fish eats half of it.", "fish": true, "face": "scared", "sfx": "none"},
+  {"scene": "snowfield", "text": "Winter comes. You bury your meat in the snow, and it's perfect.", "face": "smile", "sfx": "none"},
+  {"scene": "snowfield", "text": "Then summer comes, and your fridge melts.", "summer": true, "face": "scared", "sfx": "none"},
+  {"scene": "cellar", "text": "So you dig a deep hole, where the ground stays cool. Better, but still not cold enough.", "sfx": "none"},
+  {"scene": "icehouse", "text": "Next winter you cut giant blocks of ice from the lake, and pack them in sawdust. The ice lasts until the end of summer.", "sfx": "none"},
+  {"scene": "pots", "text": "Then you notice something strange. Water drying off a wet clay pot makes it cooler inside.", "wet": true, "sfx": "none"},
+  {"scene": "pots", "text": "So you put a pot inside a pot, and fill the gap with wet sand.", "wet": true, "inner": true, "face": "smile", "sfx": "none"},
+  {"scene": "fridge", "text": "Your meat lasts for weeks now. Congratulations. You invented the fridge.", "sfx": "none"},
+  {"scene": "fridge", "text": "Now the whole village wants to store their mammoth in it.", "queue": true, "sfx": "none", "pause": 0.8},
+  {"scene": "end", "text": "", "hold": 1.8}
+ ]}
