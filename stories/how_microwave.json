@@ -1,0 +1,19 @@
+{"series": "wait wut daily", "part": 0, "voice": "am_michael", "speed": 1.14, "weather": "none", "mood": "light",
+ "end_text": "WHAT SHOULD WE BUILD NEXT?",
+ "yt_title": "How does a microwave actually heat food? #shorts",
+ "yt_description": "Build a microwave from scratch and see how it really works. #science #howitworks #microwave #shorts",
+ "yt_tags": ["shorts", "science", "how it works", "microwave", "physics", "engineering"],
+ "scenes": [
+  {"scene": "kitchen", "text": "Your leftovers are ice cold, and you want them hot in two minutes. So let's build a microwave.", "pizza": true, "microwave": false, "sfx": "none", "pause": 0.22},
+  {"scene": "molecules", "text": "Food is full of water. And every water molecule is like a tiny magnet, with a plus side and a minus side.", "mode": "still", "sfx": "none", "pause": 0.22},
+  {"scene": "molecules", "text": "Hit them with an electric field, and they all spin to line up with it. Flip the field, and they flip too.", "mode": "flip", "sfx": "none", "pause": 0.22},
+  {"scene": "molecules", "text": "Now flip it two point four five billion times a second. All that spinning and bumping turns into heat.", "mode": "heat", "sfx": "none", "pause": 0.22},
+  {"scene": "magnetron", "text": "To make waves that fast, you need a magnetron. It's a vacuum tube that turns electricity into microwaves.", "sfx": "none", "pause": 0.22},
+  {"scene": "box", "text": "Fire them into a metal box. Metal reflects microwaves, so they bounce around inside, and can't get out.", "sfx": "none", "pause": 0.22},
+  {"scene": "mwdoor", "text": "But you want to see your food. So the window gets a metal mesh with tiny holes. Light fits through. The twelve centimeter waves don't.", "sfx": "none", "pause": 0.22},
+  {"scene": "box", "text": "One problem. The waves pile up into hot spots and cold spots. One bite is lava, the next is still frozen.", "hotspots": true, "sfx": "none", "pause": 0.22},
+  {"scene": "box", "text": "So you add a spinning plate, to move your food through the hot spots and even it out.", "hotspots": true, "turntable": true, "sfx": "none", "pause": 0.22},
+  {"scene": "kitchen", "text": "Ding. Congratulations. You built a microwave.", "on": true, "face": "smile", "sfx": "none", "pause": 0.22},
+  {"scene": "spencer", "text": "And the real one? It was discovered by accident in the nineteen forties, when an engineer's chocolate bar melted in his pocket.", "sfx": "none", "pause": 0.6},
+  {"scene": "end", "text": "", "hold": 1.8}
+ ]}

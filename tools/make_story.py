@@ -642,6 +642,142 @@ def bg_fridge(p):
     return finish(im)
 BG.update({"cave": bg_cave, "river": bg_river, "snowfield": bg_snowfield, "cellar": bg_cellar, "icehouse": bg_icehouse, "pots": bg_pots, "fridge": bg_fridge})
 
+
+# ---------------- kitchen / how-it-works set (supersampled, animated overlays) ----------------
+SHIRT_M = (66, 118, 196); PANTS_M = (52, 58, 78); HAIR_M = (60, 40, 28)
+def guy(d, cx, base, k=1.0, face="calm"):
+    d.ellipse([cx - 80 * k, base - 12 * k, cx + 80 * k, base + 12 * k], fill=(0, 0, 0))
+    for sx in (-1, 1):
+        d.rounded_rectangle([cx + sx * 6 * k - (16 if sx > 0 else 24) * k, base - 140 * k, cx + sx * 6 * k + (24 if sx > 0 else 16) * k, base - 8 * k], radius=int(12 * k), fill=PANTS_M)
+        d.rounded_rectangle([cx + sx * 24 * k - 30 * k, base - 22 * k, cx + sx * 24 * k + 30 * k, base + 4 * k], radius=int(10 * k), fill=(240, 240, 244))
+    d.rounded_rectangle([cx - 64 * k, base - 300 * k, cx + 64 * k, base - 120 * k], radius=int(40 * k), fill=SHIRT_M)
+    d.rounded_rectangle([cx - 64 * k, base - 160 * k, cx + 64 * k, base - 120 * k], radius=int(14 * k), fill=lerp(SHIRT_M, (0, 0, 0), 0.15))
+    for sx in (-1, 1):
+        d.rounded_rectangle([cx + sx * 78 * k - 18 * k, base - 286 * k, cx + sx * 78 * k + 18 * k, base - 160 * k], radius=int(18 * k), fill=SHIRT_M)
+        d.ellipse([cx + sx * 78 * k - 18 * k, base - 176 * k, cx + sx * 78 * k + 18 * k, base - 140 * k], fill=CSKIN)
+    hy = base - 318 * k
+    d.rounded_rectangle([cx - 14 * k, hy - 4 * k, cx + 14 * k, hy + 22 * k], radius=6, fill=CSKIN_D)
+    d.ellipse([cx - 56 * k, hy - 116 * k, cx + 56 * k, hy + 4 * k], fill=CSKIN)
+    d.ellipse([cx - 64 * k, hy - 66 * k, cx - 46 * k, hy - 38 * k], fill=CSKIN_D); d.ellipse([cx + 46 * k, hy - 66 * k, cx + 64 * k, hy - 38 * k], fill=CSKIN_D)
+    d.chord([cx - 60 * k, hy - 132 * k, cx + 60 * k, hy - 40 * k], 180, 360, fill=HAIR_M); d.ellipse([cx - 40 * k, hy - 130 * k, cx + 70 * k, hy - 80 * k], fill=HAIR_M)
+    for ex in (-20, 20):
+        d.ellipse([cx + (ex - 10) * k, hy - 70 * k, cx + (ex + 10) * k, hy - 48 * k], fill=(255, 255, 255)); d.ellipse([cx + (ex - 5) * k, hy - 65 * k, cx + (ex + 5) * k, hy - 53 * k], fill=(30, 22, 20))
+        d.line([(cx + (ex - 12) * k, hy - 80 * k), (cx + (ex + 12) * k, hy - (78 if face != "scared" else 86) * k)], fill=HAIR_M, width=max(3, int(5 * k)))
+    if face == "scared": d.ellipse([cx - 12 * k, hy - 34 * k, cx + 12 * k, hy - 8 * k], fill=(90, 30, 30))
+    elif face == "smile": d.chord([cx - 22 * k, hy - 40 * k, cx + 22 * k, hy - 12 * k], 0, 180, fill=(250, 250, 250))
+    else: d.arc([cx - 16 * k, hy - 40 * k, cx + 16 * k, hy - 22 * k], 20, 160, fill=(120, 50, 40), width=max(3, int(4 * k)))
+def kitchen_base():
+    im = Image.new("RGB", (BW * SS, BH * SS), (238, 226, 206)); d = SD(im)
+    for y in np.arange(BH * 0.36, BH * 0.62, 46):
+        for x in np.arange(0, BW, 60): d.rectangle([x + 2, y + 2, x + 58, y + 44], fill=(246, 240, 228))
+    d.rounded_rectangle([BW * 0.02, BH * 0.08, BW * 0.98, BH * 0.32], radius=10, fill=(150, 104, 70))
+    for x in np.arange(BW * 0.04, BW * 0.96, BW * 0.235): d.rounded_rectangle([x, BH * 0.1, x + BW * 0.215, BH * 0.3], radius=8, fill=(172, 124, 86)); d.rounded_rectangle([x + BW * 0.09, BH * 0.25, x + BW * 0.125, BH * 0.265], radius=4, fill=(220, 210, 196))
+    d.rectangle([0, BH * 0.62, BW, BH * 0.65], fill=(70, 74, 86)); d.rectangle([0, BH * 0.65, BW, BH * 0.86], fill=(150, 104, 70))
+    for x in np.arange(BW * 0.03, BW, BW * 0.24): d.rounded_rectangle([x, BH * 0.67, x + BW * 0.22, BH * 0.84], radius=8, fill=(172, 124, 86))
+    g = grad(BW * SS, int(BH * 0.14 * SS), (196, 176, 150), (170, 150, 126)); im.paste(g, (0, int(BH * 0.86 * SS)))
+    return im, d
+def microwave(d, x, y, w, h, door_open=False, on=False, mesh=True, plate_angle=0.0, food=True):
+    d.rounded_rectangle([x, y, x + w, y + h], radius=18, fill=(60, 64, 74)); d.rounded_rectangle([x + 8, y + 8, x + w - 8, y + h - 8], radius=14, fill=(84, 90, 102))
+    wx0, wy0, wx1, wy1 = x + 26, y + 26, x + w * 0.7, y + h - 26
+    d.rounded_rectangle([wx0, wy0, wx1, wy1], radius=10, fill=(250, 210, 120) if on else (34, 36, 44))
+    if food: d.ellipse([(wx0 + wx1) / 2 - 60, wy1 - 50, (wx0 + wx1) / 2 + 60, wy1 - 18], fill=(230, 230, 236)); d.ellipse([(wx0 + wx1) / 2 - 40, wy1 - 66, (wx0 + wx1) / 2 + 40, wy1 - 30], fill=(214, 120, 60))
+    if mesh:
+        for yy in np.arange(wy0 + 6, wy1, 12):
+            for xx in np.arange(wx0 + 6, wx1, 12): d.ellipse([xx - 2, yy - 2, xx + 2, yy + 2], fill=(20, 20, 24) if not on else (190, 150, 80))
+    d.rounded_rectangle([x + w * 0.75, y + 30, x + w - 24, y + 80], radius=8, fill=(20, 30, 24)); d.text((x + w * 0.75 + (w * 0.25 - 24) / 2, y + 55), "2:00" if on else "0:00", font=ImageFont.truetype(FONT, 28), fill=(120, 255, 140), anchor="mm")
+    for i in range(3):
+        for j in range(3): d.rounded_rectangle([x + w * 0.77 + j * 34, y + 100 + i * 34, x + w * 0.77 + j * 34 + 26, y + 100 + i * 34 + 26], radius=6, fill=(110, 116, 128))
+def bg_kitchen(p):
+    im, d = kitchen_base()
+    if p.get("microwave", True): microwave(d, BW * 0.08, BH * 0.44, BW * 0.5, BH * 0.18, on=p.get("on", False))
+    guy(d, BW * 0.76, BH * 0.95, 1.05, p.get("face", "calm"))
+    if p.get("pizza"):
+        d.ellipse([BW * 0.5, BH * 0.585, BW * 0.66, BH * 0.62], fill=(236, 236, 240)); d.polygon([(BW * 0.52, BH * 0.6), (BW * 0.64, BH * 0.59), (BW * 0.58, BH * 0.57)], fill=(230, 170, 70))
+        for i in range(3): d.text((BW * (0.5 + i * 0.05), BH * 0.52), "*", font=ImageFont.truetype(FONT, 50), fill=(160, 210, 250))
+    return finish(im)
+BLUE_T, BLUE_B = (18, 40, 78), (10, 22, 48)
+def blueprint():
+    im = grad(BW * SS, BH * SS, BLUE_T, BLUE_B); d = SD(im)
+    for x in np.arange(0, BW, 40): d.line([(x, 0), (x, BH)], fill=(30, 58, 104), width=1)
+    for y in np.arange(0, BH, 40): d.line([(0, y), (BW, y)], fill=(30, 58, 104), width=1)
+    return im, d
+def bg_molecules(p): im, d = blueprint(); return finish(im)
+def bg_magnetron(p):
+    im, d = blueprint(); cx, cy = BW * 0.3, BH * 0.62
+    d.ellipse([cx - 110, cy - 110, cx + 110, cy + 110], fill=(180, 186, 196)); d.ellipse([cx - 70, cy - 70, cx + 70, cy + 70], fill=(120, 126, 140))
+    for a_ in range(8): ang = a_ * math.pi / 4; d.ellipse([cx + 52 * math.cos(ang) - 12, cy + 52 * math.sin(ang) - 12, cx + 52 * math.cos(ang) + 12, cy + 52 * math.sin(ang) + 12], fill=(40, 44, 56))
+    d.ellipse([cx - 18, cy - 18, cx + 18, cy + 18], fill=(255, 150, 80))
+    for sx in (-1, 1): d.rounded_rectangle([cx + sx * 130 - 26, cy - 120, cx + sx * 130 + 26, cy + 120], radius=10, fill=(200, 60, 60) if sx < 0 else (60, 90, 200))
+    d.rounded_rectangle([cx + 100, cy - 20, BW * 0.62, cy + 20], radius=8, fill=(180, 186, 196))
+    d.text((cx, cy + 170), "MAGNETRON", font=ImageFont.truetype(FONT, 40), fill=(230, 240, 255), anchor="mm")
+    return finish(im)
+def bg_box(p):
+    im, d = blueprint(); x0, y0, x1, y1 = BW * 0.1, BH * 0.44, BW * 0.9, BH * 0.84
+    d.rounded_rectangle([x0, y0, x1, y1], radius=20, outline=(200, 210, 226), width=14)
+    d.ellipse([BW * 0.36, y1 - 70, BW * 0.64, y1 - 30], fill=(230, 230, 236)); d.ellipse([BW * 0.42, y1 - 90, BW * 0.58, y1 - 50], fill=(214, 120, 60))
+    if p.get("hotspots"):
+        for (hx, hy_, c_) in ((0.3, 0.55, (255, 90, 60)), (0.7, 0.55, (90, 160, 255)), (0.5, 0.66, (255, 90, 60)), (0.3, 0.76, (90, 160, 255)), (0.7, 0.76, (255, 90, 60))):
+            d.ellipse([BW * hx - 50, BH * hy_ - 50, BW * hx + 50, BH * hy_ + 50], fill=lerp(BLUE_T, c_, 0.7))
+        d.ellipse([BW * 0.36, y1 - 70, BW * 0.64, y1 - 30], fill=(230, 230, 236)); d.ellipse([BW * 0.42, y1 - 90, BW * 0.58, y1 - 50], fill=(214, 120, 60))
+    return finish(im)
+def bg_mwdoor(p):
+    im, d = blueprint()
+    microwave(d, BW * 0.06, BH * 0.42, BW * 0.88, BH * 0.32, on=True, mesh=True)
+    d.ellipse([BW * 0.3 - 110, BH * 0.58 - 110, BW * 0.3 + 110, BH * 0.58 + 110], outline=(255, 255, 255), width=8)
+    return finish(im)
+def bg_spencer(p):
+    im = grad(BW * SS, BH * SS, (60, 66, 70), (36, 40, 44)); d = SD(im)
+    d.rounded_rectangle([BW * 0.06, BH * 0.4, BW * 0.5, BH * 0.7], radius=12, fill=(110, 116, 110)); d.ellipse([BW * 0.16, BH * 0.46, BW * 0.36, BH * 0.62], fill=(160, 166, 160))
+    d.text((BW * 0.28, BH * 0.74), "RADAR LAB, 1945", font=ImageFont.truetype(FONT, 30), fill=(220, 220, 210), anchor="mm")
+    guy(d, BW * 0.72, BH * 0.95, 1.05, "scared")
+    d.rounded_rectangle([BW * 0.72 - 70, BH * 0.8, BW * 0.72 - 10, BH * 0.85], radius=10, fill=(110, 64, 36)); d.ellipse([BW * 0.72 - 80, BH * 0.84, BW * 0.72 - 40, BH * 0.87], fill=(110, 64, 36))
+    return finish(im)
+BG.update({"kitchen": bg_kitchen, "molecules": bg_molecules, "magnetron": bg_magnetron, "box": bg_box, "mwdoor": bg_mwdoor, "spencer": bg_spencer})
+
+# per-frame animated overlays (drawn at 1x on top of the background)
+def water(d, x, y, ang, s=1.0):
+    ca, sa = math.cos(ang), math.sin(ang)
+    for hx, hy in ((-34, 26), (34, 26)):
+        px, py = x + (hx * ca - hy * sa) * s, y + (hx * sa + hy * ca) * s
+        d.line([(x, y), (px, py)], fill=(220, 230, 240), width=int(8 * s)); d.ellipse([px - 16 * s, py - 16 * s, px + 16 * s, py + 16 * s], fill=(240, 244, 250))
+        d.text((px, py), "+", font=ImageFont.truetype(FONT, int(24 * s)), fill=(200, 50, 50), anchor="mm")
+    d.ellipse([x - 26 * s, y - 26 * s, x + 26 * s, y + 26 * s], fill=(220, 60, 60)); d.text((x, y - 2), "-", font=ImageFont.truetype(FONT, int(30 * s)), fill=(255, 255, 255), anchor="mm")
+def anim_molecules(im, d, lt, p):
+    r = random.Random(2); mode = p.get("mode", "still")
+    flip = math.copysign(1, math.sin(lt * 9)) if mode != "still" else 0
+    if mode != "still":
+        for y in np.arange(H * 0.42, H * 0.9, 90):
+            x0, x1 = (90, W - 90) if flip > 0 else (W - 90, 90)
+            d.line([(x0, y), (x1, y)], fill=(255, 220, 90), width=4); d.polygon([(x1, y), (x1 - 20 * flip, y - 12), (x1 - 20 * flip, y + 12)], fill=(255, 220, 90))
+    for i in range(9):
+        x = W * (0.2 + (i % 3) * 0.3); y = H * (0.48 + (i // 3) * 0.14)
+        base_ang = r.random() * 6.28
+        ang = base_ang + lt * 0.4 if mode == "still" else (0 if flip > 0 else math.pi) + math.pi / 2 + 0.25 * math.sin(lt * 30 + i)
+        water(d, x, y, ang, 0.9)
+        if mode == "heat":
+            for j in range(3): yy = y - 60 - ((lt * 80 + j * 30 + i * 13) % 90); d.arc([x - 20 + j * 14, yy, x + j * 14, yy + 20], 180, 360, fill=(255, 140, 80), width=3)
+def anim_waves(im, d, lt, p):
+    y0 = H * 0.62 if p.get("scene") == "magnetron" else H * 0.6
+    xs = np.arange(W * 0.62 if p.get("scene") == "magnetron" else W * 0.12, W * 0.92, 4)
+    for k in range(3):
+        pts = [(x, y0 + (k - 1) * 50 + 22 * math.sin(x / 26 - lt * 9)) for x in xs]
+        d.line(pts, fill=(255, 220, 90), width=4)
+def anim_bounce(im, d, lt, p):
+    x0, y0, x1, y1 = W * 0.13, H * 0.46, W * 0.87, H * 0.82
+    for i in range(4):
+        t = lt * 420 + i * 260; px = t % (2 * (x1 - x0)); py = (t * 0.73 + i * 90) % (2 * (y1 - y0))
+        px = x0 + (px if px < x1 - x0 else 2 * (x1 - x0) - px); py = y0 + (py if py < y1 - y0 else 2 * (y1 - y0) - py)
+        d.ellipse([px - 14, py - 14, px + 14, py + 14], fill=(255, 220, 90))
+def anim_turntable(im, d, lt, p):
+    cx, cy = W * 0.5, H * 0.74
+    d.ellipse([cx - 170, cy - 40, cx + 170, cy + 40], fill=(210, 220, 236)); d.ellipse([cx - 150, cy - 32, cx + 150, cy + 32], fill=(236, 240, 248))
+    a = lt * 2.2
+    for j in range(3):
+        aa = a + j * 2.09; d.ellipse([cx + 110 * math.cos(aa) - 10, cy + 26 * math.sin(aa) - 6, cx + 110 * math.cos(aa) + 10, cy + 26 * math.sin(aa) + 6], fill=(150, 160, 180))
+    fx = cx + 50 * math.cos(a); fy = cy - 30 + 10 * math.sin(a)
+    d.ellipse([fx - 60, fy - 24, fx + 60, fy + 24], fill=(214, 120, 60))
+ANIM = {"molecules": anim_molecules, "magnetron": anim_waves, "box": lambda im, d, lt, p: (anim_bounce(im, d, lt, p) if not p.get("hotspots") else (anim_turntable(im, d, lt, p) if p.get("turntable") else None)), "mwdoor": None}
+
 # ---------------- narration ----------------
 from kokoro_onnx import Kokoro
 k = Kokoro(WORK + "/tts/kokoro-v1.0.onnx", WORK + "/tts/voices-v1.0.bin")
@@ -750,6 +886,8 @@ for f in range(nfr):
     x0 = max(0, min(BW - cw, x0)); y0 = max(0, min(BH - ch, y0))
     im = bg.resize((W, H), Image.BILINEAR, box=(x0, y0, x0 + cw, y0 + ch))
     d = ImageDraw.Draw(im)
+    _an = globals().get("ANIM", {}).get(sg["scene"])
+    if _an: _an(im, d, lt, sg)
     if sg["scene"] in OUTDOOR or sg.get("snow"):
         for fl in flakes:
             y = (fl[1] + ft * fl[3]) % H; x = (fl[0] + 12 * math.sin(ft * 0.8 + fl[1])) % W
