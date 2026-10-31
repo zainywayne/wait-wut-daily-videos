@@ -1,0 +1,8 @@
+{"slug":"one_letter_two_lives","voice":"am_onyx","speed":0.95,"gap":0.55,"story":true,"tags":["IF HE SAID YES","IF HE SAID NO"],"scenes":[
+ {"scene":"fork","text":"He got one job offer. This is both of his lives.","hold":0.3,"rich":{"price":0},"broke":{"price":0}},
+ {"scene":"wake","text":"Ten years later. One wakes up a millionaire.","counter":{"label":"NET WORTH","fmt":"money","rich":4200000,"broke":1940,"delay":0.9},"rich":{"price":0},"broke":{"price":0}},
+ {"scene":"commute","text":"He flies to work. His other self chases the bus.","rich":{"price":0},"broke":{"price":0}},
+ {"scene":"family","text":"But here's what the yes really cost.","flash":"BUT","counter":{"label":"TIME WITH FAMILY","fmt":"time","rich":0,"broke":180,"delay":0.8},"hold":0.5,"rich":{"price":0},"broke":{"price":0}},
+ {"scene":"night2","text":"At three A.M., both are awake. One's scared of losing it all. The other, of never having any.","hold":0.4,"rich":{"price":0},"broke":{"price":0}},
+ {"scene":"fork","text":"Same man. Same letter. Which one would you sign?","hold":1.0,"rich":{"price":0},"broke":{"price":0}}
+]}
