@@ -12,7 +12,7 @@
 - [x] What if the Sun became a black hole of the same mass? (Earth keeps orbiting; same gravity; but no light or heat, so it freezes; we'd see nothing change for 8 minutes)
 - [x] What if a Carrington-size solar storm hit today? (1859 storm fried telegraphs; today it could damage power grids and satellites; real risk scientists study)
 - [x] What if Earth lost its atmosphere? (made 2026-10-31, videos/air_vanishes.mp4) (unconscious in roughly 15 seconds, water boils at low pressure, sky goes black, temperature swings)
-- [ ] What if a dinosaur-killer asteroid was heading for Earth tomorrow? (NASA DART 2022 hit a small asteroid and changed its orbit; we can only deflect with years of warning)
+- [x] What if a dinosaur-killer asteroid was heading for Earth tomorrow? (NASA DART 2022 hit a small asteroid and changed its orbit; we can only deflect with years of warning)
 - [ ] What if all satellites stopped working at once? (GPS, weather, banking timing, phones, flights; about how much we depend on them)
 - [ ] What if Earth's magnetic field vanished? (more radiation, auroras everywhere, satellite and grid trouble; atmosphere loss would be slow, over a very long time)
 - [ ] What if the Moon was twice as close? (tides far bigger, Moon looks much larger; keep claims hedged)

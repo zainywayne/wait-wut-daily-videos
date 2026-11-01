@@ -1,0 +1,159 @@
+{
+ "title": "Tonight, a killer asteroid is found",
+ "voice": "am_michael",
+ "scenes": [
+  {
+   "text": "Tonight, astronomers find a killer asteroid.",
+   "shots": [
+    {
+     "clip": "bennu_global",
+     "ss": 20
+    },
+    {
+     "clip": "lro_impacts",
+     "ss": 5
+    }
+   ],
+   "flash": "KILLER"
+  },
+  {
+   "text": "It will hit Earth tomorrow.",
+   "shots": [
+    {
+     "clip": "bennu_tour",
+     "ss": 50
+    },
+    {
+     "clip": "earth_iss",
+     "ss": 396
+    }
+   ]
+  },
+  {
+   "text": "Today, we cannot stop it.",
+   "shots": [
+    {
+     "clip": "earth4k",
+     "ss": 450
+    },
+    {
+     "clip": "lro_impacts",
+     "ss": 88
+    }
+   ],
+   "flash": "NO TIME"
+  },
+  {
+   "text": "In 2022, NASA crashed a probe into a small asteroid.",
+   "shots": [
+    {
+     "clip": "bennu_far",
+     "ss": 128
+    },
+    {
+     "clip": "bennu_back",
+     "ss": 90
+    }
+   ]
+  },
+  {
+   "text": "It nudged the rock's orbit, proving deflection works.",
+   "shots": [
+    {
+     "clip": "moon_crater",
+     "ss": 236
+    },
+    {
+     "clip": "bennu_far",
+     "ss": 108
+    }
+   ]
+  },
+  {
+   "text": "But that took years of warning.",
+   "shots": [
+    {
+     "clip": "earth_iss",
+     "ss": 1452
+    },
+    {
+     "clip": "comet_tail",
+     "ss": 19
+    }
+   ],
+   "flash": "YEARS"
+  },
+  {
+   "text": "With one day, there is no time to move it.",
+   "shots": [
+    {
+     "clip": "earth4k",
+     "ss": 1650
+    },
+    {
+     "clip": "lro_impacts",
+     "ss": 41
+    }
+   ]
+  },
+  {
+   "text": "A big impact would blast dust into the sky.",
+   "shots": [
+    {
+     "clip": "lro_impacts",
+     "ss": 53
+    },
+    {
+     "clip": "earth4k",
+     "ss": 2250
+    }
+   ]
+  },
+  {
+   "text": "Sunlight could dim for years, and crops could fail.",
+   "shots": [
+    {
+     "clip": "earth_iss",
+     "ss": 2244
+    },
+    {
+     "clip": "soho",
+     "ss": 33
+    }
+   ],
+   "flash": "DARK"
+  },
+  {
+   "text": "No known asteroid threatens us soon, and the search never stops.",
+   "shots": [
+    {
+     "clip": "bennu_global",
+     "ss": 100
+    },
+    {
+     "clip": "earth_iss",
+     "ss": 1980
+    }
+   ]
+  },
+  {
+   "text": "Until one night, astronomers find",
+   "shots": [
+    {
+     "clip": "bennu_back",
+     "ss": 166
+    }
+   ]
+  }
+ ],
+ "yt_title": "Tonight, a killer asteroid is found #shorts",
+ "yt_description": "What if astronomers found an asteroid heading for Earth tomorrow? Today we could not move it out of the way, but we are watching the skies.\n\nFootage: NASA\n\n#shorts #space #whatif #asteroid #earth",
+ "yt_tags": [
+  "shorts",
+  "space",
+  "what if",
+  "asteroid",
+  "earth"
+ ],
+ "categoryId": "28"
+}
