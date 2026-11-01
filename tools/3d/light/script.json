@@ -1,0 +1,46 @@
+{
+ "voice": "am_michael",
+ "speed": 1.12,
+ "scenes": [
+  {
+   "shot": "dark",
+   "text": "It's night, and you can't see a thing."
+  },
+  {
+   "shot": "fire",
+   "text": "So you light a fire in the middle of the room. Light! And smoke. So much smoke."
+  },
+  {
+   "shot": "candle",
+   "text": "So you make a candle. Wax and a string. Way less smoke, but it is dim, it drips, and it is gone in a few hours."
+  },
+  {
+   "shot": "lamp",
+   "text": "So you burn oil inside a glass chimney. Brighter. But it stinks, and one bump could set your house on fire."
+  },
+  {
+   "shot": "wire",
+   "text": "You need light with no flame. So you push electricity through a thin wire, until it gets so hot it glows."
+  },
+  {
+   "shot": "burn",
+   "text": "For about two seconds. The air makes the hot wire burn right up."
+  },
+  {
+   "shot": "bulb",
+   "text": "So you seal the wire inside a glass bulb, and suck all the air out. Now it glows for hundreds of hours."
+  },
+  {
+   "shot": "heat",
+   "text": "But most of the power turns into heat, not light. Touch it and you will find out."
+  },
+  {
+   "shot": "led",
+   "text": "So you swap the wire for a tiny chip that glows when electricity flows through it. An L E D."
+  },
+  {
+   "shot": "done",
+   "text": "Same light, a fraction of the power, and it lasts for years. Congratulations. You invented modern lighting."
+  }
+ ]
+}
