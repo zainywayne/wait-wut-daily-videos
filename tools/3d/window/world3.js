@@ -73,7 +73,7 @@ const roomLight = new THREE.PointLight(0xfff0d0, 0, 12); roomLight.position.set(
 // snow blowing in
 const flakes = []; for (let i = 0; i < 70; i++) { const f = mesh(new THREE.SphereGeometry(0.035, 6, 6), new THREE.MeshBasicMaterial({ color: 0xffffff }), 0, 0, 0, ROOM); f.castShadow = false; f.userData.ph = rnd(); f.userData.x = (rnd() - 0.5) * 1.6; f.userData.y = 1.1 + rnd() * 1.0; flakes.push(f); }
 // outside view behind window: snowy/green ground already from world; put a little tree outside
-pine(0.6, -7, 1.2); pine(-2, -9, 1.4); pine(2.5, -10, 1.1);
+const tWin = pine(0.6, -7, 1.2); pine(-2, -9, 1.4); pine(2.5, -10, 1.1);
 
 // FURNACE area at (14,0,0)
 const FURN = new THREE.Group(); FURN.position.set(14, 0, 0); scene.add(FURN);
@@ -110,8 +110,8 @@ const SHOTS = {
   tin:    { cam: [[18.5, 4.5, 8], [17.2, 3.4, 12]], look: [[14, 0.6, 12], [14, 0.6, 15]], guy: G([11.5, 0, 13], 1.6), pour: true },
   cool:   { cam: [[17.5, 2.4, 21], [16.2, 1.8, 20.4]], look: [[14, 0.6, 19.6], [14, 0.6, 19.6]], guy: G([12.0, 0, 19.2], 1.4), cooled: true },
   done:   { cam: [[1.8, 1.6, 1.6], [1.0, 1.5, 0.6]], look: [[0, 1.6, -3], [0, 1.7, -3.2]], room: 'flat', light: 1.0, beam: true, guy: G([-0.6, 0, -1.6], Math.PI * 0.95), cheer: true },
-  fact:   { cam: [[0, 6, 12], [0, 4, 8]], look: [[0, 1.6, -3], [0, 1.8, -3]], room: 'flat', light: 1.0, outside: true, guy: G([-0.6, 0, -1.6], Math.PI) },
-  end:    { cam: [[0, 4, 8], [0, 4, 8]], look: [[0, 1.8, -3], [0, 1.8, -3]], room: 'flat', light: 1.0, outside: true, guy: G([-0.6, 0, -1.6], Math.PI) },
+  fact:   { cam: [[0.4, 4, -13], [0.2, 2.1, -7.2]], look: [[0, 2.4, -3], [0, 1.7, -3]], room: 'flat', light: 1.0, outside: true, guy: G([-0.6, 0, -1.6], Math.PI) },
+  end:    { cam: [[0.2, 2.1, -7.2], [0.2, 2.1, -7.2]], look: [[0, 1.7, -3], [0, 1.7, -3]], room: 'flat', light: 1.0, outside: true, guy: G([-0.6, 0, -1.6], Math.PI) },
 };
 let TIMING = null; window.setTiming = (t) => { TIMING = t; };
 window.renderAt = (t) => {
@@ -123,7 +123,7 @@ window.renderAt = (t) => {
   beam.visible = !!sh.beam; beam.material.opacity = 0.12 * Math.min(1, lt * 2);
   roomLight.intensity = (sh.light ?? 1) * 7; hemi.intensity = sh.room ? 0.25 + 0.6 * (sh.light ?? 1) : 1.1;
   if (r === 'solid') { hemi.intensity = 0.22; sun.intensity = 0.4; roomLight.intensity = 0.6; } else sun.intensity = 2.6;
-  shell.visible = !!sh.outside;
+  shell.visible = !!sh.outside; tWin.visible = !sh.outside;
   ROOM.children.forEach(c => { if (c.geometry && c.geometry.type === 'BoxGeometry' && Math.abs(c.position.y - 3) < 0.01) c.visible = !sh.outside; });
   if (sh.outside) { roomLight.intensity = 9; }
   // snow
