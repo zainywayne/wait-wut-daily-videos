@@ -1,0 +1,12 @@
+{"voice": "am_michael", "speed": 1.12,
+ "scenes": [
+  {"shot": "drain", "text": "You've got running water. But where does it go after it goes down the drain?"},
+  {"shot": "slope", "text": "Gravity again. Every drain pipe tilts slightly downhill, so the water always flows away from your house."},
+  {"shot": "sewers", "text": "Little pipes join bigger pipes, called sewers. And they all flow to the lowest spot in town."},
+  {"shot": "screen", "text": "Step one. A big metal screen catches all the junk. Wipes, toys, even hair."},
+  {"shot": "settle", "text": "Next, a giant still tank. Heavy gunk sinks to the bottom. Grease floats to the top. Both get scraped off."},
+  {"shot": "bugs", "text": "Then you pump in air, and trillions of tiny bacteria eat the dirt that's left."},
+  {"shot": "river", "text": "What comes out is clean enough to flow back into the river."},
+  {"shot": "loop", "text": "Which flows into the lake. The same lake your tap water came from."},
+  {"shot": "end2", "text": "So whatever you do, never flush wipes."}
+ ]}
