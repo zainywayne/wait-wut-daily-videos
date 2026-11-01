@@ -1,0 +1,13 @@
+{"voice": "am_michael", "speed": 1.12,
+ "scenes": [
+  {"shot": "dark", "text": "Your house has no windows. It's pitch black inside, even at noon."},
+  {"shot": "hole", "text": "So you cut a hole in the wall. Sunlight! Problem solved."},
+  {"shot": "cold", "text": "Until winter. Now snow is blowing straight into your living room."},
+  {"shot": "skin", "text": "So you stretch an animal skin over the hole. Warm again. But dark again."},
+  {"shot": "sand", "text": "You need something solid that light passes through. So you take sand, and heat it hotter than lava. It melts into glass."},
+  {"shot": "wavy", "text": "But when you shape it into sheets, it comes out bumpy and wavy. Everything outside looks melted."},
+  {"shot": "tin", "text": "So you pour the hot glass onto a pool of melted tin. It floats on top, and spreads out perfectly flat."},
+  {"shot": "cool", "text": "Let it cool, cut it to size, and put it in the wall."},
+  {"shot": "done", "text": "Light, warm, and you can actually see outside. Congratulations. You invented the window."},
+  {"shot": "fact", "text": "And that tin trick? It's still how most window glass in the world is made today."}
+ ]}
