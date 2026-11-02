@@ -1,0 +1,46 @@
+{
+ "voice": "am_michael",
+ "speed": 1.12,
+ "scenes": [
+  {
+   "shot": "gold",
+   "text": "You keep all your gold in a wooden chest."
+  },
+  {
+   "shot": "steal",
+   "text": "Problem. Someone keeps stealing it."
+  },
+  {
+   "shot": "rope",
+   "text": "So you tie it shut with rope. They just cut it."
+  },
+  {
+   "shot": "rock",
+   "text": "So you put a giant rock on top. They just push it off."
+  },
+  {
+   "shot": "bolt",
+   "text": "So you slide a wooden bolt across your door. Safe. But you can only lock it from the inside."
+  },
+  {
+   "shot": "pins",
+   "text": "You need a lock that only you can open. So you drop little pins into the bolt, held down by springs. Now it is stuck."
+  },
+  {
+   "shot": "key",
+   "text": "Then you carve a key with bumps that lift every pin to exactly the right height. The gaps all line up, and it turns."
+  },
+  {
+   "shot": "bad",
+   "text": "Wrong key? The pins stop at the wrong heights. Stuck."
+  },
+  {
+   "shot": "done",
+   "text": "Congratulations. You invented the pin tumbler lock."
+  },
+  {
+   "shot": "fact",
+   "text": "The first ones were made of wood, in ancient Egypt, about four thousand years ago. And the same idea is in almost every front door today."
+  }
+ ]
+}

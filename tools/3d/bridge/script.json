@@ -1,0 +1,58 @@
+{
+ "voice": "am_michael",
+ "speed": 1.12,
+ "scenes": [
+  {
+   "shot": "river",
+   "text": "A river cuts your village off from the forest. And you need wood."
+  },
+  {
+   "shot": "swim",
+   "text": "Swimming across? The current drags you away."
+  },
+  {
+   "shot": "log",
+   "text": "So you chop down a tree, and let it fall across. A bridge!"
+  },
+  {
+   "shot": "roll",
+   "text": "Until it rolls. Splash."
+  },
+  {
+   "shot": "rope",
+   "text": "So you tie ropes between posts, and lay planks across them."
+  },
+  {
+   "shot": "sway",
+   "text": "But every step, it sways. And you can never carry anything heavy over it."
+  },
+  {
+   "shot": "stack",
+   "text": "So you try stone. But stack stones across a gap, and they just fall in."
+  },
+  {
+   "shot": "arch",
+   "text": "Unless you shape them into an arch. Every stone pushes against its neighbors, and the last one in the middle, the keystone, locks them all in place."
+  },
+  {
+   "shot": "cart",
+   "text": "Now even a heavy cart can cross."
+  },
+  {
+   "shot": "wide",
+   "text": "Then your village grows into a city, and you need to cross a river ten times wider. An arch that big would collapse."
+  },
+  {
+   "shot": "sus",
+   "text": "So you build two giant towers, string thick steel cables between them, and hang the road from the cables."
+  },
+  {
+   "shot": "done",
+   "text": "Congratulations. You built a suspension bridge."
+  },
+  {
+   "shot": "fact",
+   "text": "The longest one today stretches over two kilometers between its towers."
+  }
+ ]
+}

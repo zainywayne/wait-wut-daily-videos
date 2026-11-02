@@ -1,0 +1,16 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:P;src:url(Poppins-Bold.ttf)}
+html,body{margin:0;background:#000;overflow:hidden}
+#cap{position:absolute;left:0;right:0;top:44%;text-align:center;font:700 64px P;color:#fff;
+ text-shadow:0 4px 0 #000,0 -4px 0 #000,4px 0 0 #000,-4px 0 0 #000,4px 4px 0 #000,-4px 4px 0 #000,4px -4px 0 #000,-4px -4px 0 #000,0 8px 20px rgba(0,0,0,.6)}
+#end{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;font:700 46px P;color:#fff;text-align:center;background:rgba(5,10,25,.55)}
+#end b{color:#ffd23f;font-size:40px;margin-top:14px}
+</style></head><body><canvas id=c width=720 height=1280 style="width:720px;height:1280px"></canvas><div id=cap></div><div id=end>WAIT WUT DAILY<b>WHAT SHOULD WE BUILD NEXT?</b></div>
+<script src="node_modules/three/build/three.min.js"></script><script src="world.js"></script>
+<script>
+window.frame=(t)=>{const shot=renderAt(t);const segs=TIMING.segs;let i=0;while(i<segs.length-1&&t>=segs[i+1].start)i++;
+ const ws=segs[i].words;let k=-1;for(let j=0;j<ws.length;j++)if(t>=ws[j][1])k=j;
+ const cap=document.getElementById('cap');
+ cap.textContent=(k<0||t>segs[i].start+segs[i].dur-0.05)?'':ws[k][0].replace(/[.,!?;:]+$/,'');
+ document.getElementById('end').style.display=shot==='end'?'flex':'none';return shot;};
+</script></body></html>
