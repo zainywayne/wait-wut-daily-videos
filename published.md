@@ -5,3 +5,4 @@
 2026-10-25 | LONG | Sleeping Bear Dunes | _arBU4cC1Y4
 2026-10-30 | SHORT | Tonight, a solar storm hits Earth #shorts | RnOyaQwxVoY
 2026-10-31 | SHORT | Tonight, the Sun becomes a black hole #shorts | cZjQNO4B2E4
+2026-11-02 | SHORT | Tonight, the air vanishes #shorts | LeLX2rKkeRg
