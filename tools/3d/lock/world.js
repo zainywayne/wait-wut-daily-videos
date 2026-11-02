@@ -72,28 +72,24 @@ const thief = guy.clone(true); scene.add(thief);
 thief.traverse(o => { if (o.isMesh) { o.material = o.material.clone(); const c = o.material.color.getHex(); if (c === SHIRT) o.material.color.set(0x22252b); if (c === PANTS) o.material.color.set(0x15161a); if (c === HAIRC) o.material.color.set(0x111111); } });
 const mask = mesh(new THREE.BoxGeometry(0.42, 0.09, 0.05), SM(0x111111), 0, 1.84, 0.205, thief);
 const knife = mesh(new THREE.BoxGeometry(0.03, 0.04, 0.32), SM(0xd8d8e0, { metalness: 0.9, roughness: 0.2 }), 0.3, 0.86, 0.2, thief); knife.visible = false;
-// house
-const HOUSE = new THREE.Group(); HOUSE.position.set(0, 0, -5); scene.add(HOUSE);
-mesh(new THREE.BoxGeometry(7, 3.4, 5), M(0xe0cfae), 0, 1.7, 0, HOUSE); const roof = mesh(new THREE.ConeGeometry(5.4, 2.4, 4), M(0x9a4a32), 0, 4.6, 0, HOUSE); roof.rotation.y = Math.PI / 4; roof.scale.z = 0.75;
-const door = new THREE.Group(); door.position.set(-0.6, 0, 2.52); HOUSE.add(door); mesh(new THREE.BoxGeometry(1.2, 2.2, 0.1), M(0x7a4e30), 0.6, 1.1, 0, door);
-const bracket = mesh(new THREE.BoxGeometry(0.2, 0.3, 0.2), M(0x5a3a22), 1.5, 1.2, 0.12, HOUSE); bracket.position.set(0.9, 1.2, 2.62);
-const bolt = mesh(new THREE.BoxGeometry(1.0, 0.16, 0.12), M(0xb08050), 0, 1.2, 2.66, HOUSE);
-const handle = mesh(new THREE.SphereGeometry(0.06, 10, 8), SM(0xd4af37, { metalness: 0.9, roughness: 0.3 }), 1.05, 1.0, 0.07, door);
-mesh(new THREE.BoxGeometry(1.2, 0.8, 0.08), M(0x9fd0f0), 2.1, 1.9, 2.52, HOUSE);
-// chest with gold
-const CHEST = new THREE.Group(); CHEST.position.set(1.2, 0, 0.5); scene.add(CHEST);
+// chest with gold + sliding latch (hasp)
+const CHEST = new THREE.Group(); CHEST.position.set(0, 0, 0); scene.add(CHEST);
 const wood = M(0x8a5a30), band = SM(0x5a5a62, { metalness: 0.8, roughness: 0.4 });
-mesh(new THREE.BoxGeometry(1.4, 0.7, 0.9), wood, 0, 0.35, 0, CHEST); for (const x of [-0.5, 0.5]) mesh(new THREE.BoxGeometry(0.08, 0.72, 0.92), band, x, 0.36, 0, CHEST);
-const lid = new THREE.Group(); lid.position.set(0, 0.7, -0.45); CHEST.add(lid); const lidm = mesh(new THREE.CylinderGeometry(0.45, 0.45, 1.4, 16, 1, false, 0, Math.PI), wood, 0, 0, 0.45, lid); lidm.rotation.z = Math.PI / 2; lidm.rotation.y = 0;
-const gold = []; for (let i = 0; i < 9; i++) { const g = mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.04, 14), SM(0xffcc33, { metalness: 0.9, roughness: 0.25, emissive: 0x332200 }), -0.45 + (i % 3) * 0.45, 0.72 + Math.floor(i / 3) * 0.05, -0.2 + (i % 2) * 0.3, CHEST); gold.push(g); }
-const ropes = []; for (const x of [-0.3, 0.3]) { const r = mesh(new THREE.TorusGeometry(0.62, 0.035, 6, 24), M(0xb59a6a), x, 0.55, 0, CHEST); r.rotation.y = Math.PI / 2; r.scale.set(1, 1, 0.75); ropes.push(r); }
-const boulder = mesh(new THREE.DodecahedronGeometry(0.75, 1), M(0x8d8a86), 0, 1.6, 0, CHEST);
+mesh(new THREE.BoxGeometry(1.6, 0.8, 1.0), wood, 0, 0.4, 0, CHEST); for (const x of [-0.6, 0.6]) mesh(new THREE.BoxGeometry(0.08, 0.82, 1.02), band, x, 0.41, 0, CHEST);
+const lid = new THREE.Group(); lid.position.set(0, 0.8, -0.5); CHEST.add(lid); const lidm = mesh(new THREE.BoxGeometry(1.64, 0.22, 1.04), wood, 0, 0.11, 0.5, lid); for (const x of [-0.6, 0.6]) mesh(new THREE.BoxGeometry(0.09, 0.24, 1.06), band, x, 0.11, 0.5, lid);
+const lidHasp = mesh(new THREE.BoxGeometry(0.16, 0.3, 0.05), band, 0, -0.05, 1.03, lid);
+const loops = []; for (const x of [-0.35, 0.35]) loops.push(mesh(new THREE.TorusGeometry(0.07, 0.022, 6, 12), band, x, 0.62, 0.53, CHEST));
+const latch = mesh(new THREE.BoxGeometry(1.1, 0.1, 0.08), M(0xc08a50), 0, 0.62, 0.55, CHEST);
+const gold = []; for (let i = 0; i < 12; i++) { const g = mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.04, 14), SM(0xffcc33, { metalness: 0.9, roughness: 0.25, emissive: 0x332200 }), -0.55 + (i % 4) * 0.36, 0.82 + Math.floor(i / 4) * 0.05, -0.25 + (i % 2) * 0.35, CHEST); g.userData.p = g.position.clone(); gold.push(g); }
+const ropes = []; for (const x of [-0.35, 0.35]) { const r = mesh(new THREE.TorusGeometry(0.68, 0.035, 6, 28), M(0xb59a6a), x, 0.6, 0, CHEST); r.rotation.y = Math.PI / 2; r.scale.set(1, 1, 0.8); ropes.push(r); }
+const boulder = mesh(new THREE.DodecahedronGeometry(0.75, 1), M(0x8d8a86), 0, 1.75, 0, CHEST);
+const HOUSE = new THREE.Group(); HOUSE.position.set(-3, 0, -6); scene.add(HOUSE); mesh(new THREE.BoxGeometry(6, 3.2, 4), M(0xe0cfae), 0, 1.6, 0, HOUSE); const roof = mesh(new THREE.ConeGeometry(4.6, 2.2, 4), M(0x9a4a32), 0, 4.3, 0, HOUSE); roof.rotation.y = Math.PI / 4; roof.scale.z = 0.75; mesh(new THREE.BoxGeometry(1.1, 2.1, 0.1), M(0x7a4e30), 1.2, 1.05, 2.02, HOUSE);
 // ---------- lock cutaway (macro, far away) ----------
 const LOCK = new THREE.Group(); LOCK.position.set(0, 0, 200); scene.add(LOCK);
 const lockLight = new THREE.DirectionalLight(0xffffff, 2.2); lockLight.position.set(3, 6, 210); lockLight.target = LOCK; scene.add(lockLight);
-const housing = mesh(new THREE.BoxGeometry(4.6, 2.6, 1.3), new THREE.MeshStandardMaterial({ color: 0xc9c9cf, metalness: 0.6, roughness: 0.35, transparent: true, opacity: 0.35, depthWrite: false }), 0, 0.5, 0, LOCK); housing.castShadow = false;
+const housing = mesh(new THREE.BoxGeometry(5.0, 1.3, 1.3), new THREE.MeshStandardMaterial({ color: 0xc9c9cf, metalness: 0.6, roughness: 0.35, transparent: true, opacity: 0.35, depthWrite: false }), 0, 1.27, 0, LOCK); housing.castShadow = false;
 const PLUG = new THREE.Group(); LOCK.add(PLUG);
-const plug = mesh(new THREE.CylinderGeometry(0.62, 0.62, 4.4, 40), new THREE.MeshStandardMaterial({ color: 0xd4a23a, metalness: 0.8, roughness: 0.3, transparent: true, opacity: 0.55, depthWrite: false }), 0, 0, 0, PLUG); plug.rotation.z = Math.PI / 2; plug.castShadow = false;
+const plug = mesh(new THREE.BoxGeometry(4.8, 1.24, 1.0), new THREE.MeshStandardMaterial({ color: 0xc08a50, roughness: 0.6, transparent: true, opacity: 0.55, depthWrite: false }), 0, 0, 0, PLUG); plug.castShadow = false;
 const shear = mesh(new THREE.BoxGeometry(4.8, 0.035, 1.35), new THREE.MeshBasicMaterial({ color: 0xffd23f }), 0, 0.62, 0, LOCK); shear.castShadow = false;
 const PX = [-1.6, -0.8, 0, 0.8, 1.6], KP = [0.55, 0.3, 0.7, 0.4, 0.62], DP = 0.55, FLOOR = -0.35;
 const keyPins = [], drvPins = [], springs = [];
@@ -108,50 +104,62 @@ const keyBad = mesh(keyShape(badLift), SM(0xb8bcc4, { metalness: 0.85, roughness
 const bow = mesh(new THREE.TorusGeometry(0.55, 0.16, 10, 24), SM(0xd4af37, { metalness: 0.85, roughness: 0.3 }), -5.6, -0.1, 0, KEY);
 function labelS(txt, col) { const c = document.createElement('canvas'); c.width = 512; c.height = 128; const g = c.getContext('2d'); g.font = 'bold 72px sans-serif'; g.fillStyle = col || '#ffd23f'; g.strokeStyle = '#111'; g.lineWidth = 10; g.textAlign = 'center'; g.strokeText(txt, 256, 90); g.fillText(txt, 256, 90); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, depthTest: false, transparent: true })); s.scale.set(2.6, 0.65, 1); s.renderOrder = 10; scene.add(s); s.visible = false; return s; }
 const LB = { pins: labelS('PINS'), key: labelS('KEY'), shear: labelS('SHEAR LINE'), locked: labelS('✕ STUCK', '#ff4a3a'), open: labelS('✓ OPEN', '#5aff7a'), springs: labelS('SPRINGS') };
+// ---------- limbs of the thief (clone) ----------
+const tLegs = legs.map(l => thief.children[guy.children.indexOf(l)]), tArms = arms.map(a => thief.children[guy.children.indexOf(a)]);
+function poseG(g, lg, ar, walk, t, speed = 9) { const s = walk ? Math.sin(t * speed) * 0.65 : 0; lg[0].rotation.x = s; lg[1].rotation.x = -s; ar[0].rotation.set(-s * 0.8, 0, 0); ar[1].rotation.set(s * 0.8, 0, 0); g.position.y = walk ? Math.abs(Math.sin(t * speed)) * 0.06 : Math.sin(t * 2.2) * 0.008; }
+function walkTo(g, lg, ar, a, b, t0, t1, lt, t) { const u = sstep(t0, t1, lt); g.position.x = a[0] + (b[0] - a[0]) * u; g.position.z = a[1] + (b[1] - a[1]) * u; const moving = lt > t0 && lt < t1; if (moving) g.rotation.y = Math.atan2(b[0] - a[0], b[1] - a[1]); poseG(g, lg, ar, moving, t, (b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2 > 20 ? 13 : 9); return moving; }
 // ---------- shots ----------
+const C0 = [[3.4, 2.0, 4.2], [2.8, 1.8, 3.4]], LK = [[0, 0.7, 0], [0, 0.7, 0]];
 const SHOTS = {
-  gold:   { cam: [[4.5, 2.4, 5.5], [3.6, 2.0, 4.2]], look: [[1.2, 0.6, 0.5], [1.2, 0.6, 0.5]], lid: 1, guy: [ -0.6, 0, 2.2, 2.4] },
-  steal:  { cam: [[4.5, 2.2, 5.0], [4.0, 2.0, 4.4]], look: [[1.2, 0.6, 0.5], [1.4, 0.6, 0.5]], steal: true },
-  rope:   { cam: [[4.0, 1.8, 3.8], [3.4, 1.6, 3.2]], look: [[1.2, 0.5, 0.5], [1.2, 0.5, 0.5]], rope: true, cut: true },
-  rock:   { cam: [[4.4, 2.2, 4.4], [3.8, 2.0, 3.8]], look: [[1.2, 0.8, 0.5], [1.2, 0.7, 0.5]], rock: true, push: true },
-  bolt:   { cam: [[2.8, 1.7, 0.6], [2.2, 1.6, -0.4]], look: [[0.3, 1.2, -2.4], [0.3, 1.2, -2.4]], bolt: true, guy: [1.8, 0, -1.4, Math.PI * 0.95] },
-  pins:   { lock: true, cam: [[0, 0.5, 212.5], [0, 0.4, 211.4]], look: [[0, 0.4, 200], [0, 0.3, 200]], key: 'none', wobble: true },
-  key:    { lock: true, cam: [[0, 0.4, 211.4], [0, 0.3, 210.8]], look: [[0, 0.3, 200], [-0.3, 0.3, 200]], key: 'good' },
-  bad:    { lock: true, cam: [[1.0, 0.9, 211.8], [0.5, 0.6, 211.0]], look: [[0, 0.4, 200], [0, 0.4, 200]], key: 'bad' },
-  done:   { cam: [[0.6, 1.7, 3.6], [0.2, 1.6, 2.6]], look: [[-0.2, 1.2, -2.4], [-0.2, 1.1, -2.4]], doorOpen: true, guy: [-0.1, 0, -1.6, Math.PI] },
-  fact:   { cam: [[3, 3, 9], [2, 3.4, 12]], look: [[0, 1.6, -3], [0, 1.8, -4]], thiefLeave: true, guy: [-0.1, 0, -1.6, Math.PI] },
-  end:    { cam: [[2, 3.4, 12], [2, 3.4, 12]], look: [[0, 1.8, -4], [0, 1.8, -4]], guy: [-0.1, 0, -1.6, Math.PI] },
+  gold:  { cam: [[3.8, 2.6, 4.8], [2.6, 2.0, 3.4]], look: [[-0.3, 0.8, 0.3], [-0.3, 0.8, 0.3]], lid: 'open', guy: [-1.2, 1.0, 0.7] },
+  steal: { cam: C0, look: LK, thief: 'steal' },
+  rope:  { cam: C0, look: LK, rope: true, thief: 'cut' },
+  rock:  { cam: [[3.6, 2.4, 4.0], [3.0, 2.2, 3.4]], look: [[0, 1.0, 0], [0, 0.9, 0]], rock: true, thief: 'push' },
+  latch: { cam: [[1.6, 1.3, 2.6], [1.1, 1.1, 2.0]], look: [[0, 0.62, 0.5], [0, 0.62, 0.5]], latchShot: true, thief: 'slide' },
+  pins:  { lock: true, cam: [[0, 0.8, 212.5], [0, 0.7, 211.4]], look: [[0, 0.6, 200], [0, 0.5, 200]], key: 'none' },
+  key:   { lock: true, cam: [[0, 0.7, 211.4], [0, 0.6, 210.8]], look: [[0, 0.5, 200], [-0.2, 0.5, 200]], key: 'good' },
+  bad:   { lock: true, cam: [[1.0, 1.1, 211.8], [0.5, 0.8, 211.0]], look: [[0, 0.5, 200], [0, 0.5, 200]], key: 'bad' },
+  done:  { cam: [[3.6, 2.2, 4.6], [3.0, 1.9, 3.8]], look: [[-0.2, 0.8, 0.3], [-0.2, 0.8, 0.3]], thief: 'fail', guy: [-1.3, 0.9, 0.9] },
+  fact:  { cam: [[2.8, 1.7, 3.4], [4.5, 3.2, 7.5]], look: [[0, 0.7, 0], [-1, 1.4, -2]], lid: 'open', guy: [-1.0, 1.0, 1.0], keyOpen: true },
+  end:   { cam: [[4.5, 3.2, 7.5], [4.5, 3.2, 7.5]], look: [[-1, 1.4, -2], [-1, 1.4, -2]], lid: 'open', guy: [-1.0, 1.0, 1.0] },
 };
 let TIMING = null; window.setTiming = (t) => { TIMING = t; };
-function placePins(lifts, keyIn) { PX.forEach((x, i) => { const l = lifts[i] * keyIn[i]; const kb = FLOOR + l; keyPins[i].position.set(x, kb + KP[i] / 2, 0); const dt = kb + KP[i]; drvPins[i].position.set(x, dt + DP / 2, 0); const top = 1.75; const sb = dt + DP; springs[i].position.set(x, sb, 0); springs[i].scale.set(1, Math.max(0.05, top - sb), 1); }); }
+function placePins(lifts, keyIn) { PX.forEach((x, i) => { const l = lifts[i] * keyIn[i]; const kb = FLOOR + l; keyPins[i].position.set(x, kb + KP[i] / 2, 0); const dt = kb + KP[i]; drvPins[i].position.set(x, dt + DP / 2, 0); const top = 1.9; const sb = dt + DP; springs[i].position.set(x, sb, 0); springs[i].scale.set(1, Math.max(0.05, top - sb), 1); }); }
 window.renderAt = (t) => {
   const segs = TIMING.segs; let i = 0; while (i < segs.length - 1 && t >= segs[i + 1].start) i++;
-  const sg = segs[i], sh = SHOTS[sg.shot], lt = t - sg.start, pr = Math.min(1, lt / sg.dur), e = ease(pr);
+  const sg = segs[i], sh = SHOTS[sg.shot], lt = t - sg.start, D = sg.dur, pr = Math.min(1, lt / D), e = ease(pr);
   Object.values(LB).forEach(l => l.visible = false);
-  const inLock = !!sh.lock; LOCK.visible = inLock; scene.background.set(inLock ? 0x101624 : 0x9cc8ec); scene.fog.color.set(inLock ? 0x101624 : 0xb8d6ee); scene.fog.near = inLock ? 14.5 : 30; scene.fog.far = inLock ? 18 : 90;
-  // chest state
-  lid.rotation.x = sh.lid ? -1.3 * Math.min(1, lt / 0.8) : 0;
-  ropes.forEach((r, k) => { r.visible = !!sh.rope && !(sh.cut && lt > 2.2); });
-  boulder.visible = !!sh.rock; if (sh.rock) { const p = sh.push ? sstep(1.6, 2.8, lt) : 0; boulder.position.set(p * 1.6, 1.6 - p * 1.2 * p, 0); boulder.rotation.z = -p * 3; }
-  gold.forEach((g, k) => g.visible = !(sh.steal && lt > 0.9 + k * 0.05));
-  thief.visible = !!(sh.steal || sh.cut || sh.push || sh.thiefLeave); knife.visible = !!sh.cut; thief.rotation.set(0, 0, 0);
-  if (sh.steal) { const a = sstep(0, 0.6, lt), b = sstep(1.4, 2.1, lt); lid.rotation.x = -1.3 * sstep(0.6, 0.9, lt); thief.position.set(4 - a * 1.6 + b * 4, 0, 1.6 - a * 0.4); thief.rotation.y = b > 0 ? Math.PI / 2 : -Math.PI / 2 - 0.4; }
-  if (sh.cut) { const a = sstep(0, 1.0, lt), b = sstep(2.4, 2.9, lt); thief.position.set(-2.4 + a * 2.0 - b * 3, 0, 0.6); thief.rotation.y = b > 0 ? -Math.PI / 2 : Math.PI / 2; knife.rotation.y = Math.sin(lt * 14) * 0.5 * (lt > 1.0 && lt < 2.2); }
-  if (sh.push) { const a = sstep(0, 1.4, lt); thief.position.set(-1.8 + a * 1.6, 0, 0.6); thief.rotation.y = Math.PI / 2; }
-  if (sh.thiefLeave) { thief.position.set(1.5 + pr * 6, 0, 3); thief.rotation.y = Math.PI / 2; }
-  // house bolt + door
-  bolt.position.x = sh.bolt ? 0.2 + 0.5 * sstep(0.6, 1.6, lt) : 0.7; door.rotation.y = sh.doorOpen ? -1.2 * sstep(2.0, 3.2, lt) : 0;
-  CHEST.visible = !inLock && !sh.bolt;
-  // lock cutaway
-  if (inLock) { let keyX = -9, lifts = goodLift, rot = 0; keyGood.visible = sh.key === 'good'; keyBad.visible = sh.key === 'bad'; bow.visible = sh.key !== 'none';
-    if (sh.key === 'none') { placePins(goodLift, [0, 0, 0, 0, 0]); rot = sh.wobble && lt > 2.5 ? Math.sin(lt * 30) * 0.03 : 0; LB.pins.visible = lt > 0.6; LB.pins.position.set(-1.2, 2.3, 200); LB.springs.visible = lt > 1.6; LB.springs.position.set(1.2, 2.3, 200); if (lt > 2.5) { LB.locked.visible = true; LB.locked.position.set(0, -1.3, 200); } }
-    else { lifts = sh.key === 'good' ? goodLift : badLift; keyX = -9 + 9 * sstep(0.3, 2.4, lt); const kin = PX.map(x => sstep(0, 0.45, keyX + 2.2 - (x + 0.25)) ); placePins(lifts, kin);
-      if (sh.key === 'good') { rot = -Math.PI / 2 * sstep(4.2, 5.4, lt); if (lt > 2.6) { LB.shear.visible = true; LB.shear.position.set(0.6, 2.3, 200); } LB.key.visible = lt > 0.6 && lt < 2.6; LB.key.position.set(-1.0, -1.3, 200); if (lt > 5.4) { LB.open.visible = true; LB.open.position.set(0, -1.4, 200); } }
-      else { rot = lt > 2.6 ? Math.sin(lt * 30) * 0.03 : 0; if (lt > 2.6) { LB.locked.visible = true; LB.locked.position.set(0, -1.3, 200); } } }
-    KEY.position.set(keyX, 0, 0); PLUG.rotation.x = rot; }
-  // character
-  guy.visible = !inLock && !!sh.guy; if (sh.guy) { guy.position.set(sh.guy[0], sh.guy[1], sh.guy[2]); guy.rotation.y = sh.guy[3]; pose(false, t); arms[0].rotation.set(0, 0, 0); arms[1].rotation.set(0, 0, 0); if (sh.bolt && lt < 1.8) arms[1].rotation.x = -1.4; if (sh.doorOpen && lt > 0.6 && lt < 2.4) arms[1].rotation.x = -1.2; }
-  if (sh.bolt) { guy.position.set(-0.1, 0, -1.4); guy.rotation.y = Math.PI; }
+  const inLock = !!sh.lock; LOCK.visible = inLock;
+  scene.background.set(inLock ? 0x101624 : 0x9cc8ec); scene.fog.color.set(inLock ? 0x101624 : 0xb8d6ee); scene.fog.near = inLock ? 14.5 : 30; scene.fog.far = inLock ? 18 : 90;
+  // defaults
+  lid.rotation.x = sh.lid === 'open' ? -1.25 : 0; latch.position.x = 0; ropes.forEach(r => { r.visible = !!sh.rope; r.position.y = 0.6; r.material.opacity = 1; });
+  boulder.visible = !!sh.rock; boulder.position.set(0, 1.75, 0); boulder.rotation.set(0, 0, 0);
+  gold.forEach(g => { g.visible = true; g.position.copy(g.userData.p); });
+  thief.visible = !!sh.thief; knife.visible = false; tArms.forEach(a => a.rotation.set(0, 0, 0));
+  // thief behaviours (all with walking animation and eased motion)
+  if (sh.thief === 'steal') { walkTo(thief, tLegs, tArms, [4.5, 1.6], [0.9, 1.1], 0, 0.9, lt, t); if (lt > 0.9 && lt < 1.6) thief.rotation.y = -2.4;
+    lid.rotation.x = -1.25 * sstep(0.9, 1.2, lt); if (lt > 1.1 && lt < 1.7) { tArms[1].rotation.x = -1.6; } gold.forEach((g, k) => { const u = sstep(1.2 + k * 0.03, 1.5 + k * 0.03, lt); if (u > 0) { g.position.lerpVectors(g.userData.p, new THREE.Vector3(0.9, 1.0, 1.1), u); g.visible = u < 0.98; } });
+    if (lt >= 1.6) walkTo(thief, tLegs, tArms, [0.9, 1.1], [6, -3], 1.6, D, lt, t); }
+  if (sh.thief === 'cut') { walkTo(thief, tLegs, tArms, [-4, 1.6], [-0.9, 1.0], 0, 0.9, lt, t); knife.visible = lt > 0.8;
+    if (lt > 0.9 && lt < 2.0) { thief.rotation.y = 2.2; tArms[1].rotation.x = -1.3 + Math.sin(lt * 18) * 0.25; }
+    const drop = sstep(1.9, 2.3, lt); ropes.forEach(r => { r.position.y = 0.6 - drop * 0.55; r.visible = drop < 0.99; });
+    lid.rotation.x = -1.25 * sstep(2.1, 2.4, lt); if (lt > 2.3) { thief.rotation.y = 2.2; tArms[0].rotation.z = 2.4; tArms[1].rotation.z = -2.4; } }
+  if (sh.thief === 'push') { walkTo(thief, tLegs, tArms, [-4.5, 0.4], [-1.25, 0.1], 0, 1.2, lt, t); if (lt > 1.2) { thief.rotation.y = Math.PI / 2; tArms.forEach(a => a.rotation.x = -1.5); }
+    const p = sstep(1.5, 2.6, lt); boulder.position.set(p * 1.9, 1.75 - Math.max(0, p - 0.45) * 2.6, 0); boulder.position.y = Math.max(0.65, boulder.position.y); boulder.rotation.z = -p * 4; }
+  if (sh.latchShot) { latch.position.x = -0.0; const close = sstep(0.2, 1.0, lt); latch.position.x = 0.8 - close * 0.8; walkTo(thief, tLegs, tArms, [-3.5, 1.4], [-0.55, 1.0], 1.2, 2.4, lt, t); thief.visible = lt > 1.2; if (lt > 2.4) { thief.rotation.y = 2.6; tArms[1].rotation.x = -1.4; latch.position.x = sstep(2.5, 3.2, lt) * 0.8; lid.rotation.x = -1.25 * sstep(3.3, 3.7, lt); } }
+  if (sh.thief === 'fail') { walkTo(thief, tLegs, tArms, [4.5, 1.6], [0.9, 1.1], 0, 1.0, lt, t); if (lt > 1.0 && lt < 2.4) { thief.rotation.y = -2.4; tArms[1].rotation.x = -1.4; latch.position.x = Math.sin(lt * 25) * 0.02; LB.locked.visible = true; LB.locked.position.set(0.3, 1.9, 0.6); LB.locked.scale.set(1.6, 0.4, 1); }
+    if (lt > 2.4) { walkTo(thief, tLegs, tArms, [0.9, 1.1], [6, -3], 2.4, D, lt, t); } }
+  if (sh.keyOpen) { latch.position.x = 0.8; }
+  // lock cutaway: sliding bolt with pins
+  if (inLock) { LB.locked.scale.set(2.6, 0.65, 1); let keyX = -9, slide = 0; keyGood.visible = sh.key === 'good'; keyBad.visible = sh.key === 'bad'; bow.visible = sh.key !== 'none';
+    if (sh.key === 'none') { placePins(goodLift, [0, 0, 0, 0, 0]); const tryS = sstep(2.6, 2.9, lt) - sstep(2.9, 3.2, lt); slide = tryS * 0.06; LB.pins.visible = lt > 0.6; LB.pins.position.set(-1.2, 2.5, 200); LB.springs.visible = lt > 1.4; LB.springs.position.set(1.2, 2.5, 200); if (lt > 3.0) { LB.locked.visible = true; LB.locked.position.set(0, -1.2, 200); } }
+    else { const lifts = sh.key === 'good' ? goodLift : badLift; keyX = -9 + 9 * sstep(0.3, 2.6, lt); const kin = PX.map(x => sstep(0, 0.5, keyX + 2.2 - (x + 0.25))); placePins(lifts, kin);
+      if (sh.key === 'good') { slide = 1.0 * sstep(4.2, 5.6, lt); LB.key.visible = lt > 0.5 && lt < 2.8; LB.key.position.set(-1.0, -1.2, 200); if (lt > 2.8) { LB.shear.visible = true; LB.shear.position.set(0.6, 2.5, 200); } if (lt > 5.6) { LB.open.visible = true; LB.open.position.set(0, -1.3, 200); } }
+      else { const tryS = sstep(2.8, 3.0, lt) - sstep(3.0, 3.2, lt); slide = tryS * 0.06; if (lt > 3.0) { LB.locked.visible = true; LB.locked.position.set(0, -1.2, 200); } } }
+    KEY.position.set(keyX, 0, 0); PLUG.position.x = slide; PLUG.rotation.x = 0; }
+  // you
+  guy.visible = !inLock && !!sh.guy; if (sh.guy) { guy.position.set(sh.guy[0], 0, sh.guy[1]); guy.rotation.y = sh.guy[2]; pose(false, t); guy.position.y = Math.sin(t * 2.2) * 0.008; arms[0].rotation.set(0, 0, 0); arms[1].rotation.set(0, 0, 0); head.rotation.y = Math.sin(t * 0.8) * 0.15;
+    if (sh.keyOpen && lt < 2.2) arms[1].rotation.x = -1.3; if (sh.thief === 'fail' && lt > 1.2 && lt < 2.6) { arms[0].rotation.x = -0.4; } }
   cam.position.lerpVectors(V(sh.cam[0]), V(sh.cam[1]), e); cam.position.x += Math.sin(t * 0.7) * 0.03; cam.position.y += Math.sin(t * 0.9) * 0.02;
   cam.lookAt(new THREE.Vector3().lerpVectors(V(sh.look[0]), V(sh.look[1]), e));
   R.render(scene, cam); return sg.shot;
