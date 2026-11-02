@@ -1,0 +1,19 @@
+{
+ "voice": "am_onyx",
+ "speed": 0.95,
+ "scenes": [
+  {
+   "shot": "p2a",
+   "text": "Planet two. The perfect weather planet. Sunny, every single day."
+  },
+  {
+   "shot": "p2b",
+   "text": "A little town by a lake. Every house is open, and everything is free."
+  },
+  {
+   "shot": "p2c",
+   "text": "The catch? You are the only person on the planet. But every night, one more house turns its lights on.",
+   "pause": 0.9
+  }
+ ]
+}

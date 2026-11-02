@@ -1,0 +1,19 @@
+{
+ "voice": "am_onyx",
+ "speed": 0.95,
+ "scenes": [
+  {
+   "shot": "p3a",
+   "text": "Planet three. It is always three A.M. Warm lights, a soft bed, and the best sleep of your life."
+  },
+  {
+   "shot": "p3b",
+   "text": "The catch? Every window on the planet shows the same street. And someone is always standing under the light."
+  },
+  {
+   "shot": "p3c",
+   "text": "A little closer than last night.",
+   "pause": 0.9
+  }
+ ]
+}

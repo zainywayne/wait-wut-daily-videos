@@ -1,0 +1,35 @@
+{
+ "voice": "am_onyx",
+ "speed": 0.95,
+ "scenes": [
+  {
+   "shot": "intro",
+   "text": "Three planets. You can only live on one. Choose carefully."
+  },
+  {
+   "shot": "p1",
+   "text": "Planet one. The parking garage planet."
+  },
+  {
+   "shot": "land",
+   "text": "Free parking, forever. Every car on this planet has the keys inside."
+  },
+  {
+   "shot": "ramp",
+   "text": "The catch? The ramps only go down."
+  },
+  {
+   "shot": "older",
+   "text": "And the deeper you go, the older the cars get."
+  },
+  {
+   "shot": "hundred",
+   "text": "On level one hundred, there is one empty space."
+  },
+  {
+   "shot": "name",
+   "text": "It is reserved. For you.",
+   "pause": 0.9
+  }
+ ]
+}

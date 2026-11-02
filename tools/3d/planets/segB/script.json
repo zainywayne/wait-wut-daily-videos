@@ -1,0 +1,10 @@
+{
+ "voice": "am_onyx",
+ "speed": 0.95,
+ "scenes": [
+  {
+   "shot": "outro",
+   "text": "So. One, two, or three? Choose carefully."
+  }
+ ]
+}
