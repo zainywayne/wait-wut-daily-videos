@@ -6,7 +6,7 @@ html,body{margin:0;background:#000;overflow:hidden}
 #end{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;font:700 46px P;color:#fff;text-align:center;background:rgba(5,10,25,.55)}
 #end b{color:#ffd23f;font-size:40px;margin-top:14px}
 </style></head><body><canvas id=c width=720 height=1280 style="width:720px;height:1280px"></canvas><div id=cap></div><div id=end>WAIT WUT DAILY<b>WHAT SHOULD WE BUILD NEXT?</b></div>
-<script src="node_modules/three/build/three.min.js"></script><script src="world.js"></script>
+<script src="node_modules/three/build/three.min.js"></script><script src="rbox.js"></script><script src="world.js"></script><script src="polish.js"></script>
 <script>
 window.frame=(t)=>{const shot=renderAt(t);const segs=TIMING.segs;let i=0;while(i<segs.length-1&&t>=segs[i+1].start)i++;
  const ws=segs[i].words;let k=-1;for(let j=0;j<ws.length;j++)if(t>=ws[j][1])k=j;

@@ -1,46 +1,56 @@
 {
  "voice": "am_michael",
- "speed": 1.1,
+ "speed": 1.22,
  "scenes": [
   {
    "shot": "gold",
-   "text": "You keep all your gold in a wooden chest."
+   "text": "You've got a chest full of gold. And someone wants it.",
+   "pause": 0.08
   },
   {
    "shot": "steal",
-   "text": "Problem. Someone keeps walking up and stealing it."
+   "text": "Every night, they walk right up and take it.",
+   "pause": 0.08
   },
   {
    "shot": "rope",
-   "text": "So you tie the chest shut with rope. They just cut it."
+   "text": "So you tie it shut. They cut the rope.",
+   "pause": 0.08
   },
   {
    "shot": "rock",
-   "text": "So you put a giant rock on the lid. They just push it off."
+   "text": "So you drop a massive rock on top. They shove it off.",
+   "pause": 0.08
   },
   {
    "shot": "latch",
-   "text": "So you add a wooden bolt that slides through a latch. But anyone can just slide it back."
+   "text": "Fine. A wooden bolt through a latch. They just slide it open.",
+   "pause": 0.08
   },
   {
    "shot": "pins",
-   "text": "You need a bolt only you can open. So you drop little pins into it, pushed down by springs. Now it is stuck."
+   "text": "So you get smart. You drop pins into the bolt, pushed down by springs. Now nobody can slide it.",
+   "pause": 0.08
   },
   {
    "shot": "key",
-   "text": "Then you carve a key with bumps that lift every pin to exactly the right height. The gaps line up, and the bolt slides free."
+   "text": "Not even you. So you carve a key. Its bumps lift every pin to the perfect height, and the bolt slides free.",
+   "pause": 0.08
   },
   {
    "shot": "bad",
-   "text": "Wrong key? The pins stop at the wrong heights. Stuck."
+   "text": "Wrong key? Wrong heights. Stuck.",
+   "pause": 0.08
   },
   {
    "shot": "done",
-   "text": "Now the thief can pull all day. Congratulations. You invented the lock and key."
+   "text": "The thief is done. And you just invented the lock and key.",
+   "pause": 0.08
   },
   {
    "shot": "fact",
-   "text": "This exact pin idea was used in ancient Egypt, about four thousand years ago. And it is still inside almost every front door today."
+   "text": "Egyptians used this same trick four thousand years ago. It's probably in your front door right now.",
+   "pause": 0.08
   }
  ]
 }

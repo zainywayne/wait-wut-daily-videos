@@ -123,14 +123,15 @@ const SHOTS = {
   fact:  { cam: [[2.8, 1.7, 3.4], [4.5, 3.2, 7.5]], look: [[0, 0.7, 0], [-1, 1.4, -2]], lid: 'open', guy: [-1.0, 1.0, 1.0], keyOpen: true },
   end:   { cam: [[4.5, 3.2, 7.5], [4.5, 3.2, 7.5]], look: [[-1, 1.4, -2], [-1, 1.4, -2]], lid: 'open', guy: [-1.0, 1.0, 1.0] },
 };
+const ORIGD = {gold:2.53,steal:2.89,rope:3.29,rock:3.46,latch:5.26,pins:7.01,key:7.79,bad:3.31,done:5.47,fact:9.12};
 let TIMING = null; window.setTiming = (t) => { TIMING = t; };
 function placePins(lifts, keyIn) { PX.forEach((x, i) => { const l = lifts[i] * keyIn[i]; const kb = FLOOR + l; keyPins[i].position.set(x, kb + KP[i] / 2, 0); const dt = kb + KP[i]; drvPins[i].position.set(x, dt + DP / 2, 0); const top = 1.9; const sb = dt + DP; springs[i].position.set(x, sb, 0); springs[i].scale.set(1, Math.max(0.05, top - sb), 1); }); }
 window.renderAt = (t) => {
   const segs = TIMING.segs; let i = 0; while (i < segs.length - 1 && t >= segs[i + 1].start) i++;
-  const sg = segs[i], sh = SHOTS[sg.shot], lt = t - sg.start, D = sg.dur, pr = Math.min(1, lt / D), e = ease(pr);
+  const sg = segs[i], sh = SHOTS[sg.shot], D0 = sg.dur, D = ORIGD[sg.shot] || D0, lt = (t - sg.start) * (D / D0), pr = Math.min(1, lt / D), e = ease(pr);
   Object.values(LB).forEach(l => l.visible = false);
   const inLock = !!sh.lock; LOCK.visible = inLock;
-  scene.background.set(inLock ? 0x101624 : 0x9cc8ec); scene.fog.color.set(inLock ? 0x101624 : 0xb8d6ee); scene.fog.near = inLock ? 14.5 : 30; scene.fog.far = inLock ? 18 : 90;
+  scene.background = inLock ? new THREE.Color(0x101624) : (window.SKYTEX || new THREE.Color(0x9cc8ec)); scene.fog.color.set(inLock ? 0x101624 : 0xb8d6ee); scene.fog.near = inLock ? 14.5 : 30; scene.fog.far = inLock ? 18 : 90;
   // defaults
   lid.rotation.x = sh.lid === 'open' ? -1.25 : 0; latch.position.x = 0; ropes.forEach(r => { r.visible = !!sh.rope; r.position.y = 0.6; r.material.opacity = 1; });
   boulder.visible = !!sh.rock; boulder.position.set(0, 1.75, 0); boulder.rotation.set(0, 0, 0);
