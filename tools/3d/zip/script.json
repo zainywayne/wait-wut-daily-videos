@@ -1,0 +1,56 @@
+{
+ "voice": "am_michael",
+ "speed": 1.22,
+ "scenes": [
+  {
+   "shot": "tent",
+   "text": "You're camping, and your tent door is just two flaps of fabric.",
+   "pause": 0.08
+  },
+  {
+   "shot": "wind",
+   "text": "Wind blows them wide open. Bugs pour in.",
+   "pause": 0.08
+  },
+  {
+   "shot": "rock",
+   "text": "So you put a rock on it. The wind flips it off.",
+   "pause": 0.08
+  },
+  {
+   "shot": "string",
+   "text": "So you tie it shut with string. Ten knots. Every single time.",
+   "pause": 0.08
+  },
+  {
+   "shot": "buttons",
+   "text": "So you sew on buttons. But bugs crawl right through the gaps.",
+   "pause": 0.08
+  },
+  {
+   "shot": "teeth",
+   "text": "So you get smart. Two rows of tiny teeth. Each one has a bump on top, and a hole underneath.",
+   "pause": 0.08
+  },
+  {
+   "shot": "slider",
+   "text": "Then a slider squeezes them together, so every bump snaps into the next hole. One pull. Sealed.",
+   "pause": 0.08
+  },
+  {
+   "shot": "open",
+   "text": "Pull it back down, and a wedge pops them apart.",
+   "pause": 0.08
+  },
+  {
+   "shot": "done",
+   "text": "Wind. Bugs. Nothing gets in. You just invented the zipper.",
+   "pause": 0.08
+  },
+  {
+   "shot": "fact",
+   "text": "An early version in eighteen ninety-three kept popping open. It took twenty years to fix. And you're probably wearing one right now.",
+   "pause": 0.08
+  }
+ ]
+}
