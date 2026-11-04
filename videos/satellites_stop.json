@@ -1,0 +1,142 @@
+{
+ "title": "Tonight, every satellite goes dark",
+ "voice": "am_michael",
+ "scenes": [
+  {
+   "text": "Tonight, every satellite goes dark.",
+   "flash": "DARK",
+   "shots": [
+    {
+     "clip": "fleet",
+     "ss": 101
+    }
+   ]
+  },
+  {
+   "text": "GPS dies first. Your phone loses its place.",
+   "shots": [
+    {
+     "clip": "ldcm",
+     "ss": 10
+    },
+    {
+     "clip": "fleet",
+     "ss": 16
+    }
+   ]
+  },
+  {
+   "text": "Pilots and ships lose a key guide.",
+   "shots": [
+    {
+     "clip": "idalia",
+     "ss": 100
+    }
+   ]
+  },
+  {
+   "text": "Weather forecasts go blind.",
+   "flash": "BLIND",
+   "shots": [
+    {
+     "clip": "fleet",
+     "ss": 72
+    },
+    {
+     "clip": "hurricanes",
+     "ss": 92
+    }
+   ]
+  },
+  {
+   "text": "A hurricane could sneak up on a coast.",
+   "shots": [
+    {
+     "clip": "fleet",
+     "ss": 28
+    },
+    {
+     "clip": "hurricanes",
+     "ss": 132
+    }
+   ]
+  },
+  {
+   "text": "Cell networks and banks lose their precise clocks.",
+   "shots": [
+    {
+     "clip": "nightlights",
+     "ss": 40
+    },
+    {
+     "clip": "nightlights",
+     "ss": 48
+    }
+   ]
+  },
+  {
+   "text": "Within hours, parts of daily life could stall.",
+   "flash": "HOURS",
+   "shots": [
+    {
+     "clip": "nightlights",
+     "ss": 28
+    },
+    {
+     "clip": "blackmarble",
+     "ss": 36
+    }
+   ]
+  },
+  {
+   "text": "Some systems have backups, but not all.",
+   "shots": [
+    {
+     "clip": "landsat",
+     "ss": 50
+    },
+    {
+     "clip": "fleet",
+     "ss": 44
+    }
+   ]
+  },
+  {
+   "text": "The twist? The sky above you is already full of them.",
+   "flash": "TWIST",
+   "shots": [
+    {
+     "clip": "hst",
+     "ss": 5
+    },
+    {
+     "clip": "fleet",
+     "ss": 88
+    }
+   ]
+  },
+  {
+   "text": "And everything changes the moment",
+   "shots": [
+    {
+     "clip": "airglow",
+     "ss": 150
+    },
+    {
+     "clip": "nightlights",
+     "ss": 67
+    }
+   ]
+  }
+ ],
+ "yt_title": "Tonight, every satellite goes dark #shorts",
+ "yt_description": "What if every satellite stopped working at once? GPS, weather forecasts and clocks we rely on would all be affected.\n\nFootage: NASA\n\n#shorts #space #whatif #satellites #earth",
+ "yt_tags": [
+  "shorts",
+  "space",
+  "what if",
+  "satellites",
+  "earth"
+ ],
+ "categoryId": "28"
+}
