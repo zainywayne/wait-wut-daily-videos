@@ -76,12 +76,12 @@ window.renderAt = (t) => {
   const covers = []; let wind = 0;
   if (sh.hold === 'none') { arms[0].rotation.x = -0.4 + Math.sin(t * 9) * 0.3; arms[1].rotation.x = -2.6; arms[1].rotation.z = 0.5; head.rotation.x = 0.25; } // shielding head with arm
   if (sh.hold === 'leaf') { arms[1].rotation.x = -2.95; const lp = new THREE.Vector3(); leaf.getWorldPosition(lp); covers.push({ x: lp.x, z: lp.z, y: lp.y, r: 0.2 }); head.rotation.x = 0.15; }
-  if (sh.hold === 'board') { const sk = Math.sin(t * 31) * 0.05; arms[0].rotation.x = -3.0 + sk; arms[1].rotation.x = -3.0 - sk; BOARD.position.set(gx + sk * 0.3, 2.18 + Math.sin(t * 27) * 0.02, gz); BOARD.rotation.z = Math.sin(t * 6) * 0.06; covers.push({ x: gx, z: gz, y: 2.2, r: 0.8 }); head.rotation.x = 0.2; }
+  if (sh.hold === 'board') { const sk = Math.sin(t * 7) * 0.04; arms[0].rotation.x = -3.0 + sk; arms[1].rotation.x = -3.0 - sk; BOARD.position.set(gx + sk * 0.3, 2.18 + Math.sin(t * 5) * 0.025, gz); BOARD.rotation.z = Math.sin(t * 3) * 0.05; covers.push({ x: gx, z: gz, y: 2.2, r: 0.8 }); head.rotation.x = 0.2; }
   let a = 1.25;
   if (sh.hold === 'fold') a = 1.25 - 1.13 * sstep(0.08, 0.45, u);
-  if (sh.hold === 'wind') { const fl = sstep(0.08, 0.25, u), back = sstep(0.55, 0.72, u); a = 1.25 + (2.35 - 1.25) * fl * (1 - back) + Math.sin(Math.max(0, u - 0.72) * 40) * 0.25 * Math.exp(-Math.max(0, u - 0.72) * 12) * back; wind = fl * (1 - back);
+  if (sh.hold === 'wind') { const fl = sstep(0.08, 0.25, u), back = sstep(0.55, 0.72, u); a = 1.25 + (2.35 - 1.25) * fl * (1 - back) + Math.sin(Math.max(0, u - 0.72) * 22) * 0.18 * Math.exp(-Math.max(0, u - 0.72) * 7) * back; wind = fl * (1 - back);
     UMB.rotation.z = -0.25 * wind; if (u > 0.12 && u < 0.6) { ULB.wind.visible = true; } if (u > 0.68) ULB.snap.visible = true; }
-  if (UMB.visible) { setUmb(a); arms[1].rotation.x = -1.3 + Math.sin(t * 1.7) * 0.03; arms[1].add(UMB); UMB.position.set(0, -0.64, 0.02); UMB.rotation.x = 1.3; if (sh.hold !== 'wind') UMB.rotation.z = 0;
+  if (UMB.visible) { if (window._a === undefined || sg.shot !== window._shot && sh.hold !== 'open') window._a = a; window._a += (a - window._a) * 0.18; setUmb(window._a); arms[1].rotation.x = -1.3 + Math.sin(t * 1.7) * 0.03; arms[1].add(UMB); UMB.position.set(0, -0.64, 0.02); UMB.rotation.x = 1.3; if (sh.hold !== 'wind') UMB.rotation.z = 0;
     const tp = new THREE.Vector3(); TOP.getWorldPosition(tp); if (a < 1.5) covers.push({ x: tp.x, z: tp.z, y: tp.y - L * Math.cos(a), r: umbR * 0.95 }); }
   ['wind', 'snap'].forEach(k => { const l = ULB[k]; if (l.visible) { const tp = new THREE.Vector3(); TOP.getWorldPosition(tp); l.position.set(tp.x, tp.y + 0.55, tp.z); l.scale.set(1.0, 0.25, 1); } });
   if (sh.lab && u > sh.lab[1]) { const l = ULB[sh.lab[0]]; l.visible = true; const o = sh.lab[2]; l.position.set(gx + o[0], o[1], gz + o[2]); l.scale.set(1.2, 0.3, 1); }
@@ -94,5 +94,10 @@ window.renderAt = (t) => {
   // camera follows guy
   const c0 = V(sh.cam[0]), c1 = V(sh.cam[1]); cam.position.lerpVectors(c0, c1, e).add(F); cam.position.x += Math.sin(t * 0.7) * 0.03; cam.position.y += Math.sin(t * 0.9) * 0.02;
   cam.lookAt(V(sh.look).add(F));
+  // smoothing: joints ease toward their targets, camera eases within a shot
+  const cut = window._shot !== sg.shot; window._shot = sg.shot; const J = window._J || (window._J = new Map());
+  [[legs[0], 0.45], [legs[1], 0.45], [arms[0], 0.2], [arms[1], 0.2], [head, 0.15]].forEach(([o, k]) => { const p = J.get(o); const tg = [o.rotation.x, o.rotation.y, o.rotation.z]; if (!p) { J.set(o, tg); return; } for (let q = 0; q < 3; q++) p[q] += (tg[q] - p[q]) * k; o.rotation.set(p[0], p[1], p[2]); });
+  const look = V(sh.look).add(F); const CS = window._CS; if (cut || !CS) { window._CS = { p: cam.position.clone(), l: look.clone() }; } else { CS.p.lerp(cam.position, 0.15); CS.l.lerp(look, 0.15); cam.position.copy(CS.p); }
+  cam.lookAt(window._CS.l);
   R.render(scene, cam); return sg.shot;
 };

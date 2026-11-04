@@ -1,46 +1,46 @@
 {
  "voice": "am_michael",
- "speed": 1.22,
+ "speed": 1.0,
  "scenes": [
   {
    "shot": "soaked",
    "text": "It's pouring, and you're getting soaked.",
-   "pause": 0.08
+   "pause": 0.3
   },
   {
    "shot": "leaf",
    "text": "So you hold a leaf over your head. Way too small.",
-   "pause": 0.08
+   "pause": 0.3
   },
   {
    "shot": "board",
    "text": "So you carry a giant board. Dry, but it weighs a ton.",
-   "pause": 0.08
+   "pause": 0.3
   },
   {
    "shot": "cloth",
    "text": "So you stretch thin cloth over light sticks. Dry, and light.",
-   "pause": 0.08
+   "pause": 0.3
   },
   {
    "shot": "door",
    "text": "But now it won't fit through the door.",
-   "pause": 0.08
+   "pause": 0.3
   },
   {
    "shot": "fold",
    "text": "So you hinge every stick to a ring that slides. Pull it down, it folds flat.",
-   "pause": 0.08
+   "pause": 0.3
   },
   {
    "shot": "wind",
    "text": "Wind flips it inside out? Bendy sticks snap it right back.",
-   "pause": 0.08
+   "pause": 0.3
   },
   {
    "shot": "done",
    "text": "Congratulations. You just invented the umbrella.",
-   "pause": 0.08
+   "pause": 0.3
   }
  ]
 }
