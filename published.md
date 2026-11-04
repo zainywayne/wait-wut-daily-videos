@@ -6,3 +6,4 @@
 2026-10-30 | SHORT | Tonight, a solar storm hits Earth #shorts | RnOyaQwxVoY
 2026-10-31 | SHORT | Tonight, the Sun becomes a black hole #shorts | cZjQNO4B2E4
 2026-11-02 | SHORT | Tonight, the air vanishes #shorts | LeLX2rKkeRg
+2026-11-04 | SHORT | Tonight, a killer asteroid is found #shorts | 0VgDy8flV9E
