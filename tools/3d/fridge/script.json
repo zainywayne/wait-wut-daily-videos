@@ -1,0 +1,66 @@
+{
+ "voice": "am_michael",
+ "speed": 1.0,
+ "scenes": [
+  {
+   "shot": "rot",
+   "text": "Your food keeps rotting.",
+   "pause": 0.7
+  },
+  {
+   "shot": "snow1",
+   "text": "So you bury it in the snow.",
+   "pause": 0.5
+  },
+  {
+   "shot": "snow2",
+   "text": "But then, summer comes.",
+   "pause": 0.9
+  },
+  {
+   "shot": "ice",
+   "text": "So you keep a block of ice in a box.",
+   "pause": 0.4
+  },
+  {
+   "shot": "ice2",
+   "text": "But it melts. Every. Single. Day.",
+   "pause": 0.8
+  },
+  {
+   "shot": "metal",
+   "text": "So you build the box out of metal.",
+   "pause": 0.5
+  },
+  {
+   "shot": "pipes",
+   "text": "Then you run a special liquid through pipes inside it.",
+   "pause": 0.4
+  },
+  {
+   "shot": "absorb",
+   "text": "The liquid soaks up the heat from your food, and carries it away.",
+   "pause": 0.6
+  },
+  {
+   "shot": "pump",
+   "text": "A pump pushes all that heat out the back.",
+   "pause": 0.5
+  },
+  {
+   "shot": "loop",
+   "text": "Then the liquid comes back cold. Again, and again.",
+   "pause": 0.7
+  },
+  {
+   "shot": "done",
+   "text": "Congratulations. You just invented the fridge.",
+   "pause": 0.6
+  },
+  {
+   "shot": "tail",
+   "text": "And yours is doing this right now.",
+   "pause": 0.8
+  }
+ ]
+}
