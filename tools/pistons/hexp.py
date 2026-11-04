@@ -3,88 +3,79 @@ import numpy as np, cv2, json, subprocess, sys, math
 W, H, FPS, SUB = 1080, 1920, 30, 3
 DT = 1 / (FPS * SUB)
 CX, CY, AP = 540, 1060, 432          # hexagon centre and apothem (centre to edge)
-TOTAL, GOAL_T, GOLD_T, END = 20.5, 15.8, 16.0, 20.5
+TOTAL, GOAL_T, GOLD_T, END = 18.0, 15.8, 16.0, 18.0
 R = 7.5
 NORM = [(math.cos(a), math.sin(a)) for a in [math.pi / 2 + k * math.pi / 3 for k in range(6)]]  # outward edge normals, k=0 bottom
-HW, TH, SMAX = 115, 28, AP - 90     # piston head half-width, thickness, max stroke
+HW, TH, SMAX = 165, 28, AP - 90     # piston head half-width, thickness, max stroke
 PAL = np.array([(255, 70, 70), (255, 160, 40), (255, 230, 60), (90, 230, 90), (40, 210, 230), (70, 120, 255), (170, 80, 255), (255, 80, 200), (240, 240, 240)], np.float32)
 rng = np.random.default_rng(7)
 MAXN = 10000
 pos = np.zeros((MAXN, 2), np.float32); vel = np.zeros((MAXN, 2), np.float32); col = np.zeros(MAXN, np.int32); cool = np.zeros(MAXN, np.float32)
-n = 1; pos[0] = (CX + 30, CY - 20); vel[0] = (260, 180); col[0] = 5
-TK = [(0, 1), (1.2, 2), (2.5, 7), (4, 30), (5.5, 120), (7, 380), (8.5, 800), (10, 1600), (11.5, 2900), (13, 4800), (14.5, 7200), (15.8, 10000)]
-def target(t):
-    for (t0, a0), (t1, a1) in zip(TK, TK[1:]):
-        if t <= t1: u = (t - t0) / (t1 - t0); return math.exp(math.log(a0) + (math.log(a1) - math.log(a0)) * max(0, u))
-    return MAXN
-def stroke(t):  # which piston is firing and its face distance from the wall
-    out = [0.0] * 6; vel_ = [0.0] * 6
-    # stroke period shrinks over time
-    T = 0.62 - 0.36 * min(1, t / 13)
-    if t < 0.4: return out, vel_
-    tt = t - 0.4; k = int(tt / T); ph = (tt - k * T) / T; i = k % 6
-    if ph < 0.38: s = (ph / 0.38) ** 2; v = 2 * (ph / 0.38) / (0.38 * T)
-    else: q = (ph - 0.38) / 0.62; s = 1 - q * q * (3 - 2 * q); v = -6 * q * (1 - q) / (0.62 * T)
-    out[i] = s * SMAX; vel_[i] = v * SMAX
-    # a second piston opposite joins in later for the frenzy
-    if t > 9.5:
-        j = (i + 3) % 6; ph2 = (ph + 0.5) % 1
-        if ph2 < 0.38: s2 = (ph2 / 0.38) ** 2; v2 = 2 * (ph2 / 0.38) / (0.38 * T)
-        else: q = (ph2 - 0.38) / 0.62; s2 = 1 - q * q * (3 - 2 * q); v2 = -6 * q * (1 - q) / (0.62 * T)
-        out[j] = s2 * SMAX * 0.9; vel_[j] = v2 * SMAX * 0.9
-    return out, vel_
-frames = int(TOTAL * FPS); events = []  # (time, kind, amount)
-hist = []
+n = 1; pos[0] = (CX + 40, CY - 30); vel[0] = (230, 170); col[0] = 5
+GAPMIN = 2 * R + 4
+def period(t): return 0.95 - 0.5 * min(1, t / 15)
+def stroke(t):
+    """Opposite pistons close in pairs, taking turns. Returns face distance from centre for each piston, its inward speed, the active pair and phase."""
+    face = [AP] * 6; spd = [0.0] * 6
+    if t < 0.3: return face, spd, -1, 0, 0
+    # integrate the period so strokes stay continuous as they speed up
+    tt, k = 0.3, 0
+    while True:
+        T = period(tt)
+        if tt + T > t: break
+        tt += T; k += 1
+    ph = (t - tt) / T; pr = k % 3
+    CL = 0.42
+    if ph < CL: q = ph / CL; s = q * q * (3 - 2 * q); v = 6 * q * (1 - q) / (CL * T)
+    elif ph < CL + 0.08: s, v = 1.0, 0.0
+    else: q = (ph - CL - 0.08) / (1 - CL - 0.08); s = 1 - q * q * (3 - 2 * q); v = -6 * q * (1 - q) / ((1 - CL - 0.08) * T)
+    reach = AP - GAPMIN / 2
+    for i in (pr, pr + 3): face[i] = AP - s * reach; spd[i] = v * reach
+    return face, spd, pr, k, ph
+frames = int(TOTAL * FPS); events = []
+hist = []; last_k = [-1]; REACH = [None]
 def step(t):
     global n
     p = pos[:n]; v = vel[:n]
     p += v * DT
-    # walls
     for (nx, ny) in NORM:
         d = (p[:, 0] - CX) * nx + (p[:, 1] - CY) * ny; m = d > AP - R
         if m.any():
-            vn = v[m, 0] * nx + v[m, 1] * ny; vn = np.maximum(vn, 0)
+            vn = np.maximum(v[m, 0] * nx + v[m, 1] * ny, 0)
             v[m, 0] -= 2 * vn * nx; v[m, 1] -= 2 * vn * ny
             p[m, 0] -= (d[m] - (AP - R)) * nx; p[m, 1] -= (d[m] - (AP - R)) * ny
-    S, SV = stroke(t)
-    want = int(target(t)); budget = max(0, want - n)
-    cool[:n] -= DT
+    F, SP, pr, k, ph = stroke(t)
     for i, (nx, ny) in enumerate(NORM):
-        if S[i] <= 0.5: continue
-        face = AP - S[i]                       # face distance from centre along the outward normal
+        if F[i] >= AP - 0.5 or SP[i] < 0: continue
         rx, ry = p[:, 0] - CX, p[:, 1] - CY
         a = rx * nx + ry * ny; b = -rx * ny + ry * nx
-        hit = (np.abs(b) < HW + R) & (a > face - R) & (a < face + TH + R)
+        hit = (np.abs(b) < HW + R) & (a > F[i] - R) & (a < F[i] + TH + R)
         if not hit.any(): continue
         idx = np.nonzero(hit)[0]
-        p[idx, 0] -= (a[idx] - (face - R)) * nx; p[idx, 1] -= (a[idx] - (face - R)) * ny
-        pv = SV[i]                              # piston speed inward (positive when extending)
-        vn = v[idx, 0] * nx + v[idx, 1] * ny
-        newvn = np.minimum(-np.abs(vn) * 0.9, -max(pv, 0) * 1.05 - 120)
+        p[idx, 0] -= (a[idx] - (F[i] - R)) * nx; p[idx, 1] -= (a[idx] - (F[i] - R)) * ny
+        vn = v[idx, 0] * nx + v[idx, 1] * ny; newvn = np.minimum(-np.abs(vn) * 0.6, -max(SP[i], 0) * 1.0)
         v[idx, 0] += (newvn - vn) * nx; v[idx, 1] += (newvn - vn) * ny
-        kick = rng.uniform(-220, 220, len(idx)); v[idx, 0] += kick * -ny; v[idx, 1] += kick * nx
-        # split: balls hit while the piston pushes forward clone (within the budget)
-        if pv > 0 and budget > 0:
-            ready = idx[cool[idx] <= 0][:budget]
-            k = len(ready)
-            if k:
-                cool[ready] = 0.25
-                new = slice(n, n + k); pos[new] = pos[ready] + rng.uniform(-5, 5, (k, 2)); ang = rng.uniform(-1.6, 1.6, k)
-                c, s = np.cos(ang), np.sin(ang); vx, vy = vel[ready, 0], vel[ready, 1]
-                sp = np.hypot(vx, vy) * rng.uniform(0.85, 1.15, k)
-                vel[new, 0] = (vx * c - vy * s); vel[new, 1] = (vx * s + vy * c)
-                nrm = np.hypot(vel[new, 0], vel[new, 1]) + 1e-6; vel[new, 0] *= sp / nrm; vel[new, 1] *= sp / nrm
-                col[new] = rng.integers(0, len(PAL), k); cool[new] = 0.25
-                n += k; budget -= k; events.append((t, 'pop', k)); p = pos[:n]; v = vel[:n]
-    # if we fall well behind the curve early on, let wall bounces split too (keeps the count moving)
-    if n < want * 0.6 and n < MAXN and t > 1.0:
-        k = min(MAXN - n, max(1, int((want * 0.6 - n) * 0.1)))
-        src = rng.integers(0, n, k); new = slice(n, n + k); pos[new] = pos[src] + rng.uniform(-5, 5, (k, 2)); ang = rng.uniform(-1.2, 1.2, k)
-        c, s = np.cos(ang), np.sin(ang); vel[new, 0] = vel[src, 0] * c - vel[src, 1] * s; vel[new, 1] = vel[src, 0] * s + vel[src, 1] * c
-        col[new] = rng.integers(0, len(PAL), k); n += k; events.append((t, 'pop', k))
-    # keep speeds lively
-    sp = np.hypot(vel[:n, 0], vel[:n, 1]) + 1e-6; f = np.clip(sp, 260, 900) / sp; vel[:n] *= f[:, None]
-    return S
+    # SQUISH: when a pair fully closes, every ball trapped between the two heads doubles
+    if pr >= 0 and ph >= 0.42 and last_k[0] != k:
+        last_k[0] = k; nx, ny = NORM[pr]
+        rx, ry = p[:, 0] - CX, p[:, 1] - CY; a = rx * nx + ry * ny; b = -rx * ny + ry * nx
+        caught = np.nonzero((np.abs(b) < HW + R) & (np.abs(a) < GAPMIN / 2 + R + 2))[0]
+        kk = min(len(caught), MAXN - n)
+        if kk > 0:
+            src = caught[:kk]; new = slice(n, n + kk)
+            pos[new] = pos[src] + rng.uniform(-4, 4, (kk, 2)); col[new] = rng.integers(0, len(PAL), kk)
+            n += kk; p = pos[:n]; v = vel[:n]
+            events.append((t, 'squish', kk))
+        # spray everything that was caught out of the gap
+        allc = np.concatenate([caught, np.arange(n - kk, n)]) if kk > 0 else caught
+        if len(allc):
+            ang = rng.uniform(0, 2 * np.pi, len(allc)); spd = rng.uniform(450, 950, len(allc))
+            tx, ty = -ny, nx  # mostly sideways, out of the open sides of the gap
+            side = np.sign(rng.uniform(-1, 1, len(allc)))
+            v[allc, 0] = (tx * side * 0.3 + np.cos(ang)) * spd; v[allc, 1] = (ty * side * 0.3 + np.sin(ang)) * spd
+        events.append((t, 'clamp', 1))
+    sp = np.hypot(v[:, 0], v[:, 1]) + 1e-6; f = np.clip(sp, 200, 950) / sp; v *= f[:, None]
+    return F
 # ---------- drawing ----------
 def bg_img():
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float32); d = np.hypot(xx - CX, yy - CY) / 1100
@@ -107,10 +98,10 @@ def draw(f, t, S):
     # arena glow + edge
     cv2.polylines(img, [HEX], True, (90, 90, 100), 14, cv2.LINE_AA); cv2.polylines(img, [HEX], True, (225, 225, 235), 4, cv2.LINE_AA)
     # balls
-    nn = n; gold = t >= GOLD_T
+    nn = n; gold = REACH[0] is not None and t >= REACH[0] + 0.2
     P = pos[:nn]; C = PAL[col[:nn]].copy()
     if gold:
-        rr = np.hypot(P[:, 0] - CX, P[:, 1] - CY); wave = (t - GOLD_T) * 1400
+        rr = np.hypot(P[:, 0] - CX, P[:, 1] - CY); wave = (t - REACH[0] - 0.2) * 1400
         m = rr < wave; C[m] = (255, 200, 50)
     rad = 9 if nn < 1500 else (8 if nn < 4000 else 7)
     for k in range(nn):
@@ -119,7 +110,7 @@ def draw(f, t, S):
         cv2.circle(img, (x - 2, y - 2), max(1, rad - 3), (int(min(255, c[2] * 1.1 + 40)), int(min(255, c[1] * 1.1 + 40)), int(min(255, c[0] * 1.1 + 40))), -1, cv2.LINE_AA)
     # pistons
     for i, (nx, ny) in enumerate(NORM):
-        face = AP - S[i]; ux, uy = -nx, -ny
+        face = S[i]; ux, uy = -nx, -ny
         wall = (CX + nx * (AP + 30), CY + ny * (AP + 30))
         head = (CX + nx * (face + TH / 2), CY + ny * (face + TH / 2))
         # rod from the housing to the head
@@ -130,7 +121,7 @@ def draw(f, t, S):
         # housing on the wall
         metal_rect(img, (CX + nx * (AP + 34), CY + ny * (AP + 34)), (-uy, ux), 56, 22, 0.75)
     # counter
-    shown = n if t < GOAL_T + 0.3 else MAXN
+    shown = n
     txt = f'{shown:,}'; col_t = (60, 205, 255) if gold else (235, 235, 235)
     fs = 4.2; th = 12; (tw, tht), _ = cv2.getTextSize(txt, cv2.FONT_HERSHEY_DUPLEX, fs, th)
     org = (int(W / 2 - tw / 2), 400)
@@ -147,6 +138,7 @@ if __name__ == '__main__':
         t = f / FPS
         for s in range(SUB): S = step(t + s * DT)
         hist.append(n)
+        if n >= MAXN and REACH[0] is None: REACH[0] = t
         if ff: ff.stdin.write(draw(f, t, S).tobytes())
         elif any(abs(t - x) < 0.5 / FPS for x in stills): cv2.imwrite(f'/tmp/np/h_{t:.1f}.jpg', draw(f, t, S))
         if f % 60 == 0: print('frame', f, 'n', n, flush=True)
