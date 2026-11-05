@@ -3,7 +3,7 @@ import numpy as np, cv2, json, subprocess, sys, math
 W, H, FPS, SUB = 1080, 1920, 30, 3
 DT = 1 / (FPS * SUB)
 CX, CY, AP = 540, 1060, 432          # hexagon centre and apothem (centre to edge)
-TOTAL, GOAL_T, GOLD_T, END = 18.0, 15.8, 16.0, 18.0
+TOTAL, GOAL_T, GOLD_T, END = 15.0, 15.8, 16.0, 15.0
 R = 7.5
 NORM = [(math.cos(a), math.sin(a)) for a in [math.pi / 2 + k * math.pi / 3 for k in range(6)]]  # outward edge normals, k=0 bottom
 HW, TH, SMAX = 165, 28, AP - 90     # piston head half-width, thickness, max stroke
@@ -11,15 +11,15 @@ PAL = np.array([(255, 70, 70), (255, 160, 40), (255, 230, 60), (90, 230, 90), (4
 rng = np.random.default_rng(7)
 MAXN = 10000
 pos = np.zeros((MAXN, 2), np.float32); vel = np.zeros((MAXN, 2), np.float32); col = np.zeros(MAXN, np.int32); cool = np.zeros(MAXN, np.float32)
-n = 1; pos[0] = (CX + 40, CY - 30); vel[0] = (230, 170); col[0] = 5
+n = 1; pos[0] = (CX, CY); vel[0] = (0, 0); col[0] = 5
 GAPMIN = 2 * R + 4
-def period(t): return 0.95 - 0.5 * min(1, t / 15)
+def period(t): return 0.6 + 0.12 * min(1, max(0, t - 3) / 4) - 0.1 * min(1, max(0, t - 8) / 3)
 def stroke(t):
     """Opposite pistons close in pairs, taking turns. Returns face distance from centre for each piston, its inward speed, the active pair and phase."""
     face = [AP] * 6; spd = [0.0] * 6
-    if t < 0.3: return face, spd, -1, 0, 0
+    if t < 0.0: return face, spd, -1, 0, 0
     # integrate the period so strokes stay continuous as they speed up
-    tt, k = 0.3, 0
+    tt, k = 0.0, 0
     while True:
         T = period(tt)
         if tt + T > t: break
@@ -33,7 +33,7 @@ def stroke(t):
     for i in (pr, pr + 3): face[i] = AP - s * reach; spd[i] = v * reach
     return face, spd, pr, k, ph
 frames = int(TOTAL * FPS); events = []
-hist = []; last_k = [-1]; REACH = [None]
+hist = []; last_k = [-1]; REACH = [None]; LASTC = [-9.0, 0]
 def step(t):
     global n
     p = pos[:n]; v = vel[:n]
@@ -57,7 +57,7 @@ def step(t):
         v[idx, 0] += (newvn - vn) * nx; v[idx, 1] += (newvn - vn) * ny
     # SQUISH: when a pair fully closes, every ball trapped between the two heads doubles
     if pr >= 0 and ph >= 0.42 and last_k[0] != k:
-        last_k[0] = k; nx, ny = NORM[pr]
+        last_k[0] = k; nx, ny = NORM[pr]; LASTC[0] = t; LASTC[1] = pr
         rx, ry = p[:, 0] - CX, p[:, 1] - CY; a = rx * nx + ry * ny; b = -rx * ny + ry * nx
         caught = np.nonzero((np.abs(b) < HW + R) & (np.abs(a) < GAPMIN / 2 + R + 2))[0]
         kk = min(len(caught), MAXN - n)
@@ -69,12 +69,12 @@ def step(t):
         # spray everything that was caught out of the gap
         allc = np.concatenate([caught, np.arange(n - kk, n)]) if kk > 0 else caught
         if len(allc):
-            ang = rng.uniform(0, 2 * np.pi, len(allc)); spd = rng.uniform(450, 950, len(allc))
+            ang = rng.uniform(0, 2 * np.pi, len(allc)); spd = rng.uniform(450, 950, len(allc)) * (0.25 + 0.75 * min(1, t / 4.5))
             tx, ty = -ny, nx  # mostly sideways, out of the open sides of the gap
             side = np.sign(rng.uniform(-1, 1, len(allc)))
             v[allc, 0] = (tx * side * 0.3 + np.cos(ang)) * spd; v[allc, 1] = (ty * side * 0.3 + np.sin(ang)) * spd
         events.append((t, 'clamp', 1))
-    sp = np.hypot(v[:, 0], v[:, 1]) + 1e-6; f = np.clip(sp, 200, 950) / sp; v *= f[:, None]
+    sp = np.hypot(v[:, 0], v[:, 1]) + 1e-6; lo = 60 + 140 * min(1, t / 4.5); f = np.clip(sp, lo, 950) / sp; v *= f[:, None]
     return F
 # ---------- drawing ----------
 def bg_img():
@@ -103,7 +103,7 @@ def draw(f, t, S):
     if gold:
         rr = np.hypot(P[:, 0] - CX, P[:, 1] - CY); wave = (t - REACH[0] - 0.2) * 1400
         m = rr < wave; C[m] = (255, 200, 50)
-    rad = 9 if nn < 1500 else (8 if nn < 4000 else 7)
+    rad = int(max(7, 20 - 3.3 * math.log10(max(1, nn))))
     for k in range(nn):
         x, y = int(P[k, 0]), int(P[k, 1]); c = C[k]
         cv2.circle(img, (x, y), rad, (int(c[2] * 0.75), int(c[1] * 0.75), int(c[0] * 0.75)), -1, cv2.LINE_AA)
@@ -123,10 +123,20 @@ def draw(f, t, S):
     # counter
     shown = n
     txt = f'{shown:,}'; col_t = (60, 205, 255) if gold else (235, 235, 235)
-    fs = 4.2; th = 12; (tw, tht), _ = cv2.getTextSize(txt, cv2.FONT_HERSHEY_DUPLEX, fs, th)
+    pulse = math.exp(-max(0, t - LASTC[0]) * 9) if t >= LASTC[0] else 0
+    fs = 4.2 * (1 + 0.22 * pulse); th = 12; (tw, tht), _ = cv2.getTextSize(txt, cv2.FONT_HERSHEY_DUPLEX, fs, th)
     org = (int(W / 2 - tw / 2), 400)
     cv2.putText(img, txt, (org[0] + 4, org[1] + 6), cv2.FONT_HERSHEY_DUPLEX, fs, (0, 0, 0), th + 6, cv2.LINE_AA)
     cv2.putText(img, txt, org, cv2.FONT_HERSHEY_DUPLEX, fs, col_t, th, cv2.LINE_AA)
+    if not gold:
+        g = 'GOAL: 10,000'; (gw, _), _ = cv2.getTextSize(g, cv2.FONT_HERSHEY_DUPLEX, 2.0, 5)
+        cv2.putText(img, g, (int(W / 2 - gw / 2), 500), cv2.FONT_HERSHEY_DUPLEX, 2.0, (120, 200, 255), 5, cv2.LINE_AA)
+    if pulse > 0.02:
+        nx, ny = NORM[LASTC[1]]; tx, ty = -ny, nx; ov = img.copy()
+        cv2.line(ov, (int(CX - tx * HW), int(CY - ty * HW)), (int(CX + tx * HW), int(CY + ty * HW)), (255, 255, 255), int(10 + 30 * pulse), cv2.LINE_AA)
+        img = cv2.addWeighted(ov, 0.55 * pulse, img, 1 - 0.55 * pulse, 0)
+        z = 1 + 0.045 * pulse; zw, zh = int(W / z), int(H / z); x0, y0 = (W - zw) // 2, int(CY - CY / z)
+        img = cv2.resize(img[y0:y0 + zh, x0:x0 + zw], (W, H), interpolation=cv2.INTER_LINEAR)
     return img
 if __name__ == '__main__':
     only = sys.argv[1] if len(sys.argv) > 1 else None

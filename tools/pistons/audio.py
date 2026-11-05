@@ -1,5 +1,5 @@
 import json, numpy as np, soundfile as sf, math
-sr = 44100; TOTAL = 18.0; N = int(TOTAL * sr); out = np.zeros(N); rng = np.random.default_rng(3)
+sr = 44100; TOTAL = 15.0; N = int(TOTAL * sr); out = np.zeros(N); rng = np.random.default_rng(3)
 J = json.load(open('events.json')); E = J['events']; REACH = next(i for i, v in enumerate(J['hist']) if v >= 10000) / 30
 n = int(0.05 * sr); x = np.arange(n) / sr
 per = {}
