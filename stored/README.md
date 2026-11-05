@@ -5,4 +5,4 @@
 - scratch_earthrise.mp4 | What's under the foil? (part 2) #shorts (credit: NASA / Bill Anders, Apollo 8)
 - one_atom_apart.mp4 | 1,000 balls. Same spot. #shorts
 - gear_split.mp4 | Every hit = 2 balls #shorts
-- sort_radial.mp4 | Which sort is fastest? (wait for #8) #shorts
+- sort_circle.mp4 | Which sort is fastest? (wait for #8) #shorts

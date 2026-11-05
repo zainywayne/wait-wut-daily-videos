@@ -93,7 +93,7 @@ def draw(a, hl, title, num, ops, green=0, alive=None, sub=''):
     hls = set(hl)
     for k in range(N):
         if alive is not None and not alive[k]: continue
-        v = a[k]; L = R0 + 30 + 400 * (v + 1) / N
+        v = a[k]; dd = abs(k - v); dd = min(dd, N - dd) / (N / 2); L = R0 + 30 + 400 * (1 - dd) ** 1.6
         c = (255, 255, 255) if k in hls else ((120, 240, 140) if k < green else tuple(int(x) for x in HUE[v]))
         x0, y0 = CX + R0 * math.cos(ANG[k]), CY + R0 * math.sin(ANG[k]); x1, y1 = CX + L * math.cos(ANG[k]), CY + L * math.sin(ANG[k])
         cv2.line(lay, (int(x0), int(y0)), (int(x1), int(y1)), c, 5, cv2.LINE_AA)
