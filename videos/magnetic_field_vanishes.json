@@ -1,0 +1,172 @@
+{
+ "title": "Tonight, Earth's magnetic field vanishes",
+ "voice": "am_michael",
+ "scenes": [
+  {
+   "text": "Tonight, Earth's magnetic field vanishes.",
+   "flash": "VANISH",
+   "shots": [
+    {
+     "clip": "cme",
+     "ss": 16,
+     "x": 0.25
+    },
+    {
+     "clip": "iss4k",
+     "ss": 70
+    }
+   ]
+  },
+  {
+   "text": "You feel nothing. At first.",
+   "shots": [
+    {
+     "clip": "iss4k2",
+     "ss": 350
+    },
+    {
+     "clip": "iss4k",
+     "ss": 1540
+    }
+   ]
+  },
+  {
+   "text": "But that invisible shield was blocking the solar wind.",
+   "shots": [
+    {
+     "clip": "cme",
+     "ss": 40,
+     "x": 0.25
+    },
+    {
+     "clip": "firework",
+     "ss": 28
+    },
+    {
+     "clip": "cme",
+     "ss": 64,
+     "x": 0.25
+    }
+   ]
+  },
+  {
+   "text": "Radiation pours in, and satellites start failing.",
+   "flash": "RADIATION",
+   "shots": [
+    {
+     "clip": "belts",
+     "ss": 24
+    },
+    {
+     "clip": "belts",
+     "ss": 15
+    },
+    {
+     "clip": "arching",
+     "ss": 40
+    }
+   ]
+  },
+  {
+   "text": "Auroras ignite across the whole planet.",
+   "shots": [
+    {
+     "clip": "steve",
+     "ss": 56
+    },
+    {
+     "clip": "iss4k",
+     "ss": 420
+    },
+    {
+     "clip": "iss4k2",
+     "ss": 1960
+    }
+   ]
+  },
+  {
+   "text": "Power grids could overload, and cities go dark.",
+   "shots": [
+    {
+     "clip": "iss4k2",
+     "ss": 2870
+    },
+    {
+     "clip": "nightlights",
+     "ss": 27
+    },
+    {
+     "clip": "iss4k2",
+     "ss": 2590
+    }
+   ]
+  },
+  {
+   "text": "Planes and astronauts would face far more radiation.",
+   "shots": [
+    {
+     "clip": "iss4k",
+     "ss": 2940
+    },
+    {
+     "clip": "iss4k",
+     "ss": 140
+    },
+    {
+     "clip": "belts",
+     "ss": 48
+    }
+   ]
+  },
+  {
+   "text": "But here's the twist. Your air wouldn't vanish overnight.",
+   "flash": "TWIST",
+   "shots": [
+    {
+     "clip": "iss4k",
+     "ss": 840
+    },
+    {
+     "clip": "iss1",
+     "ss": 2400
+    },
+    {
+     "clip": "iss4k2",
+     "ss": 140
+    }
+   ]
+  },
+  {
+   "text": "The damage would build slowly, over a very long time.",
+   "shots": [
+    {
+     "clip": "cme",
+     "ss": 97.5,
+     "x": 0.25
+    },
+    {
+     "clip": "iss4k2",
+     "ss": 1330
+    }
+   ]
+  },
+  {
+   "text": "And it would all begin the moment",
+   "shots": [
+    {
+     "clip": "steve",
+     "ss": 85.5
+    }
+   ]
+  }
+ ],
+ "yt_title": "Tonight, Earth's magnetic field vanishes #shorts",
+ "yt_description": "What if Earth's magnetic field vanished? Radiation, auroras and power grid trouble, though the air would not vanish overnight.\n\nFootage: NASA\n\n#shorts #space #whatif #magneticfield #earth",
+ "yt_tags": [
+  "shorts",
+  "space",
+  "what if",
+  "magnetic field",
+  "earth"
+ ]
+}
