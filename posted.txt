@@ -6,3 +6,4 @@ videos/solar_storm_hits_earth.mp4
 videos/sun_becomes_black_hole.mp4
 videos/air_vanishes.mp4
 videos/killer_asteroid.mp4
+videos/satellites_stop.mp4
