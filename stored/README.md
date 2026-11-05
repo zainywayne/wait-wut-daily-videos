@@ -3,3 +3,5 @@
 - grow_bounce.mp4 | It grows every bounce… #shorts
 - scratch_reveal.mp4 | What's under the foil? #shorts (credit: NASA, ESA, Hubble XDF)
 - scratch_earthrise.mp4 | What's under the foil? (part 2) #shorts (credit: NASA / Bill Anders, Apollo 8)
+- one_atom_apart.mp4 | 1,000 balls. Same spot. #shorts
+- gear_split.mp4 | Every hit = 2 balls #shorts
