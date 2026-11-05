@@ -7,15 +7,15 @@ html,body{margin:0;background:#000;overflow:hidden}
 #cnt b{color:#5cf0a0}
 #bar{position:absolute;left:90px;right:90px;top:222px;height:6px;border-radius:3px;background:rgba(255,255,255,.15)}
 #fill{height:100%;border-radius:3px;background:#5cf0a0;width:0}
-#lab{top:1080px;font-size:34px}
-#sz{top:1124px;font-size:24px;color:#9fd8ee}
-#cap{top:1185px;font-size:30px}
+#lab{top:1100px;font-size:32px}
+#sz{top:1142px;font-size:24px;color:#9fd8ee}
+#cap{top:1195px;font-size:30px}
 #cap b{color:#5cf0a0}
 #big{top:1040px;font-size:54px;color:#ffd23f;display:none}
 </style></head><body><canvas id=c width=720 height=1280 style="width:720px;height:1280px"></canvas>
 <div class=o id=q>How many folds to<br>reach the Moon?</div><div class=o id=cnt></div><div id=bar><div id=fill></div></div>
 <div class=o id=lab></div><div class=o id=sz></div><div class=o id=cap></div><div class=o id=big>Just 42 folds!</div>
-<script src="node_modules/three/build/three.min.js"></script><script src="rbox.js"></script><script src="scene.js"></script>
+<script src="node_modules/three/build/three.min.js"></script><script src="rbox.js"></script><script src="scene2.js"></script>
 <script>
 const CAPS=[[0,'Each fold <b>doubles</b> it'],[8,'Taller than a <b>coin</b>'],[11,'Taller than a <b>phone</b>'],[14,'Taller than <b>you</b>'],[17,'Taller than a <b>house</b>'],[23,'Taller than the <b>Burj Khalifa</b>'],[27,'Higher than <b>Everest</b>'],[30,"You're in <b>space</b> now"],[32,'Past the <b>Space Station</b>'],[37,'Taller than <b>Earth</b> is wide'],[40,'Almost there...']];
 window.frame=(t)=>{const s=renderAt(t);const $=i=>document.getElementById(i);
