@@ -1,7 +1,7 @@
 # Sorting algorithms on a sunflower spiral of 600 coloured dots. Ends with the Stalin Sort gag.
 import numpy as np, cv2, json, subprocess, sys, math, colorsys
 W, H, FPS = 1080, 1920, 30
-N = 600; CX, CY = 540, 1000
+N = 360; CX, CY = 540, 1000
 rng = np.random.default_rng(11)
 # sunflower layout
 K = np.arange(N); RAD = 14.8 * np.sqrt(K + 0.6); TH = K * math.radians(137.508)
@@ -85,16 +85,21 @@ BG = None
 def bg():
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
     return (np.array((14, 10, 12), np.float32) + (np.clip(1 - np.hypot(xx - CX, yy - CY) / 900, 0, 1) ** 1.8)[..., None] * np.array((30, 22, 26), np.float32)).astype(np.uint8)
+ANG = -math.pi / 2 + np.arange(N) / N * 2 * math.pi
+R0 = 70
 def draw(a, hl, title, num, ops, green=0, alive=None, sub=''):
     im = BG.copy()
+    lay = np.zeros_like(im)
+    hls = set(hl)
     for k in range(N):
         if alive is not None and not alive[k]: continue
-        c = HUE[a[k]]
-        cv2.circle(im, (PX[k], PY[k]), DOT, (int(c[0]), int(c[1]), int(c[2])), -1, cv2.LINE_AA)
-    for k in range(min(green, N)):
-        cv2.circle(im, (PX[k], PY[k]), DOT, (90, 235, 120), -1, cv2.LINE_AA)
-    for k in hl:
-        if 0 <= k < N: cv2.circle(im, (PX[k], PY[k]), DOT + 3, (255, 255, 255), -1, cv2.LINE_AA)
+        v = a[k]; L = R0 + 30 + 400 * (v + 1) / N
+        c = (255, 255, 255) if k in hls else ((120, 240, 140) if k < green else tuple(int(x) for x in HUE[v]))
+        x0, y0 = CX + R0 * math.cos(ANG[k]), CY + R0 * math.sin(ANG[k]); x1, y1 = CX + L * math.cos(ANG[k]), CY + L * math.sin(ANG[k])
+        cv2.line(lay, (int(x0), int(y0)), (int(x1), int(y1)), c, 5, cv2.LINE_AA)
+    glow = cv2.GaussianBlur(lay, (0, 0), 7)
+    im = cv2.add(im, cv2.addWeighted(lay, 0.9, glow, 0.3, 0))
+    cv2.circle(im, (CX, CY), R0 - 6, (8, 6, 8), -1, cv2.LINE_AA)
     text_c(im, str(num), 230, 1.3, (150, 150, 160), 3)
     text_c(im, title, 330, 2.6, (255, 255, 255), 8)
     text_c(im, sub if sub else f'{ops:,} operations', 1640, 1.8, (210, 210, 220), 5)
