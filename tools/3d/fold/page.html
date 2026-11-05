@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Poppins;src:url(Poppins-Bold.ttf)}
+html,body{margin:0;background:#000;overflow:hidden}
+.o{position:absolute;left:0;right:0;text-align:center;font-family:Poppins;color:#fff;text-shadow:0 3px 14px rgba(0,0,0,.8)}
+#q{top:58px;font-size:40px;line-height:1.15}
+#cnt{top:162px;font-size:36px}
+#cnt b{color:#5cf0a0}
+#bar{position:absolute;left:90px;right:90px;top:222px;height:6px;border-radius:3px;background:rgba(255,255,255,.15)}
+#fill{height:100%;border-radius:3px;background:#5cf0a0;width:0}
+#lab{top:1080px;font-size:34px}
+#sz{top:1124px;font-size:24px;color:#9fd8ee}
+#cap{top:1185px;font-size:30px}
+#cap b{color:#5cf0a0}
+#big{top:1040px;font-size:54px;color:#ffd23f;display:none}
+</style></head><body><canvas id=c width=720 height=1280 style="width:720px;height:1280px"></canvas>
+<div class=o id=q>How many folds to<br>reach the Moon?</div><div class=o id=cnt></div><div id=bar><div id=fill></div></div>
+<div class=o id=lab></div><div class=o id=sz></div><div class=o id=cap></div><div class=o id=big>Just 42 folds!</div>
+<script src="node_modules/three/build/three.min.js"></script><script src="rbox.js"></script><script src="scene.js"></script>
+<script>
+const CAPS=[[0,'Each fold <b>doubles</b> it'],[8,'Taller than a <b>coin</b>'],[11,'Taller than a <b>phone</b>'],[14,'Taller than <b>you</b>'],[17,'Taller than a <b>house</b>'],[23,'Taller than the <b>Burj Khalifa</b>'],[27,'Higher than <b>Everest</b>'],[30,"You're in <b>space</b> now"],[32,'Past the <b>Space Station</b>'],[37,'Taller than <b>Earth</b> is wide'],[40,'Almost there...']];
+window.frame=(t)=>{const s=renderAt(t);const $=i=>document.getElementById(i);
+ $('cnt').innerHTML=s.end?'<b>Just 42 folds!</b>':`${s.n} folds = <b>${s.len}</b>`;$('cnt').style.transform=`scale(${1+0.12*s.beat})`;
+ $('fill').style.width=(s.n/42*100)+'%';$('lab').textContent=s.label;$('sz').textContent=s.size;
+ let c='';for(const x of CAPS)if(s.n>=x[0])c=x[1];if(s.end)c='0.1 mm of paper. <b>42 folds.</b> The Moon.';$('cap').innerHTML=c;return s;};
+</script></body></html>
