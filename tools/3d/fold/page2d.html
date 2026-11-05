@@ -1,0 +1,84 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:P;src:url(Poppins-Bold.ttf)}
+html,body{margin:0;background:#000;overflow:hidden}
+</style></head><body><canvas id=c width=1080 height=1920></canvas>
+<script>
+// Fold paper to the Moon: smooth 2D motion graphics, real scale, folds land on the beat (120 bpm).
+const C = document.getElementById('c'), X = C.getContext('2d'); const W = 1080, H = 1920;
+const START = 1.0, BEAT = 0.5, NF = 42, LAND = k => START + k * BEAT, END = LAND(NF), T0 = 1e-4;
+const GY = 1560, STX = 330, STW = 150;          // ground line, stack centre x, stack width (px)
+const sm = x => x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x);
+const eo = x => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3);
+const back = x => { x = Math.min(1, Math.max(0, x)); const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+function foldsAt(t) { if (t <= LAND(1) - 0.42) return 0; let k = Math.max(0, Math.min(NF, Math.floor((t - START) / BEAT))); if (k >= NF) return NF; const u = 1 - (LAND(k + 1) - t) / 0.42; return u <= 0 ? k : k + sm(u); }
+function fmt(m) { if (m < 0.01) return (m * 1000).toFixed(1) + ' mm'; if (m < 1) return (m * 100).toFixed(1) + ' cm'; if (m < 1000) return (m < 10 ? m.toFixed(1) : Math.round(m).toLocaleString('en-US')) + ' m'; return Math.round(m / 1000).toLocaleString('en-US') + ' km'; }
+let seed = 5; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const STARS = Array.from({ length: 220 }, () => [rnd() * W, rnd() * H, rnd()]);
+// ---------- object drawings: (ctx, x = centre, y = ground, h = height px) ----------
+function rr(x, y, w, h, r) { X.beginPath(); X.roundRect(x, y, w, h, r); }
+const DRAW = {
+  coin(x, y, h) { const r = h / 2; const g = X.createRadialGradient(x - r * 0.3, y - r * 1.3, r * 0.1, x, y - r, r); g.addColorStop(0, '#ffe58a'); g.addColorStop(1, '#c98b1e'); X.fillStyle = g; X.beginPath(); X.arc(x, y - r, r, 0, 7); X.fill(); X.lineWidth = Math.max(1, r * 0.08); X.strokeStyle = '#a8701a'; X.beginPath(); X.arc(x, y - r, r * 0.8, 0, 7); X.stroke(); X.fillStyle = '#a8701a'; X.font = `${r * 1.1}px P`; X.textAlign = 'center'; X.textBaseline = 'middle'; X.fillText('1', x, y - r * 0.95); },
+  phone(x, y, h) { const w = h * 0.48; X.fillStyle = '#16181f'; rr(x - w / 2, y - h, w, h, w * 0.16); X.fill(); const g = X.createLinearGradient(x - w / 2, y - h, x + w / 2, y); g.addColorStop(0, '#4f7cff'); g.addColorStop(1, '#c04fff'); X.fillStyle = g; rr(x - w * 0.44, y - h * 0.96, w * 0.88, h * 0.92, w * 0.1); X.fill(); X.fillStyle = 'rgba(255,255,255,.9)'; X.font = `${h * 0.09}px P`; X.textAlign = 'center'; X.fillText('9:41', x, y - h * 0.8); },
+  you(x, y, h) { const u = h / 10; X.fillStyle = '#2b2f3a'; rr(x - 1.3 * u, y - 4.6 * u, 1.1 * u, 4.6 * u, 0.5 * u); X.fill(); rr(x + 0.2 * u, y - 4.6 * u, 1.1 * u, 4.6 * u, 0.5 * u); X.fill(); X.fillStyle = '#3d7bd9'; rr(x - 1.8 * u, y - 8.0 * u, 3.6 * u, 3.8 * u, 1.2 * u); X.fill(); X.fillStyle = '#e8b896'; X.beginPath(); X.arc(x, y - 9.0 * u, 1.0 * u, 0, 7); X.fill(); },
+  house(x, y, h) { const w = h * 1.1; X.fillStyle = '#f2e6cf'; X.fillRect(x - w / 2, y - h * 0.6, w, h * 0.6); X.fillStyle = '#d0573f'; X.beginPath(); X.moveTo(x - w * 0.6, y - h * 0.58); X.lineTo(x, y - h); X.lineTo(x + w * 0.6, y - h * 0.58); X.fill(); X.fillStyle = '#7a4a2a'; X.fillRect(x - w * 0.1, y - h * 0.32, w * 0.2, h * 0.32); X.fillStyle = '#9fd6ff'; X.fillRect(x - w * 0.38, y - h * 0.46, w * 0.18, h * 0.13); X.fillRect(x + w * 0.2, y - h * 0.46, w * 0.18, h * 0.13); },
+  burj(x, y, h) { const g = X.createLinearGradient(x - h * 0.06, 0, x + h * 0.06, 0); g.addColorStop(0, '#8fa6bb'); g.addColorStop(0.5, '#e8f0f8'); g.addColorStop(1, '#7d94a8'); X.fillStyle = g; X.beginPath(); X.moveTo(x - h * 0.07, y); X.lineTo(x - h * 0.045, y - h * 0.35); X.lineTo(x - h * 0.03, y - h * 0.6); X.lineTo(x - h * 0.012, y - h * 0.82); X.lineTo(x, y - h); X.lineTo(x + h * 0.012, y - h * 0.82); X.lineTo(x + h * 0.03, y - h * 0.6); X.lineTo(x + h * 0.045, y - h * 0.35); X.lineTo(x + h * 0.07, y); X.fill(); },
+  everest(x, y, h) { const g = X.createLinearGradient(x - h, 0, x + h, 0); g.addColorStop(0, '#5d5a57'); g.addColorStop(0.55, '#8d8984'); g.addColorStop(1, '#4b4946'); X.fillStyle = g; X.beginPath(); X.moveTo(x - h * 0.85, y); X.lineTo(x - h * 0.2, y - h * 0.62); X.lineTo(x, y - h); X.lineTo(x + h * 0.25, y - h * 0.7); X.lineTo(x + h * 0.9, y); X.fill(); X.fillStyle = '#fff'; X.beginPath(); X.moveTo(x - h * 0.2, y - h * 0.62); X.lineTo(x, y - h); X.lineTo(x + h * 0.25, y - h * 0.7); X.lineTo(x + h * 0.12, y - h * 0.72); X.lineTo(x, y - h * 0.66); X.lineTo(x - h * 0.08, y - h * 0.7); X.fill(); },
+};
+// [name, size text, height m, draw fn, caption when passed]
+const OBJ = [['A coin', '2.4 cm', 0.024, 'coin', 'Taller than a coin'], ['A phone', '15 cm', 0.147, 'phone', 'Taller than a phone'], ['You', '1.75 m', 1.75, 'you', 'Taller than you'], ['A house', '9 m', 9, 'house', 'Taller than a house'], ['Burj Khalifa', '828 m', 828, 'burj', 'Taller than the Burj Khalifa'], ['Mount Everest', '8,849 m', 8849, 'everest', 'Higher than Everest']];
+const LANES = [700, 890];
+function txt(s, x, y, size, col, align = 'center', alpha = 1) { X.globalAlpha = alpha; X.font = `${size}px P`; X.textAlign = align; X.textBaseline = 'alphabetic'; X.fillStyle = 'rgba(0,0,0,.55)'; X.fillText(s, x + 3, y + 4); X.fillStyle = col; X.fillText(s, x, y); X.globalAlpha = 1; }
+const lerpC = (a, b, u) => a.map((v, i) => Math.round(v + (b[i] - v) * u));
+window.frame = (t) => {
+  const f = foldsAt(t), n = Math.min(NF, Math.floor(f + 1e-6)), Hm = T0 * Math.pow(2, f);
+  const stackPx = Math.min(980, 34 * Math.pow(2, f)); const s = stackPx / Hm;      // px per metre (smooth zoom)
+  const kL = n >= 1 ? LAND(n) : -9, since = t - kL, hit = n >= 1 && t < END + 0.6 ? Math.exp(-since * 7) : 0;
+  // sky: blue near the ground, space when high
+  const space = Math.min(1, Math.max(0, (Math.log10(Hm) - 3.6) / 1.4));
+  const top = lerpC([28, 92, 150], [4, 6, 16], space), bot = lerpC([120, 190, 235], [10, 18, 34], space);
+  const g = X.createLinearGradient(0, 0, 0, GY); g.addColorStop(0, `rgb(${top})`); g.addColorStop(1, `rgb(${bot})`); X.fillStyle = g; X.fillRect(0, 0, W, H);
+  if (space > 0) for (const [sx, sy, b] of STARS) { X.globalAlpha = space * (0.4 + 0.6 * b) * (0.8 + 0.2 * Math.sin(t * 3 + sx)); X.fillStyle = '#fff'; X.fillRect(sx, sy, b > 0.8 ? 3 : 2, b > 0.8 ? 3 : 2); } X.globalAlpha = 1;
+  // Moon (true position; drawn at least 40 px so you can see it)
+  const my = GY - 384400e3 * s; const mr = Math.max(42, 1737e3 * s);
+  if (my > -mr) { const mg = X.createRadialGradient(780 - mr * 0.3, my - mr * 0.3, mr * 0.1, 780, my, mr); mg.addColorStop(0, '#f2f2f4'); mg.addColorStop(1, '#8e8e94'); X.fillStyle = mg; X.beginPath(); X.arc(780, my, mr, 0, 7); X.fill(); X.fillStyle = 'rgba(110,110,118,.6)'; for (const [a, b, c] of [[-.3, -.2, .22], [.25, .1, .16], [-.05, .35, .12]]) { X.beginPath(); X.arc(780 + a * mr, my + b * mr, c * mr, 0, 7); X.fill(); } }
+  // Earth / ground: a circle of the real Earth radius (flat when zoomed in, a planet when zoomed out)
+  const er = 6371e3 * s;
+  if (er > 2e5) { const gg = X.createLinearGradient(0, GY, 0, H); gg.addColorStop(0, '#3f8f4a'); gg.addColorStop(1, '#1e4a28'); X.fillStyle = gg; X.fillRect(0, GY, W, H - GY); X.fillStyle = 'rgba(255,255,255,.25)'; X.fillRect(0, GY, W, 3); }
+  else { const ecx = STX, ecy = GY + er; X.save(); X.shadowColor = 'rgba(110,190,255,.9)'; X.shadowBlur = 40; const eg = X.createRadialGradient(ecx - er * 0.4, ecy - er * 0.4, er * 0.1, ecx, ecy, er); eg.addColorStop(0, '#5fb0ff'); eg.addColorStop(1, '#173f7e'); X.fillStyle = eg; X.beginPath(); X.arc(ecx, ecy, er, 0, 7); X.fill(); X.restore();
+    X.save(); X.beginPath(); X.arc(ecx, ecy, er, 0, 7); X.clip(); X.fillStyle = '#3c9a4a'; for (const [a, b, c] of [[-.4, -.5, .3], [.3, -.2, .25], [-.1, .3, .28], [.5, .45, .18]]) { X.beginPath(); X.ellipse(ecx + a * er, ecy + b * er, c * er, c * er * 0.7, a, 0, 7); X.fill(); } X.restore();
+    if (er < 700) txt('Earth', ecx + er + 30, ecy + 12, 34, '#cfe8ff', 'left'); }
+  // plane + ISS markers at their real altitude
+  for (const [alt, name] of [[11000, 'Planes fly here'], [408e3, 'Space Station']]) { const yy = GY - alt * s; if (yy > 150 && yy < GY - 30) { X.setLineDash([10, 10]); X.strokeStyle = 'rgba(255,255,255,.35)'; X.lineWidth = 3; X.beginPath(); X.moveTo(STX + STW / 2 + 20, yy); X.lineTo(W - 60, yy); X.stroke(); X.setLineDash([]); txt(name, W - 70, yy - 16, 32, '#fff', 'right'); if (name === 'Space Station') { X.fillStyle = '#dfe5ec'; X.fillRect(W - 230, yy - 6, 120, 12); X.fillStyle = '#2b4f9e'; for (const dx of [-12, 8, 108, 128]) X.fillRect(W - 230 + dx - 4, yy - 34, 16, 68); } } }
+  // objects at true scale next to the stack
+  let li = 0;
+  for (const o of OBJ) { const ph = o[2] * s; if (ph < 18 || ph > 1700) continue; const x = LANES[li++ % 2]; const fade = Math.min(1, (ph - 18) / 40) * Math.min(1, (1700 - ph) / 300);
+    X.globalAlpha = fade; X.save(); X.shadowColor = 'rgba(0,0,0,.35)'; X.shadowBlur = 20; X.shadowOffsetY = 8; DRAW[o[3]](x, GY, ph); X.restore();
+    const passed = Hm >= o[2]; const ly = Math.max(330, GY - Math.min(ph, 1300) - 30);
+    txt((passed ? '✓ ' : '') + o[0], x, ly, 36, passed ? '#6af0a8' : '#ffffff', 'center', fade); txt(o[1], x, ly + 40, 26, '#cfe0ea', 'center', fade * 0.9);
+    // height marker line from object top to the stack
+    if (ph < 1500) { X.globalAlpha = fade * 0.5; X.setLineDash([8, 10]); X.strokeStyle = passed ? '#6af0a8' : '#fff'; X.lineWidth = 3; X.beginPath(); X.moveTo(STX - STW / 2 - 10, GY - ph); X.lineTo(x - 20, GY - ph); X.stroke(); X.setLineDash([]); X.globalAlpha = 1; }
+    X.globalAlpha = 1; }
+  // ---- the paper stack ----
+  const bump = 1 + 0.05 * hit * Math.cos(since * 30) * (since < 0.4 ? 1 : 0);
+  const sh = stackPx * bump; const sx0 = STX - STW / 2, sy0 = GY - sh;
+  X.save(); X.shadowColor = 'rgba(255,240,190,.75)'; X.shadowBlur = 30 + 50 * hit; const pg = X.createLinearGradient(sx0, 0, sx0 + STW, 0); pg.addColorStop(0, '#fffef6'); pg.addColorStop(0.7, '#f4f0e2'); pg.addColorStop(1, '#ddd6c0'); X.fillStyle = pg; rr(sx0, sy0, STW, sh, 6); X.fill(); X.restore();
+  const layers = Math.pow(2, n); if (layers < 200) { X.strokeStyle = 'rgba(150,140,110,.45)'; X.lineWidth = 1.5; for (let k = 1; k < layers; k++) { const yk = GY - sh * k / layers; X.beginPath(); X.moveTo(sx0 + 4, yk); X.lineTo(sx0 + STW - 4, yk); X.stroke(); } }
+  // the fold: right half of the sheet lifts and swings over the top, landing on the beat
+  if (n < NF && t > START) { const u = 1 - (LAND(n + 1) - t) / 0.42; if (u > 0 && u < 1) { const a = Math.PI * sm(u); const fw = STW / 2; const th = 12; X.save(); X.translate(STX, sy0); X.rotate(-a); X.shadowColor = 'rgba(0,0,0,.35)'; X.shadowBlur = 18; const fg = X.createLinearGradient(0, 0, fw, 0); fg.addColorStop(0, '#fffef6'); fg.addColorStop(1, `rgb(${lerpC([255, 255, 250], [205, 198, 178], Math.abs(Math.cos(a)))})`); X.fillStyle = fg; rr(0, -th, fw, th, 4); X.fill(); X.restore(); } }
+  // landing sparks + ring
+  if (hit > 0.02 && since < 0.6) { X.strokeStyle = `rgba(255,250,220,${hit})`; X.lineWidth = 4; X.beginPath(); X.ellipse(STX, sy0, 40 + since * 260, 12 + since * 70, 0, 0, 7); X.stroke(); for (let k = 0; k < 14; k++) { const a = -Math.PI * (0.1 + 0.8 * (k / 13)); const d = 30 + since * 520 * (0.6 + 0.4 * ((k * 7) % 5) / 5); X.fillStyle = `rgba(255,245,200,${hit})`; X.beginPath(); X.arc(STX + Math.cos(a) * d, sy0 + Math.sin(a) * d * 0.8 + since * since * 400, 5, 0, 7); X.fill(); } }
+  // ---- text ----
+  txt('How many folds to', W / 2, 120, 64, '#fff'); txt('reach the Moon?', W / 2, 200, 64, '#fff');
+  const cs = 1 + 0.18 * hit; X.save(); X.translate(W / 2, 300); X.scale(cs, cs);
+  if (t >= END) txt('Just 42 folds!', 0, 0, 72, '#6af0a8'); else { X.font = '62px P'; const a1 = `${n} folds = `, a2 = fmt(T0 * Math.pow(2, n)); const w1 = X.measureText(a1).width, w2 = X.measureText(a2).width; txt(a1, -(w1 + w2) / 2, 0, 62, '#fff', 'left'); txt(a2, -(w1 + w2) / 2 + w1, 0, 62, '#6af0a8', 'left'); }
+  X.restore();
+  X.fillStyle = 'rgba(255,255,255,.15)'; rr(140, 340, 800, 10, 5); X.fill(); X.fillStyle = '#6af0a8'; rr(140, 340, 800 * Math.min(1, f / NF), 10, 5); X.fill();
+  // bottom caption (slides in when it changes)
+  let cap = 'Each fold doubles it', capT = 0; for (const o of OBJ) { const k = Math.ceil(Math.log2(o[2] / T0)); if (n >= k) { cap = o[4]; capT = LAND(k); } }
+  for (const [k, c] of [[30, "You're in space now"], [32, 'Past the Space Station'], [37, 'Taller than Earth is wide'], [40, 'Almost there...']]) if (n >= k) { cap = c; capT = LAND(k); }
+  if (t >= END) { cap = '0.1 mm of paper. 42 folds.'; capT = END; }
+  const cu = eo((t - capT) / 0.35); X.fillStyle = 'rgba(0,0,0,.45)'; rr(90, 1700 - 62 + (1 - cu) * 30, 900, 92, 46); X.globalAlpha = cu; X.fill(); X.globalAlpha = 1; txt(cap, W / 2, 1714 + (1 - cu) * 30, 46, '#fff', 'center', cu);
+  if (t >= END) { const u2 = back((t - END) / 0.5); X.save(); X.translate(780, my); X.scale(u2, u2); txt('THE MOON', 0, -mr - 24, 44, '#fff'); X.restore(); }
+};
+window.setTiming = () => {};
+</script></body></html>
