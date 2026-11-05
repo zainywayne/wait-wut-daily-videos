@@ -21,7 +21,10 @@ def folds_at(t):
     if i >= NF: return float(NF)
     return i + (u * u * (3 - 2 * u))  # eased doubling each fold
 # reference objects: (name, height m, fold index where caption shows, drawer)
-def d_coin(im, x, y, s): r = max(2, int(0.012 * s)); cv2.circle(im, (x, y - r), r, (60, 150, 210), -1, cv2.LINE_AA); cv2.circle(im, (x, y - r), r, (120, 200, 245), max(1, r // 8), cv2.LINE_AA)
+def d_coin(im, x, y, s):
+    r = max(2, int(0.012 * s)); cv2.circle(im, (x, y - r), r, (70, 160, 215), -1, cv2.LINE_AA); cv2.circle(im, (x, y - r), r, (40, 110, 170), max(1, r // 10), cv2.LINE_AA); cv2.circle(im, (x, y - r), int(r * 0.78), (40, 110, 170), max(1, r // 30), cv2.LINE_AA)
+    if r > 40:
+        (tw, th_), _ = cv2.getTextSize('1', FONT, r / 40, max(1, r // 12)); cv2.putText(im, '1', (x - tw // 2, y - r + th_ // 2), FONT, r / 40, (40, 110, 170), max(1, r // 12), cv2.LINE_AA)
 def d_phone(im, x, y, s): h = int(0.147 * s); w = int(0.071 * s); cv2.rectangle(im, (x - w // 2, y - h), (x + w // 2, y), (40, 40, 45), -1, cv2.LINE_AA); cv2.rectangle(im, (x - w // 2 + max(1, w // 12), y - h + max(1, h // 14)), (x + w // 2 - max(1, w // 12), y - max(1, h // 14)), (170, 120, 60), -1)
 def d_person(im, x, y, s):
     h = 1.75 * s; hr = int(h * 0.07); cv2.circle(im, (x, int(y - h + hr)), max(1, hr), (190, 200, 210), -1, cv2.LINE_AA)
