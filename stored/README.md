@@ -10,3 +10,4 @@
 - press_octagon.mp4 | 8 presses. Every squish doubles it. #shorts
 - red_vs_blue.mp4 | Red vs Blue. Every squish doubles. #shorts
 - sort_race.mp4 | Sorting tournament: who wins? #shorts
+- what_happens_pegs.mp4 | What happens if you drop 1,500 balls through 14 rows of pegs? #shorts
