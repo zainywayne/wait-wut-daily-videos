@@ -1,0 +1,145 @@
+{
+ "title": "Tonight, the Moon moves twice as close",
+ "voice": "am_michael",
+ "scenes": [
+  {
+   "text": "Tonight, the Moon moves twice as close.",
+   "flash": "2X CLOSER",
+   "shots": [
+    {
+     "clip": "flyby",
+     "ss": 2
+    }
+   ]
+  },
+  {
+   "text": "It would look twice as wide in the sky.",
+   "shots": [
+    {
+     "clip": "supermoon_tl",
+     "ss": 0
+    },
+    {
+     "clip": "lunar_ecl",
+     "ss": 12
+    }
+   ]
+  },
+  {
+   "text": "Tidal forces would jump about eightfold.",
+   "flash": "8X",
+   "shots": [
+    {
+     "clip": "idalia",
+     "ss": 440
+    },
+    {
+     "clip": "atchafalaya",
+     "ss": 40
+    }
+   ]
+  },
+  {
+   "text": "Oceans would surge far up every coastline.",
+   "shots": [
+    {
+     "clip": "top20",
+     "ss": 144
+    },
+    {
+     "clip": "idalia",
+     "ss": 700
+    }
+   ]
+  },
+  {
+   "text": "Coastal cities could flood almost every day.",
+   "shots": [
+    {
+     "clip": "earth_night",
+     "ss": 28
+    },
+    {
+     "clip": "earth_night",
+     "ss": 40
+    }
+   ]
+  },
+  {
+   "text": "Even the month would shrink to about ten days.",
+   "flash": "10 DAYS",
+   "shots": [
+    {
+     "clip": "lunar_ecl",
+     "ss": 0
+    },
+    {
+     "clip": "flyby",
+     "ss": 18
+    }
+   ]
+  },
+  {
+   "text": "But here is the twist. The real Moon is drifting away.",
+   "flash": "TWIST",
+   "shots": [
+    {
+     "clip": "lroflyover",
+     "ss": 3
+    },
+    {
+     "clip": "flyby",
+     "ss": 30
+    }
+   ]
+  },
+  {
+   "text": "About four centimeters farther every year.",
+   "shots": [
+    {
+     "clip": "lroflyover",
+     "ss": 18
+    },
+    {
+     "clip": "top20",
+     "ss": 24
+    }
+   ]
+  },
+  {
+   "text": "So nothing like this is coming.",
+   "shots": [
+    {
+     "clip": "lroflyover",
+     "ss": 26.5
+    },
+    {
+     "clip": "lunar_ecl",
+     "ss": 36
+    }
+   ]
+  },
+  {
+   "text": "But that is exactly what would happen if",
+   "shots": [
+    {
+     "clip": "top20",
+     "ss": 80
+    },
+    {
+     "clip": "lunar_ecl",
+     "ss": 72
+    }
+   ]
+  }
+ ],
+ "yt_title": "Tonight, the Moon moves twice as close #shorts",
+ "yt_description": "What if the Moon was twice as close? Bigger tides, coastal flooding and a shorter month, though the real Moon is drifting away.\n\nFootage: NASA\n\n#shorts #space #whatif #moon #tides",
+ "yt_tags": [
+  "shorts",
+  "space",
+  "what if",
+  "moon",
+  "tides"
+ ]
+}

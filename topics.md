@@ -15,7 +15,7 @@
 - [x] What if a dinosaur-killer asteroid was heading for Earth tomorrow? (NASA DART 2022 hit a small asteroid and changed its orbit; we can only deflect with years of warning)
 - [x] What if all satellites stopped working at once? (made 2026-11-04, videos/satellites_stop.mp4) (GPS, weather, banking timing, phones, flights; about how much we depend on them)
 - [x] What if Earth's magnetic field vanished? (made 2026-11-05, videos/magnetic_field_vanishes.mp4) (more radiation, auroras everywhere, satellite and grid trouble; atmosphere loss would be slow, over a very long time)
-- [ ] What if the Moon was twice as close? (tides far bigger, Moon looks much larger; keep claims hedged)
+- [x] What if the Moon was twice as close? (made 2026-11-06, videos/moon_twice_as_close.mp4) (tides far bigger, Moon looks much larger; keep claims hedged)
 - [ ] What if you fell into a black hole? (stretching from tidal forces, time slows as seen from outside; no one knows what's at the center)
 - [ ] What if Saturn's rings disappeared? (rings are only about 10 m to 1 km thick in places; made of ice; they may be young and temporary)
 - [ ] What if Earth had rings like Saturn? (bright ring across the sky; shadows on the ground; keep hedged)
