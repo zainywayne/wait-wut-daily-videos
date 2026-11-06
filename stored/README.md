@@ -8,3 +8,4 @@
 - sort_circle.mp4 | Which sort is fastest? (wait for #8) #shorts
 - fold_moon_2d.mp4 | How many folds to reach the Moon? #shorts
 - press_octagon.mp4 | 8 presses. Every squish doubles it. #shorts
+- red_vs_blue.mp4 | Red vs Blue. Every squish doubles. #shorts
