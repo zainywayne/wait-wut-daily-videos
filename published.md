@@ -8,3 +8,4 @@
 2026-11-02 | SHORT | Tonight, the air vanishes #shorts | LeLX2rKkeRg
 2026-11-04 | SHORT | Tonight, a killer asteroid is found #shorts | 0VgDy8flV9E
 2026-11-05 | SHORT | Tonight, every satellite goes dark #shorts | Ec-VSEpB_rw
+2026-11-06 | SHORT | Tonight, Earth's magnetic field vanishes #shorts | LMYYQE9EATk
