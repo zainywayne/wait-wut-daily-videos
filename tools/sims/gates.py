@@ -13,9 +13,9 @@ GATES = [(660, 500, 2, 0.9, 0.0, (80, 220, 120)), (1060, 430, 3, 1.25, 1.7, (60,
 def gate_x(g, t):
     y, w, m, sp, ph, c = g; span = (X1 - X0 - w) / 2; return (X0 + X1) / 2 + span * math.sin(t * sp + ph)
 pos = np.zeros((MAXN, 2)); vel = np.zeros((MAXN, 2)); col = np.zeros(MAXN, int); n = 1
-pos[0] = (gate_x(GATES[0], 0.0), YTOP); vel[0] = (0, 200)
+pos[0] = (gate_x(GATES[0], 0.36), YTOP); vel[0] = (0, 120)
 PAL = [(70, 70, 255), (60, 180, 255), (60, 230, 255), (90, 230, 90), (255, 200, 60), (255, 110, 160), (230, 90, 220), (240, 240, 240)]
-events = []; state = {'reach': None}
+events = []; state = {'reach': None}; POPS = []
 def step(t):
     global n
     p, v = pos[:n], vel[:n]
@@ -45,6 +45,9 @@ def step(t):
         cross = (py < gy) & (p[:, 1] >= gy) & (np.abs(p[:, 0] - gx) < w / 2)
         if not cross.any(): continue
         idx = np.nonzero(cross)[0]
+        if mult < 1 and t < 5.0: continue
+        if n < 24:
+            for i in idx[:2]: POPS.append((float(p[i, 0]), float(gy), ('x' + str(int(mult))) if mult >= 1 else '/2', t))
         if mult < 1:
             kill[idx[rng.random(len(idx)) < 0.5]] = True; events.append((t, 'half', int(len(idx))))
         else:
@@ -74,13 +77,14 @@ def draw(t, pulse):
     cv2.rectangle(im, (X0 - 6, YTOP - 40), (X1 + 6, YBOT + 10), (200, 200, 210), 4, cv2.LINE_AA)
     for x, y in PEGS: cv2.circle(im, (int(x), int(y)), PEG_R, (175, 175, 185), -1, cv2.LINE_AA)
     gold = state['reach'] is not None and t >= state['reach']
-    P = pos[:n]; rad = 7 if n < 3000 else 6
+    P = pos[:n]; rad = int(max(6, 17 - 3.2 * math.log10(max(1, n))))
     for k in range(n):
         c = (60, 200, 255) if gold else PAL[col[k]]
         cv2.circle(im, (int(P[k, 0]), int(P[k, 1])), rad, (int(c[0] * 0.75), int(c[1] * 0.75), int(c[2] * 0.75)), -1, cv2.LINE_AA)
-        if n < 4000: cv2.circle(im, (int(P[k, 0]) - 2, int(P[k, 1]) - 2), 3, (min(255, c[0] + 60), min(255, c[1] + 60), min(255, c[2] + 60)), -1, cv2.LINE_AA)
+        if n < 4000: cv2.circle(im, (int(P[k, 0]) - rad // 3, int(P[k, 1]) - rad // 3), max(2, rad // 2), (min(255, c[0] + 60), min(255, c[1] + 60), min(255, c[2] + 60)), -1, cv2.LINE_AA)
     for g in GATES:
         gy, w, mult, sp, ph, c = g; gx = gate_x(g, t)
+        if mult < 1 and t < 5.0: continue
         ov = im.copy(); cv2.rectangle(ov, (int(gx - w / 2), gy - 26), (int(gx + w / 2), gy + 26), c, -1); im = cv2.addWeighted(ov, 0.35, im, 0.65, 0)
         cv2.rectangle(im, (int(gx - w / 2), gy - 26), (int(gx + w / 2), gy + 26), c, 4, cv2.LINE_AA)
         lab = ('x' + str(int(mult))) if mult >= 1 else '/2'
@@ -89,7 +93,11 @@ def draw(t, pulse):
     text_c(im, f'{shown:,}', 300, 4.0 * (1 + 0.12 * pulse), (60, 205, 255) if gold else (240, 240, 240), 11)
     if gold: text_c(im, 'GOAL REACHED', 405, 1.7, (255, 255, 255), 5)
     else: text_c(im, 'GOAL: 10,000', 405, 1.6, (120, 210, 255), 4)
-    if t < 2.5: text_c(im, '1 ball. Every gate multiplies it.', 1815, 1.25, (255, 255, 255), 4)
+    for (px, py, lab, t0) in POPS:
+        u = t - t0
+        if 0 <= u < 0.8: text_c(im, lab, int(py - 40 - u * 120), 1.6, (120, 255, 160) if lab != '/2' else (90, 90, 255), 4, x=px)
+    if t < 4.8: text_c(im, 'Every gate MULTIPLIES the balls', 1815, 1.3, (255, 255, 255), 4)
+    elif t < 8.0: text_c(im, 'Uh oh... a /2 gate appeared', 1815, 1.3, (120, 120, 255), 4)
     return im
 if __name__ == '__main__':
     mode = sys.argv[1] if len(sys.argv) > 1 else 'full'
