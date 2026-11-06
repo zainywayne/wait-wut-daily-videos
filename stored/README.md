@@ -9,4 +9,3 @@
 - fold_moon_2d.mp4 | How many folds to reach the Moon? #shorts
 - press_octagon.mp4 | 8 presses. Every squish doubles it. #shorts
 - red_vs_blue.mp4 | Red vs Blue. Every squish doubles. #shorts
-- laser_royale.mp4 | Pick a ball. Last one alive wins. #shorts
