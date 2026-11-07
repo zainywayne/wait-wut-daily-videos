@@ -17,6 +17,8 @@ Goal: make and publish ONE new vertical short per run, public, using only free t
 7. ADD TO BUFFER (do NOT upload here): copy mp4 to `videos/<slug>.mp4` and write `videos/<slug>.json` (the script plus `yt_title`, `yt_description` with "Footage: NASA" and hashtags, `yt_tags`). Mark the topic [x] in `topics.md`. `git pull`, commit, push. The next 3:30am run posts it.
 8. LEAN: keep usage low. At most 2 preview rounds and 2 render rounds; read each contact sheet once; no narration between steps; final report is 2 lines.
 
+## HOOKS.md IS MANDATORY: read HOOKS.md before writing the script. Triple hook (visual + verbal + textual) from frame 0, plus one share moment. Space shorts: open on the most dramatic clip; `title` is the textual hook (stakes or number, not the narration repeated); the loop ending still applies. Run the HOOKS.md gate on frame 0 of the contact sheet.
+
 ## QUALITY RULES v2 (Zain asked for much better shorts, 2026-10-30) - mandatory
 - FOOTAGE MUST SHOW WHAT IS BEING SAID. preview_shots.py prints the spoken line under every shot: go through the sheet line by line and replace any shot whose picture does not match its words (Zain rejected a short for this). Every scene gets its own NASA search for its subject (satellites -> "satellite orbit", power grid/blackout -> "city lights night ISS", auroras -> "aurora ISS", oceans -> "ocean from space", ice -> "Antarctica ice", storms -> "hurricane from space"). Never fill more than 40% of a short with the same subject (e.g. close-ups of the Sun). Download 10-14 clips covering the different subjects in the script.
 - 25-32 seconds, 8-10 scenes. Every sentence under 12 words. Cut anything that sounds like a lecture.
