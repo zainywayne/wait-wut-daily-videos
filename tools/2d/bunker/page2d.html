@@ -14,7 +14,7 @@ function label(s, x, y, tx, ty, a, col = '#ffd23f') { if (a <= 0) return; X.glob
 let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
 const STONES = Array.from({ length: 70 }, () => [rnd() * 1080, 1000 + rnd() * 900, 6 + rnd() * 16]);
 const GY = 900;                                  // ground surface
-const RX0 = 300, RX1 = 800, RY0 = 1230, RY1 = 1600; // bunker room (inside)
+const RX0 = 240, RX1 = 860, RY0 = 1230, RY1 = 1600; // bunker room (inside)
 function person(x, y, s, pose, t, a = 1) { if (a <= 0) return; X.save(); X.globalAlpha = a; X.translate(x, y); X.scale(s, s); X.lineCap = 'round';
   X.strokeStyle = '#2b2f3a'; X.lineWidth = 16; const leg = pose === 'sit' ? [[-10, 0, 30, 0, 34, 40], [10, 0, 46, 4, 50, 44]] : [[-8, 0, -18, 30, -20, 64], [8, 0, 18, 30, 20, 64]];
   for (const l of leg) { X.beginPath(); X.moveTo(l[0], l[1]); X.quadraticCurveTo(l[2], l[3], l[4], l[5]); X.stroke(); }
@@ -25,7 +25,10 @@ function person(x, y, s, pose, t, a = 1) { if (a <= 0) return; X.save(); X.globa
   if (pose === 'phone') { X.fillStyle = '#111'; X.fillRect(0, -100, 22, 36); X.fillStyle = Math.sin(t * 20) > 0 ? '#ff3b3b' : '#fff'; X.fillRect(3, -96, 16, 26); }
   X.fillStyle = '#f1c7a4'; X.beginPath(); X.arc(0, -96, 26, 0, 7); X.fill(); X.restore(); }
 function shotAt(t) { const S = T.segs; let i = 0; while (i < S.length - 1 && t >= S[i + 1].start) i++; const s = S[i]; return { name: s.shot, u: cl((t - s.start) / s.dur), i }; }
-const ORDER = ['yard', 'alert', 'dig', 'deep', 'walls', 'roof', 'door', 'air', 'water', 'light', 'safe', 'choice', 'end'];
+const ORDER = ['yard', 'alert', 'scramble', 'dig', 'deep', 'walls', 'roof', 'door', 'air', 'water', 'light', 'food', 'bed', 'radio', 'safe', 'choice', 'end'];
+const CLOUDS = Array.from({ length: 6 }, () => [rnd() * 1400 - 200, 120 + rnd() * 380, 60 + rnd() * 70, 8 + rnd() * 14]);
+const TUFTS = Array.from({ length: 160 }, () => [rnd() * 1700 - 300, 6 + rnd() * 14]);
+const ROOTS = Array.from({ length: 14 }, () => [rnd() * 1500 - 200, 20 + rnd() * 120]);
 window.frame = (t) => {
   if (!T) return; const sh = shotAt(t), k = ORDER.indexOf(sh.name), u = sh.u, at = n => sh.name === n, past = n => k > ORDER.indexOf(n), from = n => k >= ORDER.indexOf(n);
   // camera: starts on the yard, slides down underground once you dig
@@ -35,15 +38,20 @@ window.frame = (t) => {
   const night = from('safe') ? 0.6 : 0, sk = X.createLinearGradient(0, 0, 0, GY); sk.addColorStop(0, night ? '#20203a' : '#4fa3e8'); sk.addColorStop(1, night ? '#5a4060' : '#bfe3ff'); X.fillStyle = sk; X.fillRect(0, 0, W, H);
   const shake = at('safe') && u > 0.4 ? Math.exp(-(u - 0.4) * 6) * 14 : 0;
   X.save(); X.translate(540 + (Math.random() - 0.5) * shake, 1080 + (Math.random() - 0.5) * shake); X.scale(c.s, c.s); X.translate(-540, -c.y);
-  // sun / distant flash
-  X.fillStyle = '#ffe58a'; X.beginPath(); X.arc(880, 260, 70, 0, 7); X.fill();
+  // sun, clouds, house
+  X.save(); X.shadowColor = '#ffe58a'; X.shadowBlur = 80; X.fillStyle = '#ffe58a'; X.beginPath(); X.arc(880, 260, 70, 0, 7); X.fill(); X.restore();
+  for (const [cx0, cy0, r, sp] of CLOUDS) { const cx = ((cx0 + t * sp) % 1600) - 250; X.fillStyle = night ? 'rgba(160,150,190,.35)' : 'rgba(255,255,255,.85)'; for (const [dx, dy, k] of [[0, 0, 1], [r * 0.9, 8, 0.8], [-r * 0.9, 10, 0.75], [r * 0.4, -r * 0.4, 0.7]]) { X.beginPath(); X.arc(cx + dx, cy0 + dy, r * k, 0, 7); X.fill(); } }
+  if (at('scramble')) { const f = 0.25 + 0.25 * Math.sin(t * 9); X.fillStyle = `rgba(255,40,40,${f})`; X.fillRect(-300, -400, 1700, GY + 400); }
+  X.fillStyle = '#d9c7a8'; X.fillRect(-260, GY - 380, 330, 380); X.fillStyle = '#9b4b3a'; X.beginPath(); X.moveTo(-290, GY - 380); X.lineTo(-95, GY - 540); X.lineTo(100, GY - 380); X.fill(); X.fillStyle = '#7fb9e0'; X.fillRect(-180, GY - 300, 90, 80); X.fillRect(-40, GY - 300, 90, 80); X.fillStyle = '#6a4a30'; X.fillRect(-110, GY - 170, 70, 170);
   if (at('safe') && u > 0.38) { const f = Math.exp(-(u - 0.38) * 5); X.fillStyle = `rgba(255,220,160,${0.9 * f})`; X.fillRect(-300, -400, 1700, GY + 400); }
   // fence + tree
   X.fillStyle = '#c9a77a'; for (let x = -100; x < 1200; x += 46) X.fillRect(x, GY - 150, 34, 150); X.fillRect(-100, GY - 120, 1300, 12);
   X.fillStyle = '#6b4a2a'; X.fillRect(110, GY - 330, 34, 330); X.fillStyle = '#3f9a4a'; for (const [x, y, r] of [[127, GY - 360, 90], [70, GY - 300, 70], [190, GY - 300, 70]]) { X.beginPath(); X.arc(x, y, r, 0, 7); X.fill(); }
   // dirt cross-section
   const dg = X.createLinearGradient(0, GY, 0, 1900); dg.addColorStop(0, '#6b4a2e'); dg.addColorStop(1, '#3a2716'); X.fillStyle = dg; X.fillRect(-300, GY, 1700, 1200);
-  X.fillStyle = '#4f9b3f'; X.fillRect(-300, GY - 14, 1700, 24);
+  for (const [y0, h, col] of [[GY + 140, 40, 'rgba(255,220,170,.05)'], [GY + 420, 60, 'rgba(0,0,0,.10)'], [GY + 760, 50, 'rgba(255,220,170,.05)'], [GY + 900, 300, 'rgba(0,0,0,.12)']]) { X.fillStyle = col; X.beginPath(); X.moveTo(-300, y0); for (let x = -300; x <= 1400; x += 60) X.lineTo(x, y0 + Math.sin(x * 0.01) * 14); X.lineTo(1400, y0 + h); X.lineTo(-300, y0 + h); X.fill(); }
+  X.strokeStyle = 'rgba(60,40,20,.7)'; X.lineWidth = 3; for (const [rx, rl] of ROOTS) { X.beginPath(); X.moveTo(rx, GY + 8); X.quadraticCurveTo(rx + 20, GY + rl * 0.5, rx - 10, GY + rl); X.stroke(); }
+  X.fillStyle = '#4f9b3f'; X.fillRect(-300, GY - 14, 1700, 24); X.fillStyle = '#5fb24b'; for (const [x, h] of TUFTS) { X.beginPath(); X.moveTo(x - 5, GY - 8); X.lineTo(x, GY - 8 - h); X.lineTo(x + 5, GY - 8); X.fill(); }
   X.fillStyle = 'rgba(0,0,0,.18)'; for (const [x, y, r] of STONES) { X.beginPath(); X.ellipse(x, y, r, r * 0.7, 0, 0, 7); X.fill(); }
   // the hole / room
   const depth = at('dig') ? lerp(GY, 1350, sm(u)) : at('deep') ? lerp(1350, RY1, sm(u)) : from('walls') ? RY1 : GY;
@@ -60,7 +68,8 @@ window.frame = (t) => {
     X.fillStyle = 'rgba(0,0,0,.15)'; for (let y = RY1; y > RY1 - (RY1 - RY0) * w; y -= 40) { X.fillRect(RX0 - th, y, th, 2); X.fillRect(RX1, y, th, 2); } }
   if (from('roof')) { const r = at('roof') ? back(u / 0.4) : 1; X.save(); X.translate(550, RY0 - 15); X.scale(r, 1); X.fillStyle = '#8a9198'; X.fillRect(-(RX1 - RX0) / 2 - 30, -20, RX1 - RX0 + 60, 40); X.restore(); }
   // interior + hatch shaft
-  if (from('roof')) { X.fillStyle = '#26211c'; X.fillRect(RX0, RY0, RX1 - RX0, RY1 - RY0); }
+  if (from('roof')) { const ig = X.createLinearGradient(0, RY0, 0, RY1); ig.addColorStop(0, '#1d1915'); ig.addColorStop(1, '#2e2720'); X.fillStyle = ig; X.fillRect(RX0, RY0, RX1 - RX0, RY1 - RY0); X.fillStyle = '#5a4430'; X.fillRect(RX0, RY1 - 18, RX1 - RX0, 18); X.fillStyle = 'rgba(0,0,0,.25)'; for (let x = RX0; x < RX1; x += 70) X.fillRect(x, RY1 - 18, 3, 18);
+    const sg2 = X.createLinearGradient(RX0, 0, RX0 + 60, 0); sg2.addColorStop(0, 'rgba(0,0,0,.45)'); sg2.addColorStop(1, 'rgba(0,0,0,0)'); X.fillStyle = sg2; X.fillRect(RX0, RY0, 60, RY1 - RY0); const sg3 = X.createLinearGradient(RX1, 0, RX1 - 60, 0); sg3.addColorStop(0, 'rgba(0,0,0,.45)'); sg3.addColorStop(1, 'rgba(0,0,0,0)'); X.fillStyle = sg3; X.fillRect(RX1 - 60, RY0, 60, RY1 - RY0); }
   if (from('door')) { const d = at('door') ? sm(u / 0.5) : 1; X.fillStyle = '#9aa1a8'; X.fillRect(RX0 + 30, GY - 6, 24, (RY0 - GY) * d); X.fillRect(RX0 + 130, GY - 6, 24, (RY0 - GY) * d); X.fillStyle = '#1b130c'; X.fillRect(RX0 + 54, GY, 76, (RY0 - GY) * d);
     X.strokeStyle = '#b07a3a'; X.lineWidth = 6; for (let y = GY + 30; y < GY + (RY1 - 40 - GY) * d; y += 46) { X.beginPath(); X.moveTo(RX0 + 62, y); X.lineTo(RX0 + 122, y); X.stroke(); } X.beginPath(); X.moveTo(RX0 + 62, GY); X.lineTo(RX0 + 62, GY + (RY1 - 40 - GY) * d); X.moveTo(RX0 + 122, GY); X.lineTo(RX0 + 122, GY + (RY1 - 40 - GY) * d); X.stroke();
     const open = at('safe') ? 1 - sm((u - 0.15) / 0.2) : (from('door') ? (at('door') ? 1 - sm((u - 0.6) / 0.3) : 0) : 0); X.save(); X.translate(RX0 + 30, GY - 6); X.rotate(-open * 1.4); X.fillStyle = '#5d666f'; X.beginPath(); X.roundRect(0, -26, 124, 30, 6); X.fill(); X.fillStyle = '#c94a3a'; X.beginPath(); X.arc(62, -32, 12, 0, 7); X.fill(); X.restore(); }
@@ -69,23 +78,36 @@ window.frame = (t) => {
     if (a > 0.6) { X.fillStyle = '#f2f2f2'; X.fillRect(RX1 - 96, RY0 + 10, 66, 50); X.strokeStyle = '#999'; X.lineWidth = 2; for (let x = RX1 - 92; x < RX1 - 34; x += 8) { X.beginPath(); X.moveTo(x, RY0 + 12); X.lineTo(x, RY0 + 58); X.stroke(); } }
     for (let q = 0; q < 8; q++) { const ph = (t * 0.8 + q / 8) % 1; X.fillStyle = `rgba(200,240,255,${0.7 * (1 - ph)})`; X.beginPath(); X.arc(RX1 - 63 + Math.sin(q + t * 3) * 6, lerp(GY - 110, RY0 + 80, ph), 6, 0, 7); X.fill(); } }
   // water tank
-  if (from('water')) { const a = at('water') ? back(u / 0.35) : 1; X.save(); X.translate(RX1 - 110, RY1); X.scale(a, a); X.fillStyle = '#d6dde3'; X.beginPath(); X.roundRect(-70, -200, 140, 200, 18); X.fill(); const lv = at('water') ? sm((u - 0.3) / 0.6) : 1; X.fillStyle = '#3aa8f0'; X.beginPath(); X.roundRect(-58, -12 - 176 * lv, 116, 176 * lv, 10); X.fill(); X.restore(); }
+  if (from('water')) { const a = at('water') ? back(u / 0.35) : 1; X.save(); X.translate(RX1 - 100, RY1 - 18); X.scale(a, a); X.fillStyle = '#d6dde3'; X.beginPath(); X.roundRect(-70, -200, 140, 200, 18); X.fill(); const lv = at('water') ? sm((u - 0.3) / 0.6) : 1; X.fillStyle = '#3aa8f0'; X.beginPath(); X.roundRect(-58, -12 - 176 * lv, 116, 176 * lv, 10); X.fill(); X.restore(); }
   // battery + bulb
-  if (from('light')) { const a = at('light') ? back(u / 0.35) : 1; X.save(); X.translate(RX0 + 250, RY1); X.scale(a, a); X.fillStyle = '#2d3238'; X.beginPath(); X.roundRect(-60, -80, 120, 80, 10); X.fill(); X.fillStyle = '#ffd23f'; X.fillRect(-30, -96, 18, 16); X.fillStyle = '#7ad36b'; X.fillRect(-46, -60, 92 * (0.6 + 0.4 * Math.abs(Math.sin(t))), 20); X.restore();
-    const on = at('light') ? sm((u - 0.4) / 0.2) : 1; X.strokeStyle = '#111'; X.lineWidth = 5; X.beginPath(); X.moveTo(RX0 + 250, RY1 - 80); X.quadraticCurveTo(RX0 + 300, RY0 + 120, 560, RY0 + 30); X.stroke();
+  if (from('light')) { const a = at('light') ? back(u / 0.35) : 1; X.save(); X.translate(RX0 + 190, RY1 - 18); X.scale(a, a); X.fillStyle = '#2d3238'; X.beginPath(); X.roundRect(-60, -80, 120, 80, 10); X.fill(); X.fillStyle = '#ffd23f'; X.fillRect(-30, -96, 18, 16); X.fillStyle = '#7ad36b'; X.fillRect(-46, -60, 92 * (0.6 + 0.4 * Math.abs(Math.sin(t))), 20); X.restore();
+    const on = at('light') ? sm((u - 0.4) / 0.2) : 1; X.strokeStyle = '#111'; X.lineWidth = 5; X.beginPath(); X.moveTo(RX0 + 190, RY1 - 98); X.quadraticCurveTo(RX0 + 230, RY0 + 120, 560, RY0 + 30); X.stroke();
     X.save(); X.shadowColor = '#ffe9a0'; X.shadowBlur = 80 * on; X.fillStyle = on > 0.5 ? '#fff3c4' : '#777'; X.beginPath(); X.arc(560, RY0 + 50, 22, 0, 7); X.fill(); X.restore();
     if (on > 0) { const lg = X.createRadialGradient(560, RY0 + 50, 10, 560, RY0 + 160, 320); lg.addColorStop(0, `rgba(255,233,160,${0.35 * on})`); lg.addColorStop(1, 'rgba(255,233,160,0)'); X.fillStyle = lg; X.fillRect(RX0, RY0, RX1 - RX0, RY1 - RY0); } }
+  // shelf + cans
+  if (from('food')) { X.fillStyle = '#7a5a3a'; X.fillRect(470, RY0 + 130, 250, 12); X.fillRect(470, RY0 + 230, 250, 12);
+    const cans = 10; for (let q = 0; q < cans; q++) { const appear = at('food') ? back((u - 0.15 - q * 0.05) / 0.2) : 1; if (appear <= 0) continue; const row = q < 5 ? 0 : 1, x = 490 + (q % 5) * 46, y = RY0 + 130 + row * 100; X.save(); X.translate(x + 16, y); X.scale(appear, appear); const cg = X.createLinearGradient(-16, 0, 16, 0); cg.addColorStop(0, '#9aa3ab'); cg.addColorStop(0.5, '#e6ebef'); cg.addColorStop(1, '#8a939b'); X.fillStyle = cg; X.fillRect(-16, -52, 32, 52); X.fillStyle = ['#d8473a', '#e3a32b', '#3f8fd8', '#4caf50', '#d8473a'][q % 5]; X.fillRect(-16, -38, 32, 22); X.restore(); } }
+  // bed
+  if (from('bed')) { const a = at('bed') ? back(u / 0.35) : 1; X.save(); X.translate(560, RY1 - 18); X.scale(a, a); X.fillStyle = '#5b4632'; X.fillRect(-110, -46, 8, 46); X.fillRect(102, -46, 8, 46); X.fillStyle = '#6b8fb8'; X.beginPath(); X.roundRect(-112, -70, 224, 30, 10); X.fill(); X.fillStyle = '#f0f0ee'; X.beginPath(); X.roundRect(-106, -90, 60, 24, 10); X.fill(); X.restore(); }
+  // radio with sound waves
+  if (from('radio')) { const a = at('radio') ? back(u / 0.35) : 1; X.save(); X.translate(690, RY0 + 130); X.scale(a, a); X.fillStyle = '#3a3f46'; X.beginPath(); X.roundRect(-40, -56, 80, 56, 10); X.fill(); X.fillStyle = '#d0d5da'; X.beginPath(); X.arc(-16, -28, 14, 0, 7); X.fill(); X.fillStyle = '#ffb347'; X.fillRect(6, -44, 26, 10); X.strokeStyle = '#aaa'; X.lineWidth = 3; X.beginPath(); X.moveTo(26, -56); X.lineTo(50, -110); X.stroke();
+    if (at('radio') || at('safe')) { X.strokeStyle = 'rgba(255,210,63,.8)'; X.lineWidth = 4; for (let w2 = 0; w2 < 3; w2++) { const ph = (t * 1.2 + w2 / 3) % 1; X.globalAlpha = 1 - ph; X.beginPath(); X.arc(50, -110, 12 + ph * 50, -0.9, 0.9); X.stroke(); } X.globalAlpha = 1; } X.restore(); }
   // you
   if (at('yard')) person(600, GY - 30, 1.3, 'sit', t);
   if (at('yard')) { X.fillStyle = '#e94b3c'; X.fillRect(560, GY - 40, 110, 14); X.fillRect(650, GY - 110, 14, 84); }
   if (at('alert')) person(600, GY - 6, 1.3, 'phone', t);
+  if (at('scramble')) person(lerp(300, 820, (Math.sin(t * 2.2) + 1) / 2), GY - 6, 1.3, 'stand', t);
   if (at('dig') || at('deep')) person(560, depth - 4, 1.2, 'dig', t);
-  if (at('safe') || at('choice') || at('end')) person(at('safe') ? lerp(RX0 + 92, 470, sm((u - 0.1) / 0.3)) : 470, RY1 - 4, 1.2, 'stand', t);
+  if (at('safe') || at('choice') || at('end')) person(at('safe') ? lerp(RX0 + 92, 470, sm((u - 0.1) / 0.3)) : 470, RY1 - 22, 1.2, 'stand', t);
   // labels
   label('3 m of dirt', RX0 - 10, lerp(GY, RY1, 0.5), 60, 1180, at('deep') ? cl((u - 0.5) / 0.2) : 0); if (at('deep')) { X.strokeStyle = '#ffd23f'; X.lineWidth = 4; X.setLineDash([12, 10]); X.beginPath(); X.moveTo(RX0 - 10, GY); X.lineTo(RX0 - 10, depth); X.stroke(); X.setLineDash([]); }
   label('CONCRETE', RX1 + 15, 1450, 760, 1720, at('walls') ? cl((u - 0.4) / 0.2) : 0); label('HATCH', RX0 + 90, GY - 30, 520, GY - 190, at('door') ? cl((u - 0.3) / 0.2) : 0);
-  label('FILTER', RX1 - 60, RY0 + 30, 600, RY0 - 70, at('air') ? cl((u - 0.5) / 0.2) : 0); label('WATER', RX1 - 110, RY1 - 120, 560, RY0 + 110, at('water') ? cl((u - 0.3) / 0.2) : 0); label('BATTERY', RX0 + 250, RY1 - 60, 420, RY1 + 130, at('light') ? cl((u - 0.3) / 0.2) : 0);
+  label('FILTER', RX1 - 60, RY0 + 30, 600, RY0 - 70, at('air') ? cl((u - 0.5) / 0.2) : 0); label('WATER', RX1 - 110, RY1 - 120, 560, RY0 + 110, at('water') ? cl((u - 0.3) / 0.2) : 0); label('BATTERY', RX0 + 190, RY1 - 80, 420, RY1 + 130, at('light') ? cl((u - 0.3) / 0.2) : 0);
+  label('2 WEEKS OF FOOD', 600, RY0 + 180, 560, RY0 - 70, at('food') ? cl((u - 0.5) / 0.2) : 0); label('RADIO', 690, RY0 + 80, 780, RY0 - 150, at('radio') ? cl((u - 0.4) / 0.2) : 0);
   X.restore();
+  // vignette
+  const vg = X.createRadialGradient(540, 960, 500, 540, 960, 1200); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.45)'); X.fillStyle = vg; X.fillRect(0, 0, W, H);
+  if (at('scramble')) { txt('NEAREST SHELTER: 14 MILES', 540, 1650, 46, '#ff5a4a'); }
   // phone alert overlay
   if (at('alert')) { const a = sm(u / 0.12) * (1 - sm((u - 0.9) / 0.1)); const s = back(u / 0.2); X.save(); X.globalAlpha = a; X.fillStyle = 'rgba(0,0,0,.45)'; X.fillRect(0, 0, W, H); X.translate(540, 1000); X.scale(s, s);
     X.fillStyle = '#16181d'; X.beginPath(); X.roundRect(-300, -560, 600, 1120, 60); X.fill(); X.fillStyle = '#2a2d34'; X.beginPath(); X.roundRect(-270, -520, 540, 1040, 40); X.fill();
@@ -100,6 +122,6 @@ window.frame = (t) => {
     txt('Comment 1, 2 or 3', 540, 1560, 54, '#fff', 'center', a); txt('Top comment gets built.', 540, 1640, 48, '#ffd23f', 'center', a); } }
   // captions (one word at a time), hidden on the alert + choice screens
   if (!at('alert') && !(at('choice') && u > 0.35) && !at('end')) { const seg = T.segs[sh.i]; let word = '', wt0 = 0; for (const [w, wt] of seg.words || []) if (t >= wt) { word = w; wt0 = wt; }
-    if (word) { const pop = 1 + 0.12 * Math.exp(-(t - wt0) * 12); X.save(); X.translate(540, 300); X.scale(pop, pop); txt(word.replace(/[.,]/g, '').toUpperCase(), 0, 0, 100, /fallout|air|water|deep|sealed/i.test(word) ? '#ffd23f' : '#ffffff'); X.restore(); } }
+    if (word) { const pop = 1 + 0.12 * Math.exp(-(t - wt0) * 12); X.save(); X.translate(540, 300); X.scale(pop, pop); txt(word.replace(/[.,]/g, '').toUpperCase(), 0, 0, 100, /fallout|air|water|deep|sealed|food|safe|sirens/i.test(word) ? '#ffd23f' : '#ffffff'); X.restore(); } }
 };
 </script></body></html>

@@ -13,8 +13,13 @@
    "pause": 1.0
   },
   {
+   "shot": "scramble",
+   "text": "Sirens everywhere. The nearest shelter is miles away. You won't make it.",
+   "pause": 0.5
+  },
+  {
    "shot": "dig",
-   "text": "No time. You grab a shovel and start digging.",
+   "text": "So you grab a shovel and start digging.",
    "pause": 0.4
   },
   {
@@ -49,7 +54,22 @@
   },
   {
    "shot": "light",
-   "text": "And a battery for light.",
+   "text": "A battery for light.",
+   "pause": 0.4
+  },
+  {
+   "shot": "food",
+   "text": "Canned food. Enough for two weeks.",
+   "pause": 0.4
+  },
+  {
+   "shot": "bed",
+   "text": "A bed, because you could be down here a while.",
+   "pause": 0.4
+  },
+  {
+   "shot": "radio",
+   "text": "And a hand crank radio, so you know when it's safe to come out.",
    "pause": 0.6
   },
   {
