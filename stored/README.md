@@ -12,3 +12,4 @@
 - sort_race.mp4 | Sorting tournament: who wins? #shorts
 - toilet_built.mp4 | The power went out… so you invented this #shorts
 - bunker_part1.mp4 (60s v2) | You got a nuclear alert… so you built this (Part 1) #shorts
+- bunker_part2_farm.mp4 | You picked the farm… then someone knocked (Part 2) #shorts
