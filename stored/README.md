@@ -10,3 +10,4 @@
 - press_octagon.mp4 | 8 presses. Every squish doubles it. #shorts
 - red_vs_blue.mp4 | Red vs Blue. Every squish doubles. #shorts
 - sort_race.mp4 | Sorting tournament: who wins? #shorts
+- toilet_built.mp4 | The power went out… so you invented this #shorts

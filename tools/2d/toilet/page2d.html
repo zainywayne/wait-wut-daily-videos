@@ -1,0 +1,116 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:P;src:url(Poppins-Bold.ttf)}
+html,body{margin:0;background:#000;overflow:hidden}
+</style></head><body><canvas id=c width=1080 height=1920></canvas>
+<script>
+// "You built it": the toilet. Electric first, then the power dies, so you invent the gravity flush (siphon).
+const C = document.getElementById('c'), X = C.getContext('2d'), W = 1080, H = 1920;
+let T = null; window.setTiming = t => { T = t; };
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), sm = x => { x = cl(x); return x * x * (3 - 2 * x); }, eo = x => 1 - Math.pow(1 - cl(x), 3);
+const back = x => { x = cl(x); const c = 1.8; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const lerp = (a, b, u) => a + (b - a) * u;
+// ---------- geometry (side cutaway) ----------
+const FLOOR = 1480, RIM = 930, SEAL = 1085;              // water rests at the trap crest (SEAL)
+function bowlPath() { X.beginPath(); X.moveTo(250, RIM); X.bezierCurveTo(250, 1120, 420, 1200, 560, 1215); X.lineTo(610, 1215); X.bezierCurveTo(660, 1150, 700, 1050, 705, RIM); X.closePath(); }
+// trapway: from the bowl outlet up over the crest, then down to the floor drain
+const TRAP = [[585, 1215], [640, 1200], [690, 1140], [735, SEAL - 18], [790, SEAL - 30], [830, 1110], [845, 1200], [845, 1330], [845, 1480], [845, 1640]];
+function trapPath() { X.beginPath(); X.moveTo(...TRAP[0]); for (let i = 1; i < TRAP.length - 1; i++) { const p = TRAP[i], q = TRAP[i + 1]; X.quadraticCurveTo(p[0], p[1], (p[0] + q[0]) / 2, (p[1] + q[1]) / 2); } X.lineTo(...TRAP[TRAP.length - 1]); }
+const TRAPLEN = (() => { let L = 0; for (let i = 1; i < TRAP.length; i++) L += Math.hypot(TRAP[i][0] - TRAP[i - 1][0], TRAP[i][1] - TRAP[i - 1][1]); return L * 1.02; })();
+// ---------- drawing helpers ----------
+function txt(s, x, y, size, col, align = 'center', a = 1) { X.globalAlpha = a; X.font = `${size}px P`; X.textAlign = align; X.fillStyle = 'rgba(0,0,0,.6)'; X.fillText(s, x + 3, y + 4); X.fillStyle = col; X.fillText(s, x, y); X.globalAlpha = 1; }
+function label(s, x, y, tx, ty, a, col = '#ffd23f') { if (a <= 0) return; X.globalAlpha = a; X.strokeStyle = col; X.lineWidth = 4; X.beginPath(); X.moveTo(x, y); X.lineTo(tx, ty); X.stroke(); X.fillStyle = col; X.beginPath(); X.arc(x, y, 8, 0, 7); X.fill(); X.globalAlpha = 1; txt(s, tx, ty - 14, 44, col, tx < x ? 'right' : 'left', a); }
+function poop(x, y, s, a = 1) { if (s <= 0.02 || a <= 0) return; X.save(); X.globalAlpha = a; X.translate(x, y); X.scale(s, s); const g = X.createLinearGradient(-40, -60, 40, 20); g.addColorStop(0, '#9a6236'); g.addColorStop(1, '#5c3418'); X.fillStyle = g;
+  for (const [ex, ey, rx, ry] of [[0, 0, 46, 20], [0, -24, 34, 17], [0, -44, 22, 13]]) { X.beginPath(); X.ellipse(ex, ey, rx, ry, 0, 0, 7); X.fill(); } X.beginPath(); X.moveTo(-8, -54); X.quadraticCurveTo(6, -70, 4, -62); X.quadraticCurveTo(0, -56, 8, -50); X.fill();
+  X.fillStyle = 'rgba(255,255,255,.25)'; X.beginPath(); X.ellipse(-14, -28, 8, 4, -0.4, 0, 7); X.fill(); X.restore(); }
+function stink(x, y, t, a) { if (a <= 0) return; X.save(); X.globalAlpha = a * 0.8; X.strokeStyle = '#9ccc4a'; X.lineWidth = 6; X.lineCap = 'round'; for (let k = 0; k < 3; k++) { const ph = (t * 0.6 + k / 3) % 1; X.globalAlpha = a * 0.8 * (1 - ph); X.beginPath(); for (let j = 0; j <= 12; j++) { const yy = y - ph * 140 - j * 8; const xx = x - 40 + k * 40 + Math.sin(j * 0.8 + t * 4 + k) * 10; j ? X.lineTo(xx, yy) : X.moveTo(xx, yy); } X.stroke(); } X.restore(); }
+function hand(x, y, s = 1, a = 1) { if (a <= 0) return; X.save(); X.globalAlpha = a; X.translate(x, y); X.scale(s, s); X.fillStyle = '#f1c7a4'; X.strokeStyle = '#7a5038'; X.lineWidth = 4;
+  X.beginPath(); X.roundRect(-14, -90, 28, 90, 14); X.fill(); X.stroke(); X.beginPath(); X.roundRect(-40, -10, 80, 70, 24); X.fill(); X.stroke(); X.restore(); }
+// ---------- scene state from the shot timeline ----------
+function shotAt(t) { const S = T.segs; let i = 0; while (i < S.length - 1 && t >= S[i + 1].start) i++; const s = S[i]; return { name: s.shot, u: cl((t - s.start) / s.dur), lt: t - s.start, i }; }
+const ORDER = ['bowl', 'waste', 'pump', 'suck', 'fancy', 'perfect', 'outage', 'stuck', 'tank', 'pull', 'bend', 'siphon', 'done', 'end'];
+const idx = n => ORDER.indexOf(n);
+window.frame = (t) => {
+  if (!T) return; const sh = shotAt(t), k = idx(sh.name), u = sh.u;
+  const after = n => k > idx(n), at = n => sh.name === n;
+  const power = k < idx('outage') || (at('outage') && u < 0.18 && Math.sin(t * 60) > -0.3);
+  const dark = at('outage') ? 0.6 * sm((u - 0.15) / 0.25) : (k > idx('outage') ? (k >= idx('tank') ? 0.4 : 0.6) : 0);
+  // camera: gentle push-ins on the part being explained
+  let zx = 560, zy = 1080, zs = 1.15;
+  if (at('pump') || at('suck')) { zx = 640; zy = 1200; zs = 1.12; } if (at('fancy')) { zs = 1.05; zy = 1000; } if (at('tank') || at('pull')) { zx = 620; zy = 980; zs = 1.08; } if (at('bend') || at('siphon')) { zx = 690; zy = 1150; zs = 1.22; }
+  window._cam = window._cam || { x: zx, y: zy, s: zs }; const cm = window._cam; cm.x += (zx - cm.x) * 0.06; cm.y += (zy - cm.y) * 0.06; cm.s += (zs - cm.s) * 0.06;
+  // background room
+  const bg = X.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#1b2a3a'); bg.addColorStop(1, '#0d1620'); X.fillStyle = bg; X.fillRect(0, 0, W, H);
+  X.save(); X.translate(540, 1080); X.scale(cm.s, cm.s); X.translate(-cm.x, -cm.y);
+  // tiles + floor
+  X.strokeStyle = 'rgba(255,255,255,.05)'; X.lineWidth = 2; for (let y = 420; y < FLOOR; y += 90) { X.beginPath(); X.moveTo(-200, y); X.lineTo(1300, y); X.stroke(); } for (let x = -200; x < 1300; x += 90) { X.beginPath(); X.moveTo(x, 420); X.lineTo(x, FLOOR); X.stroke(); }
+  X.fillStyle = '#2a2f36'; X.fillRect(-300, FLOOR, 1700, 600); X.fillStyle = '#3a414a'; X.fillRect(-300, FLOOR, 1700, 10);
+  // drain pipe under the floor
+  X.fillStyle = '#20252b'; X.fillRect(815, FLOOR, 60, 260);
+  // ----- bowl water level + flow logic -----
+  let level = SEAL, pipeFill = 0, waste = 0, wx = 470, wy = SEAL, wscale = 1, swirl = 0, tankLv = 0;
+  const bowlIn = sm(u / 0.5);
+  if (at('bowl')) { level = lerp(1215, SEAL, sm((u - 0.35) / 0.5)); }
+  if (k >= idx('waste') && k < idx('suck')) { waste = 1; wy = at('waste') ? lerp(560, SEAL - 4, eo((u - 0.15) / 0.3)) : SEAL - 4; }
+  if (at('suck')) { const s = sm((u - 0.3) / 0.45); waste = 1 - s; wx = lerp(470, 600, s); wy = lerp(SEAL - 4, 1200, s); wscale = 1 - 0.6 * s; level = lerp(SEAL, 1150, Math.sin(Math.PI * cl((u - 0.3) / 0.6))); pipeFill = Math.sin(Math.PI * cl((u - 0.3) / 0.6)); }
+  if (k >= idx('perfect') && k < idx('siphon')) { waste = at('perfect') ? eo((u - 0.4) / 0.3) : 1; wy = at('perfect') ? lerp(600, SEAL - 4, eo((u - 0.4) / 0.3)) : SEAL - 4; }
+  if (k >= idx('tank')) tankLv = at('tank') ? sm((u - 0.3) / 0.5) : 1;
+  if (at('pull')) { const s = sm((u - 0.25) / 0.6); tankLv = 1 - 0.7 * s; level = lerp(SEAL, SEAL - 70, s); wy = level - 4; }
+  if (at('bend')) { tankLv = 0.3 - 0.2 * u; level = SEAL - 70 - 25 * sm(u); wy = level - 4; pipeFill = sm((u - 0.2) / 0.7) * 0.75; }
+  if (at('siphon')) { const s = sm((u - 0.05) / 0.6); tankLv = 0.1; level = lerp(SEAL - 95, 1195, s); pipeFill = 1 - 0.6 * sm((u - 0.6) / 0.4); waste = 1 - sm((u - 0.15) / 0.45); wx = lerp(470, 600, sm((u - 0.15) / 0.45)); wy = lerp(SEAL - 99, 1205, sm((u - 0.15) / 0.45)); wscale = 1 - 0.7 * sm((u - 0.15) / 0.45); swirl = Math.sin(Math.PI * cl(u / 0.8)); }
+  if (at('done') || at('end')) { const s = at('done') ? sm((u - 0.05) / 0.5) : 1; level = lerp(1195, SEAL, s); tankLv = lerp(0.1, 1, s); }
+  // ----- tank (only once invented) -----
+  if (k >= idx('tank')) { const a = at('tank') ? back(u / 0.35) : 1; X.save(); X.translate(780, 860); X.scale(a, a); X.translate(-780, -860);
+    X.fillStyle = '#e9eef2'; X.strokeStyle = '#9aa7b2'; X.lineWidth = 8; X.beginPath(); X.roundRect(640, 560, 280, 300, 22); X.fill(); X.stroke();
+    X.save(); X.beginPath(); X.roundRect(652, 572, 256, 276, 16); X.clip(); const ty = lerp(848, 600, tankLv); const wg = X.createLinearGradient(0, ty, 0, 848); wg.addColorStop(0, '#5ec3ff'); wg.addColorStop(1, '#1f7fd0'); X.fillStyle = wg; X.fillRect(652, ty, 256, 848 - ty); X.restore();
+    X.fillStyle = '#9aa7b2'; X.fillRect(690, 860, 36, 70); // tank -> bowl pipe
+    let hr = 0; if (at('pull')) hr = Math.sin(Math.PI * cl((u - 0.05) / 0.4)) * 0.6; X.save(); X.translate(900, 620); X.rotate(hr); X.fillStyle = '#b8c2cc'; X.beginPath(); X.roundRect(-10, -12, 90, 24, 12); X.fill(); X.restore();
+    X.restore();
+    if (at('pull') || at('bend')) { const flow = at('pull') ? Math.sin(Math.PI * cl((u - 0.2) / 0.8)) : 0.5 * (1 - u); if (flow > 0.02) { X.strokeStyle = `rgba(94,195,255,${flow})`; X.lineWidth = 26 * flow + 6; X.lineCap = 'round'; X.beginPath(); X.moveTo(708, 930); X.quadraticCurveTo(690, 990, 600 + Math.sin(t * 20) * 6, level); X.stroke(); } } }
+  // ----- bowl (porcelain) + water -----
+  X.save(); X.globalAlpha = at('bowl') ? bowlIn : 1;
+  X.lineWidth = 40; X.strokeStyle = '#f4f6f8'; X.lineJoin = 'round'; trapPath(); X.stroke(); // trap walls
+  X.lineWidth = 28; X.strokeStyle = '#26323c'; trapPath(); X.stroke();
+  if (pipeFill > 0) { X.lineWidth = 26; X.strokeStyle = '#3aa8f0'; X.setLineDash([TRAPLEN * pipeFill, TRAPLEN * 2]); trapPath(); X.stroke(); X.setLineDash([]); }
+  // standing water inside the trap up to the crest
+  X.save(); trapPath(); X.lineWidth = 26; X.strokeStyle = '#3aa8f0'; X.setLineDash([TRAPLEN * 0.33, TRAPLEN * 2]); X.stroke(); X.restore();
+  X.lineWidth = 36; X.strokeStyle = '#f4f6f8'; bowlPath(); X.stroke(); X.fillStyle = '#26323c'; bowlPath(); X.fill();
+  X.save(); bowlPath(); X.clip(); const wg2 = X.createLinearGradient(0, level, 0, 1220); wg2.addColorStop(0, '#6cd0ff'); wg2.addColorStop(1, '#1c78c4'); X.fillStyle = wg2; X.fillRect(200, level, 600, 1300 - level);
+  if (swirl > 0.02) { X.strokeStyle = `rgba(255,255,255,${0.5 * swirl})`; X.lineWidth = 5; for (let s = 0; s < 4; s++) { X.beginPath(); X.ellipse(500, level + 40 + s * 30, 120 - s * 25, 14, 0, t * 8 + s, t * 8 + s + 4); X.stroke(); } }
+  X.fillStyle = 'rgba(255,255,255,.35)'; X.fillRect(200, level - 2, 600, 5); X.restore();
+  // seat + base
+  X.fillStyle = '#e3e8ec'; X.beginPath(); X.roundRect(232, RIM - 30, 500, 34, 16); X.fill(); X.fillStyle = '#f4f6f8'; X.beginPath(); X.moveTo(480, 1215); X.lineTo(430, FLOOR); X.lineTo(760, FLOOR); X.lineTo(700, 1180); X.fill();
+  X.restore();
+  poop(wx, wy, 1.35 * wscale * (waste > 0 ? 1 : 0), waste);
+  stink(wx, wy - 70, t, waste > 0.5 && (at('waste') || at('stuck') || at('outage')) ? 1 : 0);
+  // ----- electric stuff -----
+  if (k >= idx('pump')) { const a = at('pump') ? back((u - 0.1) / 0.35) : 1; const dead = !power;
+    X.save(); X.translate(845, 1340); X.scale(a, a); X.fillStyle = dead ? '#3b4048' : '#4a5563'; X.strokeStyle = '#8a96a3'; X.lineWidth = 6; X.beginPath(); X.roundRect(-70, -60, 140, 120, 18); X.fill(); X.stroke();
+    X.save(); X.rotate((at('suck') && u > 0.25 && u < 0.85) ? t * 30 : (power ? t * 2 : 0)); X.fillStyle = '#c9d2db'; for (let b = 0; b < 4; b++) { X.rotate(Math.PI / 2); X.beginPath(); X.ellipse(0, -24, 10, 24, 0, 0, 7); X.fill(); } X.restore(); X.restore();
+    // wire to the wall outlet
+    const wl = at('pump') ? sm((u - 0.35) / 0.4) : 1; X.strokeStyle = '#111'; X.lineWidth = 10; X.lineCap = 'round'; X.beginPath(); X.moveTo(915, 1340); X.bezierCurveTo(960, 1400, 990, 1280, lerp(915, 1000, wl), lerp(1340, 1200, wl)); X.stroke();
+    X.fillStyle = '#e7ecf0'; X.beginPath(); X.roundRect(980, 1160, 70, 100, 12); X.fill(); X.fillStyle = '#333'; X.fillRect(998, 1190, 8, 22); X.fillRect(1024, 1190, 8, 22);
+    if (power && wl > 0.95) for (let s = 0; s < 3; s++) { const ph = (t * 1.6 + s / 3) % 1; const px = lerp(1000, 915, ph), py = lerp(1200, 1340, ph) + Math.sin(ph * 9) * 30; X.fillStyle = '#ffe14a'; X.beginPath(); X.arc(px, py, 8, 0, 7); X.fill(); }
+    // wall button
+    const press = at('suck') ? Math.sin(Math.PI * cl(u / 0.3)) : 0; X.fillStyle = '#e7ecf0'; X.beginPath(); X.roundRect(960, 900, 90, 90, 16); X.fill(); X.fillStyle = power ? '#ff4d5e' : '#5a3036'; X.beginPath(); X.arc(1005, 945, 26 - 6 * press, 0, 7); X.fill();
+    if (at('suck')) hand(1005 + 20, 1010 - 40 * press, 1, cl(u / 0.1) * (1 - cl((u - 0.45) / 0.1)));
+    if (dead && k >= idx('outage')) { X.strokeStyle = '#ff3b3b'; X.lineWidth = 10; const o = 30; X.beginPath(); X.moveTo(845 - o, 1340 - o); X.lineTo(845 + o, 1340 + o); X.moveTo(845 + o, 1340 - o); X.lineTo(845 - o, 1340 + o); X.stroke(); } }
+  // fancy upgrades: heated seat glow, fan, lights
+  if (k >= idx('fancy')) { const f1 = at('fancy') ? sm((u - 0.05) / 0.2) : 1, f2 = at('fancy') ? sm((u - 0.35) / 0.2) : 1, f3 = at('fancy') ? sm((u - 0.65) / 0.2) : 1; const on = power ? 1 : 0;
+    X.save(); X.shadowColor = '#ff7a2a'; X.shadowBlur = 40 * f1 * on; X.fillStyle = `rgba(255,122,42,${0.8 * f1 * on})`; X.beginPath(); X.roundRect(240, RIM - 34, 480, 10, 5); X.fill(); X.restore();
+    X.save(); X.translate(160, 640); X.scale(f2, f2); X.fillStyle = '#c9d2db'; X.beginPath(); X.arc(0, 0, 70, 0, 7); X.fill(); X.rotate(power ? t * 14 : 0); X.fillStyle = '#6b7784'; for (let b = 0; b < 3; b++) { X.rotate(2.094); X.beginPath(); X.ellipse(0, -34, 16, 32, 0, 0, 7); X.fill(); } X.restore();
+    for (let s = 0; s < 6; s++) { X.save(); X.globalAlpha = f3; X.shadowColor = '#c56bff'; X.shadowBlur = 30 * on; X.fillStyle = on ? '#e1a8ff' : '#4a3a55'; X.beginPath(); X.arc(290 + s * 78, RIM + 26, 10, 0, 7); X.fill(); X.restore(); } }
+  // labels
+  label('PUMP', 790, 1340, 610, 1460, at('pump') ? cl((u - 0.4) / 0.2) : 0);
+  label('BUTTON', 960, 945, 820, 820, at('suck') ? cl(u / 0.2) * (1 - cl((u - 0.8) / 0.2)) : 0);
+  label('TANK', 640, 640, 470, 560, at('tank') ? cl((u - 0.4) / 0.2) : 0); label('HANDLE', 960, 620, 900, 470, at('pull') ? cl(u / 0.2) * (1 - cl((u - 0.7) / 0.2)) : 0);
+  label('THE BEND', 790, SEAL - 34, 720, 860, at('bend') ? cl((u - 0.1) / 0.2) : 0); label('SIPHON', 845, 1250, 640, 1560, at('siphon') ? cl((u - 0.2) / 0.2) : 0, '#6af0a8');
+  X.restore();
+  // power outage: darkness + flicker
+  if (dark > 0) { X.fillStyle = `rgba(0,0,6,${dark})`; X.fillRect(0, 0, W, H); }
+  if (at('outage') && u < 0.2 && Math.sin(t * 47) > 0.6) { X.fillStyle = 'rgba(255,255,255,.12)'; X.fillRect(0, 0, W, H); }
+  // captions: one big word at a time
+  const seg = T.segs[sh.i]; let word = ''; for (const [w, wt] of seg.words || []) if (t >= wt) word = w;
+  if (word) { const pop = 1 + 0.12 * Math.exp(-((t - (seg.words.find(x => x[0] === word) || [0, t])[1])) * 12); X.save(); X.translate(540, 330); X.scale(pop, pop); txt(word.replace(/[.,]/g, '').toUpperCase(), 0, 0, 104, (/power|siphon|flush|gravity/i).test(word) ? '#ffd23f' : '#ffffff'); X.restore(); }
+  if (at('done') && u > 0.45) txt('FLUSH TOILET', 540, 470, 64, '#6af0a8');
+};
+</script></body></html>

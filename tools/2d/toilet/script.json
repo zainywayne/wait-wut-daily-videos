@@ -1,0 +1,71 @@
+{
+ "voice": "am_michael",
+ "speed": 1.0,
+ "scenes": [
+  {
+   "shot": "bowl",
+   "text": "You need a toilet. So you make a bowl.",
+   "pause": 0.4
+  },
+  {
+   "shot": "waste",
+   "text": "But how do you get rid of... this?",
+   "pause": 0.7
+  },
+  {
+   "shot": "pump",
+   "text": "So you add an electric pump.",
+   "pause": 0.4
+  },
+  {
+   "shot": "suck",
+   "text": "Press a button, and it sucks everything away.",
+   "pause": 0.5
+  },
+  {
+   "shot": "fancy",
+   "text": "Then you add a heated seat. A fan. Even lights.",
+   "pause": 0.5
+  },
+  {
+   "shot": "perfect",
+   "text": "It's perfect. Until...",
+   "pause": 0.8
+  },
+  {
+   "shot": "outage",
+   "text": "the power goes out.",
+   "pause": 1.0
+  },
+  {
+   "shot": "stuck",
+   "text": "Now nothing works. And it's just... sitting there.",
+   "pause": 0.7
+  },
+  {
+   "shot": "tank",
+   "text": "So you get smart. You put a tank of water up high.",
+   "pause": 0.4
+  },
+  {
+   "shot": "pull",
+   "text": "Pull the handle, and the water rushes into the bowl.",
+   "pause": 0.4
+  },
+  {
+   "shot": "bend",
+   "text": "It fills higher than this bend in the pipe...",
+   "pause": 0.4
+  },
+  {
+   "shot": "siphon",
+   "text": "and gravity drags everything down. It's called a siphon.",
+   "pause": 0.6
+  },
+  {
+   "shot": "done",
+   "text": "No power needed. You just invented the flush toilet.",
+   "pause": 0.6
+  }
+ ]
+}
