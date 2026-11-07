@@ -13,3 +13,4 @@
 - toilet_built.mp4 | The power went out… so you invented this #shorts
 - bunker_part1.mp4 (60s v2) | You got a nuclear alert… so you built this (Part 1) #shorts
 - bunker_part2_farm.mp4 | You picked the farm… then someone knocked (Part 2) #shorts
+- bunker_part3.mp4 | You kept the hatch shut… then you heard digging (Part 3) #shorts

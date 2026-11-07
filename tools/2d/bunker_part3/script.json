@@ -1,0 +1,14 @@
+{"voice":"am_michael","speed":1.0,"scenes":[
+{"shot":"p_hook","text":"You kept the hatch shut.","pause":0.5},
+{"shot":"p_bang","text":"They banged for an hour. Then, silence.","pause":1.4},
+{"shot":"p_lock","text":"You can't sleep. So you bolt the hatch with a steel bar.","pause":0.4},
+{"shot":"p_peri","text":"And build a periscope. Two mirrors in a pipe, so you can see outside without opening anything.","pause":0.4},
+{"shot":"p_look","text":"You look through.","pause":1.0},
+{"shot":"p_gone","text":"They're gone.","pause":1.0},
+{"shot":"p_fine","text":"Day twelve. The farm's growing. Everything's fine.","pause":0.8},
+{"shot":"p_sound","text":"Then, at three in the morning, you hear it.","pause":1.3},
+{"shot":"p_scrape","text":"Scraping. Through the wall.","pause":1.0},
+{"shot":"p_reveal","text":"They never left. They've been digging, straight towards your food.","pause":0.6},
+{"shot":"p_close","text":"And they're one meter away.","pause":1.0},
+{"shot":"p_ask","text":"What do you do? Top comment decides part four.","pause":0.3}
+]}
