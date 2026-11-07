@@ -1,0 +1,66 @@
+{
+ "voice": "am_michael",
+ "speed": 1.0,
+ "scenes": [
+  {
+   "shot": "yard",
+   "text": "You're chilling in your backyard.",
+   "pause": 0.5
+  },
+  {
+   "shot": "alert",
+   "text": "When suddenly, your phone goes off.",
+   "pause": 1.0
+  },
+  {
+   "shot": "dig",
+   "text": "No time. You grab a shovel and start digging.",
+   "pause": 0.4
+  },
+  {
+   "shot": "deep",
+   "text": "Deep. Because dirt is one of the best shields against fallout.",
+   "pause": 0.5
+  },
+  {
+   "shot": "walls",
+   "text": "You line it with concrete, so it can't cave in.",
+   "pause": 0.4
+  },
+  {
+   "shot": "roof",
+   "text": "Add a roof, and pile the dirt back on top.",
+   "pause": 0.4
+  },
+  {
+   "shot": "door",
+   "text": "Then a heavy hatch you can seal from the inside.",
+   "pause": 0.4
+  },
+  {
+   "shot": "air",
+   "text": "But you need air. So you run a vent up, with a filter to stop the dust.",
+   "pause": 0.4
+  },
+  {
+   "shot": "water",
+   "text": "Water. Lots of it.",
+   "pause": 0.4
+  },
+  {
+   "shot": "light",
+   "text": "And a battery for light.",
+   "pause": 0.6
+  },
+  {
+   "shot": "safe",
+   "text": "You're in. Hatch sealed. Just in time.",
+   "pause": 0.8
+  },
+  {
+   "shot": "choice",
+   "text": "But it's not finished. What do we add next? Top comment gets built in part two.",
+   "pause": 0.4
+  }
+ ]
+}
