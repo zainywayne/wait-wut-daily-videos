@@ -23,3 +23,6 @@ Script (about 68s):
 8 VO "The alert went off once. Over forty years ago. But some nights... for you, it never stopped."
 9 flashlight down shaft. DAUGHTER "Dad? It's me. Let's go inside." Kid takes hand, climb out into morning, family with blanket, push the swing. KID "Can you make pancakes?"
 10 end: THE END / Rewatch Part 1 / Call your grandparents. Then THANK YOU FOR WATCHING + next-series vote 1/2/3.
+
+Next-series vote options (approved): 1 Blizzard cabin (footprints around the cabin at night) / 2 Desert island (someone erasing your SOS) / 3 Rising flood (raft holds one, neighbour needs help).
+Very last card: "FULL SERIES ON MY YOUTUBE" (wait wut daily). Build the full-series long-form compilation for YouTube too.
