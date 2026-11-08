@@ -1,0 +1,84 @@
+{
+ "voice": "blend",
+ "speed": 1.08,
+ "scenes": [
+  {
+   "shot": "r_hook",
+   "text": "They blocked your air. And you're not opening that hatch.",
+   "pause": 0.5
+  },
+  {
+   "shot": "r_recap",
+   "text": "A family you locked out is sitting on your only air vent.",
+   "pause": 0.6
+  },
+  {
+   "shot": "r_plan",
+   "text": "So you dig a second one. In secret.",
+   "pause": 0.8
+  },
+  {
+   "shot": "r_side",
+   "text": "Sideways first. Away from them. Under the fence.",
+   "pause": 0.4
+  },
+  {
+   "shot": "r_quiet",
+   "text": "Slowly. Quietly. Every bucket of dirt goes back into the farm.",
+   "pause": 0.4
+  },
+  {
+   "shot": "r_up",
+   "text": "Then straight up, into the neighbor's yard.",
+   "pause": 0.8
+  },
+  {
+   "shot": "r_pipe",
+   "text": "You push a pipe through the last meter, and hide the top inside an old bush.",
+   "pause": 0.5
+  },
+  {
+   "shot": "r_fan",
+   "text": "The bike powers a fan. And fresh air pours in.",
+   "pause": 0.5
+  },
+  {
+   "shot": "r_breathe",
+   "text": "You can breathe again.",
+   "pause": 1.3
+  },
+  {
+   "shot": "r_fool",
+   "text": "Up top, they're still guarding your old vent. Waiting for you to give up.",
+   "pause": 0.5
+  },
+  {
+   "shot": "r_clue",
+   "text": "Weird thing is, they never leave. Like they've got nowhere else to go.",
+   "pause": 1.2
+  },
+  {
+   "shot": "r_night",
+   "text": "And they still have no idea about your new vent.",
+   "pause": 1.2
+  },
+  {
+   "shot": "r_but",
+   "text": "But that night, a little voice comes down the new pipe.",
+   "pause": 1.2
+  },
+  {
+   "shot": "r_kid",
+   "text": "Hello? Is someone down there? I'm so hungry.",
+   "pause": 1.5,
+   "voice": "af_sky",
+   "speed": 0.85,
+   "pitch": 1.18
+  },
+  {
+   "shot": "r_ask",
+   "text": "The kid found your secret vent. What do you do? Top comment decides the final part.",
+   "pause": 0.3
+  }
+ ]
+}
