@@ -1,0 +1,86 @@
+{
+ "voice": "am_michael",
+ "speed": 1.0,
+ "scenes": [
+  {
+   "shot": "q_hook",
+   "text": "They're one meter from your food. And they're still digging.",
+   "pause": 0.5
+  },
+  {
+   "shot": "q_recap",
+   "text": "You locked this family out of your bunker. Now they're tunneling in.",
+   "pause": 0.6
+  },
+  {
+   "shot": "q_build",
+   "text": "So you build a steel wall. Plate, after plate.",
+   "pause": 0.5
+  },
+  {
+   "shot": "q_thick",
+   "text": "Thick steel. A shovel can't get through this.",
+   "pause": 0.5
+  },
+  {
+   "shot": "q_brace",
+   "text": "Bolt it, and brace it, so it can't be pushed in.",
+   "pause": 0.4
+  },
+  {
+   "shot": "q_hit",
+   "text": "Just in time.",
+   "pause": 1.5
+  },
+  {
+   "shot": "q_stop",
+   "text": "The digging stops.",
+   "pause": 1.4
+  },
+  {
+   "shot": "q_sleep",
+   "text": "For the first time in days, you actually sleep.",
+   "pause": 1.0
+  },
+  {
+   "shot": "q_smell",
+   "text": "An hour later, the air vent goes quiet.",
+   "pause": 0.8
+  },
+  {
+   "shot": "q_peri",
+   "text": "You check the periscope.",
+   "pause": 1.0
+  },
+  {
+   "shot": "q_vent",
+   "text": "Three of them. Sitting on your air vent. Blocking it.",
+   "pause": 0.6
+  },
+  {
+   "shot": "q_co2",
+   "text": "No fresh air. And the carbon dioxide starts climbing.",
+   "pause": 0.6
+  },
+  {
+   "shot": "q_head",
+   "text": "Your head starts pounding. That's the first sign.",
+   "pause": 0.8
+  },
+  {
+   "shot": "q_note",
+   "text": "Then, a note falls out of the vent.",
+   "pause": 1.0
+  },
+  {
+   "shot": "q_read",
+   "text": "Open the hatch. Or no air.",
+   "pause": 1.6
+  },
+  {
+   "shot": "q_ask",
+   "text": "Do you open it? Or do you risk it? Top comment decides part five.",
+   "pause": 0.3
+  }
+ ]
+}
