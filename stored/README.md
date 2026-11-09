@@ -17,3 +17,4 @@
 - bunker_part4.mp4 | You built a steel wall… so they took your air (Part 4) #shorts
 - bunker_part5.mp4 | You dug a secret air vent… then a kid found it (Part 5) #shorts
 - bunker_part6_finale.mp4 | You stayed silent… so he dug (FINAL PART) #shorts
+- still_down_there_full.mp4 (LONG, 6:23, 16:9) | STILL DOWN THERE: The Full Story (You Voted. Every Time.) + still_down_there_full_thumb.jpg
