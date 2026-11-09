@@ -44,9 +44,9 @@ prog = [A, F, Cc, G]; beat = 60 / 72
 sec = lambda n: g(n)["start"]
 # 1) tense: low drone + heartbeat until the photo
 # storm: rain + thunder + waves until we wash up
-tw = sec("w_wash"); noise(0, tw + 0.5, 0.09, 2, lambda x: np.minimum(1, x * 3) * np.clip((tw + 0.5 - x) / 1.0, 0, 1))
+tw = sec("w_wash"); noise(0, tw + 0.5, 0.03, 2, lambda x: np.minimum(1, x * 3) * np.clip((tw + 0.5 - x) / 1.0, 0, 1))
 for tt0, amp in ((0.05, 0.6), (2.6, 0.45), (5.4, 0.55)):
-    i0 = int(tt0 * sr); n = int(2.2 * sr); xx = np.arange(n) / sr; nz = np.convolve(np.random.default_rng(int(tt0 * 10)).standard_normal(n), np.ones(30) / 30, 'same'); mus[i0:i0 + n] += nz * np.exp(-xx * 1.6) * amp * 3 + np.sin(2 * np.pi * (35 + 25 * np.exp(-xx * 3)) * xx) * np.exp(-xx * 2) * amp * 0.6
+    i0 = int(tt0 * sr); n = int(2.2 * sr); xx = np.arange(n) / sr; nz = np.convolve(np.random.default_rng(int(tt0 * 10)).standard_normal(n), np.ones(30) / 30, 'same'); mus[i0:i0 + n] += nz * np.exp(-xx * 1.6) * amp * 1.4 + np.sin(2 * np.pi * (35 + 25 * np.exp(-xx * 3)) * xx) * np.exp(-xx * 2) * amp * 0.6
 i0 = 0; n = int(tw * sr); xx = np.arange(n) / sr; mus[:n] += np.sin(2 * np.pi * 50 * xx) * 0.06
 # crash on the reef
 i0 = int(0.4 * sr); n = int(1.0 * sr); xx = np.arange(n) / sr; mus[i0:i0 + n] += np.random.default_rng(3).standard_normal(n) * np.exp(-xx * 6) * 0.35 + np.sin(2 * np.pi * (60 + 40 * np.exp(-xx * 8)) * xx) * np.exp(-xx * 4) * 0.5
