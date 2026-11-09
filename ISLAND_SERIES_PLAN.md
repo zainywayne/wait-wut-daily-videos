@@ -1,15 +1,19 @@
-# Desert Island series (won the vote: option 2). Part 1 rendered 2026-11-09.
+# Desert Island series (won the vote). Premise: you saved the boat's EMERGENCY BEACON; someone keeps SWITCHING IT OFF.
 
-SECRET TWIST (never say it in videos until the finale):
-Premise changed: you saved the boat's EMERGENCY BEACON; someone keeps SWITCHING IT OFF (Zain's call). The "someone" turning it off is your FATHER, lost at sea on this exact day 20 years ago (that's why you sail alone every year on this day).
-He's been on the island ever since. He switches the beacon off because the reef ring around the island is deadly: the boat that answered his own SOS 20 years ago wrecked on that reef and its crew died (the rusty wreck on the reef). He's not keeping you trapped; he's stopping anyone else from dying trying to save you. He's spent 20 years building a raft through the one safe channel to get out himself, and now to get YOU out.
+SECRET TWIST (never say it until the finale):
+- The one switching the beacon off is your FATHER, lost at sea 20 years ago, on this exact day. That's why you sail alone every year on this day.
+- Deeper layer: 20 years ago, after his boat went down, he set off an SOS from this island. Your MOTHER took her own boat out to answer it, and it wrecked on the reef that rings the island. That rusty wreck on the reef is HER boat. She died because of his SOS. You were told they were both lost at sea in a storm.
+- So he switches your beacon off because any boat answering it will die on that reef, like she did. He's not trapping you. He's protecting whoever would come for you, and he's spent 20 years building a raft to get through the one safe gap in the reef himself. Now he'll use it to get YOU out.
+- Finale gut punch: he says "I called for help once." The camera pans to the wreck, and the faded name on the hull is your mom's name, the same name as your boat.
 
-Clues planted in Part 1 (keep subtle, never narrate them):
+Foreshadowing in Part 1 (subtle, never narrated):
 - VO: "sailing alone, like you do every year on this day"
+- your boat and the rusty wreck share the same red stripe and the same little white star on the hull (family boats)
+- a family photo (2 adults + kid) floats past you while you swim from the wreck
 - reef ring with breakers all the way round the island (aerial)
-- old rusty wreck stuck on the reef, same red stripe as your boat's colours (aerial + side view, far left)
 - tally marks scratched up a palm trunk near your shelter (years of them)
-- an old blackened fire ring of stones under the palms (someone's made fires here before)
-- bare footprints, big, heading into the jungle
-Ideas for later clues: a carved toy boat like one you had as a kid, a knot only your dad tied, him humming a song, his watch stopped on a date, the raft hidden under fronds.
+- an old blackened fire ring of stones under the palms
+- the beacon wasn't smashed, just switched off carefully (someone who knows what it is)
+- big bare footprints, and one foot drags (an old injury: he limps from the wreck)
+Ideas for later parts: a carved toy boat with the white star; him humming the song your mom sang; a knot he taught you; the raft hidden under fronds; a second, older dead beacon in his camp (his own, from 20 years ago); a woman's ring on a string around his neck.
 Part 1 vote: 1 Follow the footprints / 2 Turn it on, stay up and watch / 3 Set a trap
