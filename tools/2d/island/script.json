@@ -1,0 +1,76 @@
+{
+ "voice": "am_michael",
+ "speed": 1.0,
+ "scenes": [
+  {
+   "shot": "w_sink",
+   "text": "Your boat just hit a reef. And it's sinking. Fast.",
+   "pause": 0.5
+  },
+  {
+   "shot": "w_alone",
+   "text": "You were sailing alone, like you do every year on this day.",
+   "pause": 0.4
+  },
+  {
+   "shot": "w_swim",
+   "text": "You grab what you can, and swim for the only thing you can see.",
+   "pause": 0.6
+  },
+  {
+   "shot": "w_wash",
+   "text": "A tiny island. Nothing else for miles.",
+   "pause": 0.9
+  },
+  {
+   "shot": "w_inv",
+   "text": "Here's what you saved. A knife. A tarp. Water. And the boat's emergency beacon.",
+   "pause": 0.5
+  },
+  {
+   "shot": "w_water",
+   "text": "Water first. Dig a hole, cup in the middle, tarp on top. The sun pulls water out of the sand.",
+   "pause": 0.5
+  },
+  {
+   "shot": "w_shelter",
+   "text": "Then shelter. Palm fronds on a frame, off the ground, away from the crabs.",
+   "pause": 0.4
+  },
+  {
+   "shot": "w_fire",
+   "text": "Fire, with a bow drill. Forty minutes of sawing, and then, smoke.",
+   "pause": 0.6
+  },
+  {
+   "shot": "w_sos",
+   "text": "Then the beacon. Switch it on, and it sends your location to rescuers. Help is coming.",
+   "pause": 0.8
+  },
+  {
+   "shot": "w_night",
+   "text": "That night, you fall asleep by the fire.",
+   "pause": 1.0
+  },
+  {
+   "shot": "w_morning",
+   "text": "In the morning, you go to check the beacon.",
+   "pause": 1.0
+  },
+  {
+   "shot": "w_gone",
+   "text": "It's off.",
+   "pause": 1.6
+  },
+  {
+   "shot": "w_prints",
+   "text": "Someone switched it off. And in the sand, footprints. Not yours.",
+   "pause": 1.0
+  },
+  {
+   "shot": "w_ask",
+   "text": "Someone on this island doesn't want you rescued. What do you do? Top comment decides part two.",
+   "pause": 0.3
+  }
+ ]
+}

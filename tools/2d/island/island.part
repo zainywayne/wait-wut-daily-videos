@@ -1,0 +1,161 @@
+seed = 7;
+const SEA = 1100;
+const bY = x => x < 550 ? SEA + (550 - x) * 0.55 : x < 760 ? lerp(SEA, 1068, (x - 550) / 210) : 1068 + Math.sin(x * 0.006) * 6;
+const PALMS = [[1300, 300, -0.12], [1520, 380, 0.08], [1760, 330, -0.05], [2000, 420, 0.1], [2230, 360, -0.08], [2450, 400, 0.05]];
+const STARS = Array.from({ length: 70 }, () => [rnd() * 3600 - 1200, rnd() * 900 + 100, rnd() * 2 + 1]);
+const SHELLS = Array.from({ length: 40 }, () => [700 + rnd() * 1600, rnd()]);
+const BEACON_X = 830, STILL_X = 960, FIRE_X = 1150, SHEL_X = 1360, RING_X = 1640;
+const ORDER = ['w_sink', 'w_alone', 'w_swim', 'w_wash', 'w_inv', 'w_water', 'w_shelter', 'w_fire', 'w_sos', 'w_night', 'w_morning', 'w_gone', 'w_prints', 'w_ask', 'end'];
+function palm(x, h, lean, t, dark) { const by = bY(x); X.strokeStyle = dark ? '#2a2016' : '#8a6a44'; X.lineWidth = 22; X.lineCap = 'round'; const tx = x + lean * h * 1.4, ty = by - h;
+  X.beginPath(); X.moveTo(x, by); X.quadraticCurveTo(x + lean * h * 0.2, by - h * 0.6, tx, ty); X.stroke(); X.strokeStyle = dark ? '#201810' : '#6e5234'; X.lineWidth = 3; for (let k = 0.1; k < 0.95; k += 0.09) { const px = lerp(x, tx, k) + lean * 10, py = lerp(by, ty, k); X.beginPath(); X.moveTo(px - 11, py); X.lineTo(px + 11, py + 4); X.stroke(); }
+  X.fillStyle = dark ? '#16301c' : '#3e9a46'; for (let q = 0; q < 7; q++) { const an = -Math.PI / 2 + (q - 3) * 0.55 + Math.sin(t * 1.2 + q) * 0.05; X.save(); X.translate(tx, ty); X.rotate(an); X.beginPath(); X.ellipse(70, 0, 80, 16, 0.25 * Math.sign(q - 3 || 1), 0, 7); X.fill(); X.restore(); }
+  X.fillStyle = dark ? '#2a1e14' : '#6b4a2a'; X.beginPath(); X.arc(tx - 8, ty + 10, 10, 0, 7); X.arc(tx + 10, ty + 12, 10, 0, 7); X.fill(); }
+function star(x, y, r, col) { X.fillStyle = col; X.beginPath(); for (let i = 0; i < 10; i++) { const an = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * 0.45 : r; X.lineTo(x + Math.cos(an) * rr, y + Math.sin(an) * rr); } X.fill(); }
+function boat(x, y, tilt, sink) { X.save(); X.translate(x, y + sink); X.rotate(tilt); X.fillStyle = '#e8e4da'; X.beginPath(); X.moveTo(-150, -40); X.lineTo(150, -40); X.lineTo(110, 30); X.lineTo(-110, 30); X.fill(); X.fillStyle = '#c94a3a'; X.fillRect(-140, -30, 280, 12); star(-95, -2, 9, '#fff');
+  X.strokeStyle = '#8a8a8a'; X.lineWidth = 8; X.beginPath(); X.moveTo(0, -40); X.lineTo(0, -320); X.stroke(); X.fillStyle = '#f2f2ee'; X.beginPath(); X.moveTo(8, -310); X.lineTo(8, -60); X.lineTo(150, -60); X.fill(); X.fillStyle = '#c94a3a'; X.fillRect(8, -200, 110, 12); X.restore(); }
+function waterPath(t, storm) { X.beginPath(); X.moveTo(-3000, 3000); for (let x = -3000; x <= 760; x += 20) X.lineTo(x, SEA + Math.sin(x * 0.012 + t * (storm ? 3 : 1.2)) * (storm ? 22 : 6) + Math.sin(x * 0.031 - t * 2) * (storm ? 10 : 3)); X.lineTo(760, 3000); X.closePath(); }
+// ---------- aerial view (screen space) ----------
+function aerial(t, z, sosN, gone, a) { if (a <= 0) return; X.save(); X.globalAlpha = a; X.fillStyle = '#1f6f9e'; X.fillRect(0, 0, W, H);
+  X.translate(540, 980); X.scale(z, z);
+  const dg = X.createRadialGradient(0, 0, 200, 0, 0, 700); dg.addColorStop(0, '#3fb4c9'); dg.addColorStop(1, '#1f6f9e'); X.fillStyle = dg; X.beginPath(); X.ellipse(0, 0, 640, 520, 0, 0, 7); X.fill();
+  // reef ring with breakers (clue: a ring of reef all the way round)
+  X.strokeStyle = 'rgba(255,255,255,.75)'; X.lineWidth = 10; X.setLineDash([26, 18]); X.lineDashOffset = -t * 20; X.beginPath(); X.ellipse(0, 0, 520, 420, 0.1, 0, 7); X.stroke(); X.setLineDash([]);
+  X.fillStyle = '#5a6a5e'; for (let q = 0; q < 22; q++) { const an = q / 22 * 7; X.beginPath(); X.ellipse(Math.cos(an) * 520, Math.sin(an) * 420, 22, 12, an, 0, 7); X.fill(); }
+  // an old rusty wreck stuck on the reef (set dressing... or is it)
+  X.save(); X.translate(-300, -340); X.rotate(-0.6); X.fillStyle = '#7a4a2e'; X.beginPath(); X.moveTo(-60, -16); X.lineTo(60, -16); X.lineTo(44, 16); X.lineTo(-44, 16); X.fill(); X.fillStyle = '#a8432f'; X.fillRect(-56, -12, 112, 6); X.restore();
+  // your boat debris
+  X.fillStyle = '#e8e4da'; for (const [x, y, r] of [[-560, 120, 0.4], [-590, 160, -0.3], [-540, 200, 1.1]]) { X.save(); X.translate(x, y); X.rotate(r + Math.sin(t + x) * 0.1); X.fillRect(-18, -5, 36, 10); X.restore(); }
+  // island
+  X.fillStyle = '#e8d29a'; X.beginPath(); X.ellipse(0, 0, 330, 240, 0.1, 0, 7); X.fill(); X.fillStyle = '#f2e2b0'; X.beginPath(); X.ellipse(-20, 30, 300, 190, 0.1, 0, 7); X.fill();
+  X.fillStyle = '#2f8a3e'; X.beginPath(); X.ellipse(80, -60, 190, 140, 0.3, 0, 7); X.fill(); X.fillStyle = '#3ea04c'; for (const [x, y, r] of [[30, -80, 70], [140, -30, 80], [90, -130, 60], [190, -100, 55], [0, -20, 50]]) { X.beginPath(); X.arc(x, y, r, 0, 7); X.fill(); }
+  // your camp
+  X.fillStyle = '#c9a15a'; X.fillRect(-60, 10, 40, 26); X.fillStyle = '#ff8a3a'; X.beginPath(); X.arc(-110, 30, 9, 0, 7); X.fill();
+  // SOS rocks
+  const L = sosLetters(); for (let i = 0; i < L.length; i++) { const p = cl(sosN * L.length - i); if (p <= 0) continue; const [x, y] = L[i]; X.fillStyle = '#6f6a62'; X.beginPath(); X.arc(x, y, 9 * back(p), 0, 7); X.fill(); }
+  if (gone > 0) { X.globalAlpha = a * gone; X.fillStyle = '#6f6a62'; for (let q = 0; q < 30; q++) { const r = Math.floor(q / 6); X.beginPath(); X.arc(150 + (q % 6) * 10 - r * 4 + r * r, -90 - r * 8, 8, 0, 7); X.fill(); } X.globalAlpha = a; }
+  X.restore(); }
+function sosLetters() { const P = [], ox = -175, oy = 120; const S = (x0) => { for (let i = 0; i <= 8; i++) { const u = i / 8, an = Math.PI * 1.5 * u; } return [[30, 0], [12, -4], [0, 10], [6, 26], [24, 34], [34, 50], [28, 66], [10, 70], [-4, 62]].map(([x, y]) => [x0 + x, y]); };
+  for (const [x, y] of S(0)) P.push([ox + x, oy + y - 40]); for (let q = 0; q < 12; q++) { const an = q / 12 * 7; P.push([ox + 130 + Math.cos(an) * 34, oy - 5 + Math.sin(an) * 36]); } for (const [x, y] of S(210)) P.push([ox + x, oy + y - 40]); return P; }
+function label2off(u) { const a = sm((u - 0.35) / 0.15); if (a <= 0) return; X.fillStyle = `rgba(208,58,58,${0.9 * a})`; X.beginPath(); X.roundRect(420, 440, 240, 90, 20); X.fill(); txt('OFF', 540, 505, 64, '#fff', 'center', a); }
+window.frame = (t) => {
+  if (!T) return; const sh = shotAt(t), k = ORDER.indexOf(sh.name), u = sh.u, at = n => sh.name === n, from = n => k >= ORDER.indexOf(n);
+  const storm = from('w_sink') && !from('w_wash');
+  let night = storm ? 1 : at('w_wash') ? 1 - sm(u / 0.4) : at('w_night') ? sm(u / 0.3) : at('w_morning') ? 1 - sm(u / 0.3) : 0;
+  // camera
+  let cx = -440, cy = 960, cs = 1.55;
+  if (at('w_alone')) { cx = -440; cy = 950; cs = lerp(1.55, 1.8, sm(u)); }
+  if (at('w_swim')) { cx = lerp(-300, 450, sm(u)); cy = 1000; cs = 1.1; }
+  if (at('w_wash')) { cx = 760; cy = 1010; cs = 1.6; }
+  if (at('w_inv')) { cx = 900; cy = 860; cs = 1.6; }
+  if (at('w_water')) { cx = STILL_X + 60; cy = 905; cs = 1.7; }
+  if (at('w_shelter')) { cx = SHEL_X + 80; cy = 870; cs = 1.4; }
+  if (at('w_fire')) { cx = FIRE_X; cy = 935; cs = 2.0; }
+  if (at('w_sos')) { cx = BEACON_X + 80; cy = 900; cs = 1.7; }
+  if (at('w_gone')) { cx = BEACON_X; cy = lerp(990, 1000, u); cs = lerp(2.4, 2.8, u); }
+  if (at('w_night')) { cx = 1010; cy = 900; cs = 1.5; }
+  if (at('w_morning')) { cx = lerp(FIRE_X, 900, sm(u)); cy = 900; cs = 1.4; }
+  if (at('w_prints')) { cx = lerp(820, 1750, sm((u - 0.1) / 0.75)); cy = 915; cs = 1.6; }
+  if (at('w_ask') || at('end')) { cx = 1500; cy = 900; cs = 0.9; }
+  if (window._last !== sh.name) { if (['w_inv', 'w_water', 'w_shelter', 'w_fire', 'w_sos', 'w_night', 'w_gone', 'w_prints'].includes(sh.name)) window._c = null; window._last = sh.name; }
+  window._c = window._c || { x: cx, y: cy, s: cs }; const c = window._c; c.x += (cx - c.x) * 0.08; c.y += (cy - c.y) * 0.08; c.s += (cs - c.s) * 0.08;
+  // lightning
+  let flash = 0; if (storm) for (const tt of [0.05, 2.6, 5.4, 8.8, 10.6]) { const e = t - tt; if (e >= 0 && e < 0.5) flash = Math.max(flash, (e < 0.08 || (e > 0.15 && e < 0.22)) ? 1 : 0.3 * (1 - e / 0.5)); }
+  // sky
+  const day = ['#7cc4ec', '#cfeaf7'], nit = ['#070b1a', '#1b2238']; const mix = (a, b, f) => { const p = s => [1, 3, 5].map(i => parseInt(s.slice(i, i + 2), 16)); const A = p(a), B = p(b); return `rgb(${A.map((v, i) => Math.round(lerp(v, B[i], f))).join(',')})`; };
+  const sg = X.createLinearGradient(0, 0, 0, H); sg.addColorStop(0, mix(day[0], nit[0], night)); sg.addColorStop(1, mix(day[1], nit[1], night)); X.fillStyle = sg; X.fillRect(0, 0, W, H);
+  if (at('w_wash')) { const g = X.createRadialGradient(540, 1100, 50, 540, 1100, 900); g.addColorStop(0, `rgba(255,170,110,${0.6 * (1 - Math.abs(u - 0.3) * 2)})`); g.addColorStop(1, 'rgba(255,170,110,0)'); X.fillStyle = g; X.fillRect(0, 0, W, H); }
+  X.save(); X.translate(540, 960); X.scale(c.s, c.s); X.translate(-c.x, -c.y);
+  if (night > 0.3) for (const [x, y, r] of STARS) { X.globalAlpha = (night - 0.3) * (0.6 + 0.4 * Math.sin(t * 2 + x)); X.fillStyle = '#fff'; X.fillRect(x, y, r, r); } X.globalAlpha = 1;
+  if (!storm && night < 0.5) { X.fillStyle = '#ffe58a'; X.save(); X.shadowColor = '#ffe58a'; X.shadowBlur = 60; X.beginPath(); X.arc(c.x + 300, c.y - 700, 60, 0, 7); X.fill(); X.restore(); }
+  // distant reef + old wreck (left)
+  X.fillStyle = '#4a4f4a'; for (let q = 0; q < 10; q++) { X.beginPath(); X.ellipse(-700 + q * 60, SEA + 6, 40, 16, 0, Math.PI, 0); X.fill(); } X.fillStyle = 'rgba(255,255,255,.8)'; for (let q = 0; q < 10; q++) { const ph = (t * 0.8 + q * 0.37) % 1; X.globalAlpha = 1 - ph; X.beginPath(); X.ellipse(-700 + q * 60, SEA - 6 - ph * 20, 30 + ph * 20, 8, 0, 0, 7); X.fill(); } X.globalAlpha = 1;
+  X.save(); X.translate(-1050, SEA - 10); X.rotate(-0.35); X.fillStyle = night > 0.5 ? '#2a1d14' : '#7a4a2e'; X.beginPath(); X.moveTo(-110, -30); X.lineTo(110, -30); X.lineTo(80, 30); X.lineTo(-80, 30); X.fill(); X.fillStyle = night > 0.5 ? '#3a1d14' : '#a8432f'; X.fillRect(-100, -22, 200, 8); star(-60, 2, 8, night > 0.5 ? 'rgba(255,255,255,.25)' : 'rgba(255,255,255,.7)'); X.strokeStyle = '#5a4a3a'; X.lineWidth = 6; X.beginPath(); X.moveTo(0, -30); X.lineTo(-30, -160); X.stroke(); X.restore();
+  // island: sand, jungle
+  const sandC = night > 0.5 ? '#3a3426' : '#ecd9a2'; X.fillStyle = sandC; X.beginPath(); X.moveTo(-200, 2600); for (let x = -200; x <= 3200; x += 20) X.lineTo(x, bY(x)); X.lineTo(3200, 2600); X.fill();
+  X.fillStyle = night > 0.5 ? 'rgba(0,0,0,.15)' : 'rgba(180,150,90,.35)'; for (const [x, r] of SHELLS) { X.beginPath(); X.ellipse(x, bY(x) + 14 + r * 40, 5, 3, 0, 0, 7); X.fill(); }
+  X.fillStyle = night > 0.5 ? '#122a18' : '#2f7a3a'; X.beginPath(); X.moveTo(1650, 1080); for (let x = 1650; x <= 3200; x += 40) X.lineTo(x, 1000 - Math.sin(x * 0.02) * 30 - Math.min(1, (x - 1650) / 300) * 120); X.lineTo(3200, 1100); X.fill();
+  for (const [x, h, l] of PALMS) palm(x, h, l, t, night > 0.5);
+  // tally marks on a palm trunk (just scratches... )
+  if (!storm) { X.strokeStyle = night > 0.5 ? 'rgba(255,255,255,.15)' : 'rgba(60,40,20,.65)'; X.lineWidth = 3; for (let q = 0; q < 24; q++) { const yy = bY(1520) - 60 - (q % 6) * 10 - Math.floor(q / 6) * 70; X.beginPath(); X.moveTo(1508 + Math.floor(q / 6) * 2, yy); X.lineTo(1532, yy - 3); X.stroke(); } }
+  // an old fire ring under the palms
+  X.fillStyle = night > 0.5 ? '#2a2a28' : '#77736a'; for (let q = 0; q < 7; q++) { X.beginPath(); X.ellipse(RING_X - 50 + q * 16, bY(RING_X) - 6 + (q % 2) * 3, 10, 7, 0, 0, 7); X.fill(); } X.fillStyle = '#1e1a16'; X.beginPath(); X.ellipse(RING_X, bY(RING_X) - 4, 40, 6, 0, 0, 7); X.fill();
+  // ----- builds -----
+  if (from('w_water')) { const p = at('w_water') ? u : 1, by = bY(STILL_X); const dig = sm(p / 0.25), cup = sm((p - 0.2) / 0.1), tarp = sm((p - 0.32) / 0.15), rock = back((p - 0.5) / 0.12);
+    X.fillStyle = night > 0.5 ? '#1e1a12' : '#b89e66'; X.beginPath(); X.ellipse(STILL_X, by, 120 * dig, 60 * dig, 0, 0, Math.PI); X.fill();
+    if (cup > 0) { X.fillStyle = '#d7dde2'; X.fillRect(STILL_X - 22, by + 40 - 46 * cup, 44, 46 * cup); const wl = from('w_shelter') ? 0.7 : sm((p - 0.62) / 0.35) * 0.6; X.fillStyle = '#5fb6e6'; X.fillRect(STILL_X - 18, by + 36 - 40 * wl, 36, 40 * wl); }
+    if (tarp > 0) { X.strokeStyle = '#3a6fb0'; X.lineWidth = 7; X.beginPath(); const dip = rock > 0 ? 34 * Math.min(1, rock) : 0; X.moveTo(STILL_X - 130 * tarp, by - 4); X.lineTo(STILL_X, by + dip); X.lineTo(STILL_X + 130 * tarp, by - 4); X.stroke(); }
+    if (rock > 0) { X.fillStyle = '#6f6a62'; X.beginPath(); X.arc(STILL_X, by + 34 * Math.min(1, rock) - 14, 14 * rock, 0, 7); X.fill(); }
+    if (at('w_water') && p > 0.62) for (let q = 0; q < 6; q++) { const ph = (t * 0.7 + q / 6) % 1, side = q % 2 ? 1 : -1; X.fillStyle = '#8fd3ff'; X.beginPath(); X.arc(STILL_X + side * lerp(110, 8, ph), by + lerp(0, 34, ph) + 6, 4, 0, 7); X.fill(); }
+    if (at('w_water') && p > 0.55) for (let q = 0; q < 5; q++) { X.strokeStyle = 'rgba(255,230,120,.5)'; X.lineWidth = 4; const yy = by - 260 + ((t * 120 + q * 60) % 220); X.beginPath(); X.moveTo(STILL_X - 120 + q * 60, yy); X.lineTo(STILL_X - 110 + q * 60, yy + 30); X.stroke(); } }
+  if (from('w_shelter')) { const p = at('w_shelter') ? u : 1, by = bY(SHEL_X), posts = sm(p / 0.2), floor = sm((p - 0.2) / 0.15), fr = cl((p - 0.35) / 0.4);
+    X.strokeStyle = '#7a5a38'; X.lineWidth = 12; X.beginPath(); X.moveTo(SHEL_X - 110, by); X.lineTo(SHEL_X - 110, by - 150 * posts); X.moveTo(SHEL_X + 110, by); X.lineTo(SHEL_X + 110, by - 150 * posts); X.stroke();
+    if (posts >= 1) { X.lineWidth = 10; X.beginPath(); X.moveTo(SHEL_X - 130, by - 150); X.lineTo(SHEL_X + 130, by - 150); X.stroke(); }
+    if (floor > 0) { X.fillStyle = '#9a7448'; X.fillRect(SHEL_X - 120, by - 40, 240 * floor, 14); }
+    for (let q = 0; q < 8; q++) { const f = cl(fr * 8 - q); if (f <= 0) continue; X.save(); X.translate(SHEL_X - 110 + q * 30, by - 150); X.rotate(1.05); X.scale(f, f); X.fillStyle = night > 0.5 ? '#16301c' : (q % 2 ? '#3e9a46' : '#358a3e'); X.beginPath(); X.ellipse(70, 0, 80, 16, 0, 0, 7); X.fill(); X.restore(); } }
+  if (from('w_fire')) { const p = at('w_fire') ? u : 1, by = bY(FIRE_X); X.fillStyle = '#6f6a62'; for (let q = 0; q < 6; q++) { X.beginPath(); X.ellipse(FIRE_X - 40 + q * 16, by - 4, 9, 6, 0, 0, 7); X.fill(); }
+    const smoke = at('w_fire') ? sm((p - 0.55) / 0.15) : 1, flame = at('w_fire') ? sm((p - 0.78) / 0.12) : 1;
+    if (smoke > 0) for (let q = 0; q < 6; q++) { const ph = (t * 0.6 + q / 6) % 1; X.fillStyle = `rgba(200,200,200,${0.5 * (1 - ph) * smoke})`; X.beginPath(); X.arc(FIRE_X + Math.sin(ph * 6 + q) * 14, by - 20 - ph * 200, 10 + ph * 30, 0, 7); X.fill(); }
+    if (flame > 0) { const g = X.createRadialGradient(FIRE_X, by - 30, 5, FIRE_X, by - 30, 260 * flame); g.addColorStop(0, `rgba(255,170,60,${0.45 * flame})`); g.addColorStop(1, 'rgba(255,170,60,0)'); X.fillStyle = g; X.fillRect(FIRE_X - 300, by - 330, 600, 400);
+      for (const [dx, hh, col] of [[0, 70, '#ff7a2a'], [-10, 50, '#ffb030'], [10, 44, '#ffd860']]) { const fl = hh * flame * (0.85 + 0.15 * Math.sin(t * 13 + dx)); X.fillStyle = col; X.beginPath(); X.moveTo(FIRE_X + dx - 22 * flame, by - 6); X.quadraticCurveTo(FIRE_X + dx, by - fl * 1.6, FIRE_X + dx + 22 * flame, by - 6); X.fill(); } } }
+  // the emergency beacon on a rock
+  if (from('w_sos')) { const by = bY(BEACON_X), on = (at('w_sos') && u > 0.33) || at('w_night'), pop = at('w_sos') ? back(u / 0.15) : 1;
+    X.fillStyle = '#77736a'; X.beginPath(); X.ellipse(BEACON_X, by - 10, 70, 34, 0, Math.PI, 0); X.fill();
+    X.save(); X.translate(BEACON_X, by - 40); X.scale(pop, pop); X.fillStyle = '#f2b81c'; X.beginPath(); X.roundRect(-28, -110, 56, 110, 12); X.fill(); X.fillStyle = '#2a2a2a'; X.fillRect(-28, -70, 56, 14); X.strokeStyle = '#333'; X.lineWidth = 5; X.beginPath(); X.moveTo(14, -110); X.lineTo(22, -200); X.stroke();
+      const blink = on && Math.sin(t * 9) > 0; X.fillStyle = blink ? '#ff3030' : '#5a1c1c'; X.beginPath(); X.arc(-6, -124, 16, Math.PI, 0); X.fill(); if (blink) { X.save(); X.shadowColor = '#ff3030'; X.shadowBlur = 50; X.beginPath(); X.arc(-6, -124, 16, Math.PI, 0); X.fill(); X.restore(); }
+      X.fillStyle = '#ddd'; X.fillRect(-12, -40, 24, 16); X.fillStyle = on ? '#3ad06a' : '#d03a3a'; X.fillRect(on ? -10 : 0, -38, 10, 12); X.restore();
+    if (on) for (let q = 0; q < 4; q++) { const ph = (t * 0.5 + q / 4) % 1; X.strokeStyle = `rgba(255,80,80,${0.7 * (1 - ph)})`; X.lineWidth = 5; X.beginPath(); X.arc(BEACON_X + 22, by - 240, 20 + ph * 380, -2.4, -0.7); X.stroke(); } }
+  // the morning: footprints into the jungle
+  if (at('w_prints') || at('w_ask') || at('end')) { for (let q = 0; q < 26; q++) { const x = 760 + q * 42, by = bY(x); X.fillStyle = 'rgba(95,70,35,.8)'; X.save(); X.translate(x, by + 18 + (q % 2 ? 16 : 0)); X.rotate(0.15); X.beginPath(); X.ellipse(0, 0, 22, 9, 0, 0, 7); X.fill(); X.beginPath(); X.arc(13, -5, 3, 0, 7); X.arc(14, 2, 3, 0, 7); X.fill(); if (q % 2) { X.globalAlpha = 0.5; X.beginPath(); X.ellipse(-26, 1, 18, 4, 0, 0, 7); X.fill(); X.globalAlpha = 1; } X.restore(); } }
+  // ----- the boat + you -----
+  if (storm) { const sk = at('w_sink') ? 0 : at('w_alone') ? sm(u) : 1; boat(-430, SEA - 30 + Math.sin(t * 3) * 14, -0.15 + Math.sin(t * 2.2) * 0.08 - sk * 0.5, sk * 260);
+    if (at('w_sink') || at('w_alone')) person(-470, SEA - 70 + Math.sin(t * 3) * 14 + (at('w_alone') ? sk * 120 : 0), 0.9, 'breath', t);
+    if (at('w_swim')) { const px = lerp(-120, 80, u), py = SEA + 8 + Math.sin(t * 2.5) * 8; X.save(); X.translate(px, py); X.rotate(0.3 + Math.sin(t) * 0.1); X.fillStyle = '#fbfaf5'; X.fillRect(-26, -22, 52, 44); X.fillStyle = '#8cc8f0'; X.fillRect(-21, -18, 42, 30); X.fillStyle = '#c0563a'; X.fillRect(-14, -6, 7, 16); X.fillStyle = '#3d7bd9'; X.fillRect(-4, -9, 7, 19); X.fillStyle = '#e0b030'; X.fillRect(6, 0, 5, 10); X.restore(); }
+    if (at('w_swim')) { const x = lerp(-380, 640, sm(u)), y = SEA + 14 + Math.sin(t * 3 + x * 0.01) * 10; X.fillStyle = '#f1c7a4'; X.beginPath(); X.arc(x, y - 18, 22, 0, 7); X.fill(); X.strokeStyle = '#3d7bd9'; X.lineWidth = 12; X.lineCap = 'round'; const s = Math.sin(t * 6); X.beginPath(); X.moveTo(x - 10, y); X.lineTo(x + 30 + s * 20, y - 28 + Math.abs(s) * 18); X.stroke(); X.beginPath(); X.moveTo(x - 6, y + 4); X.lineTo(x - 40 - s * 20, y - 10); X.stroke(); X.fillStyle = 'rgba(255,255,255,.8)'; X.beginPath(); X.ellipse(x - 50, y + 4, 30, 6, 0, 0, 7); X.fill(); } }
+  if (at('w_wash')) { X.save(); X.translate(720, bY(720) - 22); X.rotate(-Math.PI / 2 + 0.05); person(0, 0, 1.0, 'stand', 0); X.restore(); }
+  if (at('w_inv')) person(900, bY(900), 1.2, 'stand', t);
+  if (at('w_water')) person(STILL_X + 190, bY(STILL_X + 190), 1.15, u < 0.3 ? 'dig' : 'stand', t);
+  if (at('w_shelter')) person(SHEL_X + 200, bY(SHEL_X + 200), 1.15, 'breath', t);
+  if (at('w_fire')) { X.save(); X.translate(FIRE_X - 90, bY(FIRE_X) - 10); person(0, 0, 1.1, u < 0.75 ? 'saw' : 'stand', t); X.restore(); }
+  if (at('w_night')) { X.save(); X.translate(FIRE_X + 170, bY(FIRE_X + 170) - 24); X.rotate(-Math.PI / 2); person(0, 0, 1.0, 'stand', 0); X.restore(); for (let q = 0; q < 3; q++) { const ph = (t * 0.5 + q / 3) % 1; txt('z', FIRE_X + 110 + ph * 30, bY(FIRE_X) - 80 - ph * 80, 34 + q * 6, '#cfd8ff', 'center', (1 - ph) * sm(u / 0.3)); } }
+  if (at('w_sos')) person(BEACON_X + 140, bY(BEACON_X + 140), 1.15, 'stand', t);
+  if (at('w_gone')) person(BEACON_X + 120, bY(BEACON_X + 120), 1.15, 'breath', t);
+  if (at('w_morning')) person(lerp(FIRE_X + 100, 880, sm(u)), bY(lerp(FIRE_X + 100, 880, sm(u))), 1.15, 'stand', t);
+  if (at('w_prints')) person(800, bY(800), 1.15, 'breath', t);
+  // ----- sea on top (so the underwater slope shows through) -----
+  X.fillStyle = night > 0.5 ? 'rgba(10,30,50,.88)' : 'rgba(31,111,158,.82)'; waterPath(t, storm); X.fill();
+  X.strokeStyle = 'rgba(255,255,255,.5)'; X.lineWidth = 4; X.beginPath(); for (let x = -3000; x <= 760; x += 20) { const y = SEA + Math.sin(x * 0.012 + t * (storm ? 3 : 1.2)) * (storm ? 22 : 6) + Math.sin(x * 0.031 - t * 2) * (storm ? 10 : 3); x === -3000 ? X.moveTo(x, y) : X.lineTo(x, y); } X.stroke();
+  // inventory items
+  if (at('w_inv')) { const items = [['KNIFE', 0.18], ['TARP', 0.3], ['WATER', 0.42], ['BEACON', 0.62]]; items.forEach(([n, at0], i) => { const s = back((u - at0) / 0.12); if (s <= 0) return; X.save(); X.translate(650 + i * 165, 700); X.scale(s * 1.45, s * 1.45);
+      if (i === 0) { X.fillStyle = '#c9d0d6'; X.beginPath(); X.moveTo(-40, 0); X.lineTo(30, -10); X.lineTo(30, 6); X.fill(); X.fillStyle = '#5a3a20'; X.fillRect(30, -10, 30, 16); }
+      if (i === 1) { X.fillStyle = '#3a6fb0'; X.beginPath(); X.roundRect(-40, -30, 80, 60, 10); X.fill(); X.strokeStyle = '#2a5a90'; X.lineWidth = 3; X.beginPath(); X.moveTo(-40, 0); X.lineTo(40, 0); X.stroke(); }
+      if (i === 2) { X.fillStyle = 'rgba(160,220,255,.8)'; X.beginPath(); X.roundRect(-18, -46, 36, 80, 10); X.fill(); X.fillStyle = '#2a7ab8'; X.fillRect(-10, -58, 20, 14); }
+      if (i === 3) { X.fillStyle = '#f2b81c'; X.beginPath(); X.roundRect(-18, -50, 36, 70, 8); X.fill(); X.fillStyle = '#ff3030'; X.beginPath(); X.arc(-4, -56, 10, Math.PI, 0); X.fill(); X.strokeStyle = '#333'; X.lineWidth = 3; X.beginPath(); X.moveTo(10, -50); X.lineTo(14, -90); X.stroke(); }
+      X.restore(); txt(n, 650 + i * 165, 600, 30, '#ffd23f', 'center', cl(s)); }); }
+  // labels
+  label('SOLAR STILL', STILL_X, bY(STILL_X) + 10, STILL_X + 15, bY(STILL_X) - 230, at('w_water') ? cl((u - 0.7) / 0.12) : 0);
+  label('OFF THE GROUND', SHEL_X - 60, bY(SHEL_X) - 34, SHEL_X - 40, bY(SHEL_X) - 260, at('w_shelter') ? cl((u - 0.45) / 0.15) : 0);
+  if (flash > 0) { X.fillStyle = `rgba(230,235,255,${0.55 * flash})`; X.fillRect(-4000, -2000, 9000, 6000); }
+  X.restore();
+  // rain
+  if (storm) { X.strokeStyle = 'rgba(190,210,240,.35)'; X.lineWidth = 2; for (let q = 0; q < 120; q++) { const x = (q * 97 + t * 500) % (W + 300) - 150, y = (q * 211 + t * 2600) % (H + 200) - 100; X.beginPath(); X.moveTo(x, y); X.lineTo(x - 18, y + 46); X.stroke(); } }
+  // aerial shots
+  if (at('w_wash')) aerial(t, lerp(3.2, 1.0, sm((u - 0.35) / 0.55)), 0, 0, sm((u - 0.35) / 0.2));
+  if (at('w_sos') && u > 0.7) { const a = sm((u - 0.7) / 0.1); X.fillStyle = `rgba(0,0,0,${0.55 * a})`; X.beginPath(); X.roundRect(300, 1560, 480, 110, 26); X.fill(); txt('SENDING YOUR LOCATION', 540, 1632, 40, '#ffd23f', 'center', a); }
+  // vignette
+  const vg = X.createRadialGradient(540, 960, 520, 540, 960, 1200); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.45)'); X.fillStyle = vg; X.fillRect(0, 0, W, H);
+  // text hook (frame 0)
+  if (t < 3.6) { const a = 1 - sm((t - 3.2) / 0.4), p = 1 + 0.05 * Math.sin(t * 6); X.save(); X.globalAlpha = a; X.translate(540, 1690); X.scale(p, p); X.fillStyle = '#d42d2d'; X.beginPath(); X.roundRect(-420, -50, 840, 96, 22); X.fill(); X.restore(); txt("NOBODY KNOWS YOU'RE OUT HERE", 540, 1708, 48, '#fff', 'center', a);
+    X.save(); X.globalAlpha = a; X.fillStyle = '#ffd23f'; X.beginPath(); X.roundRect(250, 1770, 580, 90, 45); X.fill(); X.restore(); txt('NEW SERIES · PART 1', 540, 1830, 44, '#10141c', 'center', a); }
+  if (at('w_gone')) { const a = sm((u - 0.2) / 0.15); X.fillStyle = `rgba(0,0,0,${0.55 * a})`; X.beginPath(); X.roundRect(330, 1560, 420, 110, 26); X.fill(); txt('NEXT MORNING', 540, 1632, 46, '#fff', 'center', a); label2off(u); }
+  // choice screen
+  if (at('w_ask') || at('end')) { const a = at('w_ask') ? sm((u - 0.38) / 0.12) : 1; if (a > 0) { X.fillStyle = `rgba(6,8,14,${0.84 * a})`; X.fillRect(0, 0, W, H);
+    txt('PART 2: YOU DECIDE', 540, 420, 70, '#ffd23f', 'center', a); txt('Someone switched it off.', 540, 505, 46, '#ffffff', 'center', a); txt("They don't want you rescued.", 540, 570, 46, '#ff6a5a', 'center', a);
+    const opts = [['1', 'Follow the footprints', '#6af0a8'], ['2', 'Turn it on, stay up and watch', '#5ec3ff'], ['3', 'Set a trap', '#ff8a5e']];
+    opts.forEach(([n, s2, col], i) => { const b = at('w_ask') ? back((u - 0.45 - i * 0.07) / 0.15) : 1; if (b <= 0) return; X.save(); X.translate(540, 790 + i * 240); X.scale(b, b); X.globalAlpha = a; X.fillStyle = 'rgba(255,255,255,.08)'; X.beginPath(); X.roundRect(-470, -95, 940, 190, 36); X.fill(); X.strokeStyle = col; X.lineWidth = 6; X.stroke();
+      X.fillStyle = col; X.beginPath(); X.arc(-370, 0, 62, 0, 7); X.fill(); txt(n, -370, 26, 76, '#10141c'); txt(s2, -275, 18, 44, '#fff', 'left'); X.restore(); });
+    txt('Comment 1, 2 or 3', 540, 1560, 54, '#fff', 'center', a); txt('Top comment decides.', 540, 1640, 48, '#ffd23f', 'center', a); } }
+  // captions
+  if (!(at('w_ask') && u > 0.38) && !at('end')) { const seg = T.segs[sh.i]; let word = '', wt0 = 0; for (const [w, wt] of seg.words || []) if (t >= wt) { word = w; wt0 = wt; }
+    if (word) { const pop = 1 + 0.12 * Math.exp(-(t - wt0) * 12); X.save(); X.translate(540, 300); X.scale(pop, pop); txt(word.replace(/[.,?]/g, '').toUpperCase(), 0, 0, 100, /reef|sinking|fast|alone|island|water|beacon|shelter|fire|smoke|rescuers|coming|off|footprints|yours|someone|rescued/i.test(word) ? '#ffd23f' : '#ffffff'); X.restore(); } }
+};
+</script></body></html>
