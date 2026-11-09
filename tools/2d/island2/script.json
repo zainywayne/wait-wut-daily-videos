@@ -1,0 +1,18 @@
+{"voice":"am_michael","speed":1.0,"scenes":[
+{"shot":"t_hook","text":"Someone keeps switching off your beacon. Tonight, you catch them.","pause":0.5},
+{"shot":"t_recap","text":"You're shipwrecked, alone, on a tiny island. Every time you turn the beacon on, it's off by morning.","pause":0.5},
+{"shot":"t_net","text":"So you build a trap. First, a net, woven from palm fibers.","pause":0.4},
+{"shot":"t_hang","text":"You hang it in the palm above the beacon, held by one thin line.","pause":0.4},
+{"shot":"t_wire","text":"A tripwire in the sand. Touch it, and the net drops.","pause":0.4},
+{"shot":"t_bell","text":"And shells on a string, so you'll hear it from your shelter.","pause":0.4},
+{"shot":"t_bait","text":"Then the bait. You switch the beacon on.","pause":0.6},
+{"shot":"t_wait","text":"And you wait.","pause":1.4},
+{"shot":"t_hum","text":"Around two in the morning, somewhere in the dark, someone is humming.","pause":3.6},
+{"shot":"t_snap","text":"Then, the shells rattle.","pause":1.2},
+{"shot":"t_run","text":"You grab the knife, and run.","pause":0.6},
+{"shot":"t_net2","text":"The net is down. The beacon is off. But nobody's in it.","pause":0.8},
+{"shot":"t_gift","text":"Instead, under the net, a cooked fish, wrapped in a leaf.","pause":0.7},
+{"shot":"t_sand","text":"And scratched into the sand, one word.","pause":0.4},
+{"shot":"t_dont","text":"","pause":2.4},
+{"shot":"t_ask","text":"Whoever they are, they won't hurt you. But they really don't want that beacon on. What do you do? Top comment decides part three.","pause":0.3}
+]}

@@ -19,3 +19,4 @@
 - bunker_part6_finale.mp4 | You stayed silent… so he dug (FINAL PART) #shorts
 - still_down_there_full.mp4 (LONG, 6:23, 16:9) | STILL DOWN THERE: The Full Story (You Voted. Every Time.) + still_down_there_full_thumb.jpg
 - island_part1.mp4 | Someone keeps switching off my emergency beacon (Part 1) #shorts
+- island_part2.mp4 | I set a trap for whoever keeps switching off my beacon (Part 2) #shorts
