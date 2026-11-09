@@ -55,7 +55,7 @@ window.frame = (t) => {
   const pat = n => false, pfrom = n => true;
   const qat = n => false, qfrom = n => true; window.Q4 = { qat, qfrom, u, sh };
   const rat = n => false, rfrom = n => true; window.R5 = { rat, rfrom, u, sh };
-  const S6 = ['s_hook', 's_recap', 's_dig', 's_stay', 's_me', 's_photo', 's_mirror', 's_yard', 's_bang', 's_tunnel', 's_note', 's_noteread', 's_breath', 's_alert', 's_light', 's_climb', 's_pancake', 's_end', 's_next', 'end'], s6k = S6.indexOf(sh.name), sat = n => sh.name === n, sfrom = n => s6k >= S6.indexOf(n); window.S6 = { sat, sfrom, u, sh }; window.p6pre && window.p6pre(t, sat, sfrom, u, sh);
+  const S6 = ['s_hook', 's_wake', 's_recap', 's_dig', 's_stay', 's_me', 's_photo', 's_mirror', 's_yard', 's_bang', 's_tunnel', 's_note', 's_noteread', 's_breath', 's_alert', 's_light', 's_climb', 's_pancake', 's_end', 's_next', 'end'], s6k = S6.indexOf(sh.name), sat = n => sh.name === n, sfrom = n => s6k >= S6.indexOf(n); window.S6 = { sat, sfrom, u, sh }; window.p6pre && window.p6pre(t, sat, sfrom, u, sh);
   // ---------- camera
   let cy = 1418, cs = 1.5, cx = 550;
   if (at('idea')) { cy = 1418; cs = lerp(1.5, 1.42, u); }

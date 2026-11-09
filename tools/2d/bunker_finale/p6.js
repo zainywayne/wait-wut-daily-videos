@@ -3,21 +3,22 @@ const DAUGHTER = '#c0563a', SONINLAW = '#6a8f3a', KID = '#e0b030';
 const HOLE_X = HX + 46, CH_X0 = HX - 190, CH_X1 = HX + 90, CH_Y0 = TY - 190, CH_Y1 = TY + TH / 2;   // the kid's hole + a dug-out chamber at the shaft bottom
 const FEET = CH_Y1 - 4;
 function seg(n) { return T.segs.find(q => q.shot === n); }
-function holeDepth(sat, u) { if (sat('s_hook')) return lerp(0.55, 0.88, u); if (sat('s_recap')) return 0.9; if (sat('s_dig')) return lerp(0.9, 1, sm(u / 0.3)); return 1; }
+function holeDepth(sat, u) { if (sat('s_hook')) return lerp(0.08, 0.3, u); if (sat('s_wake')) return lerp(0.3, 0.55, u); if (sat('s_recap')) return lerp(0.55, 0.9, u); if (sat('s_dig')) return lerp(0.9, 1, sm(u / 0.3)); return 1; }
 function kidPos(sat, sfrom, u) {   // where the kid is (feet)
-  if (sat('s_hook') || sat('s_recap')) return [HOLE_X, GY + holeDepth(sat, u) * (SHT - GY), 'dig'];
+  if (sat('s_hook') || sat('s_wake') || sat('s_recap')) return [HOLE_X, GY + holeDepth(sat, u) * (SHT - GY), 'dig'];
   if (sat('s_dig')) { if (u < 0.3) return [HOLE_X, lerp(GY + 0.9 * (SHT - GY), SHT, u / 0.3), 'dig']; const f = sm((u - 0.3) / 0.55); return [lerp(HOLE_X, HX + 40, sm((u - 0.3) / 0.1)), lerp(SHT + 60, FEET, f), 'stand']; }
   return [HX + 40, FEET, 'stand'];
 }
 window.p6pre = (t, sat, sfrom, u) => {
-  window.NIGHT_ON = sat('s_hook') || sat('s_recap') || sat('s_dig') || sat('s_breath');
+  window.NIGHT_ON = sat('s_hook') || sat('s_wake') || sat('s_recap') || sat('s_dig') || sat('s_breath');
   window.TARP = sat('s_breath');
   window.OLD = sat('s_mirror') ? sm((u - 0.15) / 0.4) : sfrom('s_mirror') ? 1 : 0;
   window.NOCAP = sat('s_mirror') || sat('s_noteread') || sat('s_climb') || sat('s_end') || sat('s_next') || sat('end') || sat('s_photo') && false;
 };
 window.p6cam = (sat, sfrom, u, sh) => {
-  let cx = HX - 10, cy = 1200, cs = 1.6;
-  if (sat('s_recap')) { cx = lerp(HX - 10, 900, sm(u / 0.5)); cy = lerp(1200, 1480, sm(u / 0.5)); cs = lerp(1.6, 0.62, sm(u / 0.5)); }
+  let cx = HX - 40, cy = 1480, cs = 0.83;
+  if (sat('s_wake')) { cx = HX - 50; cy = lerp(1480, TY - 70, sm(u / 0.35)); cs = lerp(0.83, 2.0, sm(u / 0.35)); }
+  if (sat('s_recap')) { cx = lerp(HX - 50, 900, sm(u / 0.5)); cy = lerp(TY - 70, 1480, sm(u / 0.5)); cs = lerp(2.0, 0.62, sm(u / 0.5)); }
   if (sat('s_dig')) { const [, ky] = kidPos(sat, sfrom, u); cx = HX - 40; cy = Math.max(1250, ky - 150); cs = 1.3; }
   if (sat('s_stay') || sat('s_me') || sat('s_photo') || sat('s_mirror') || sat('s_alert')) { cx = HX - 50; cy = TY - 70; cs = 2.0; }
   if (sat('s_yard')) { cx = 380; cy = lerp(720, 700, u); cs = lerp(0.64, 0.6, u); }
@@ -43,7 +44,7 @@ window.p6bg = (t) => {   // the daughter's house (off to the left all series)
 };
 window.p6world = (t, sat, sfrom, u, sh) => {
   // moon + dawn during the dig
-  if (sat('s_hook') || sat('s_recap') || sat('s_dig')) { const p = sat('s_hook') ? 0.05 * u : sat('s_recap') ? 0.05 + 0.1 * u : 0.15 + 0.85 * u; const mx = lerp(800, 2100, p), my = GY - 260 - Math.sin(p * Math.PI) * 300;
+  if (sat('s_hook') || sat('s_wake') || sat('s_recap') || sat('s_dig')) { const p = sat('s_hook') ? 0.03 * u : sat('s_wake') ? 0.03 + 0.02 * u : sat('s_recap') ? 0.05 + 0.1 * u : 0.15 + 0.85 * u; const mx = lerp(800, 2100, p), my = GY - 260 - Math.sin(p * Math.PI) * 300;
     X.save(); X.shadowColor = '#fff7d0'; X.shadowBlur = 40; X.fillStyle = '#fff7d0'; X.beginPath(); X.arc(mx, my, 40, 0, 7); X.fill(); X.restore();
     if (sat('s_dig')) { const d = sm((u - 0.5) / 0.4); X.fillStyle = `rgba(255,170,110,${0.45 * d})`; X.fillRect(-600, GY - 1300, 2800, 1300); } }
   if (sat('s_breath')) { X.fillStyle = 'rgba(10,15,45,.25)'; X.fillRect(-600, GY - 1300, 2800, 1300); }
@@ -56,7 +57,7 @@ window.p6world = (t, sat, sfrom, u, sh) => {
   X.fillStyle = '#7a5a38'; X.fillRect(CH_X0 + 30, CH_Y0 + 20, 10, CH_Y1 - CH_Y0 - 20); X.fillRect(CH_X0 + 20, CH_Y0 + 20, 120, 10);
   const lamp = X.createRadialGradient(HX - 40, TY - 60, 10, HX - 40, TY - 60, 240); lamp.addColorStop(0, 'rgba(255,200,120,.28)'); lamp.addColorStop(1, 'rgba(255,200,120,0)'); X.fillStyle = lamp; X.fillRect(CH_X0 - 60, CH_Y0 - 60, CH_X1 - CH_X0 + 120, CH_Y1 - CH_Y0 + 80);
   // shovel tip + dirt trickling into the shaft
-  if (sat('s_hook') || sat('s_recap') || (sat('s_dig') && u < 0.3)) {
+  if (sat('s_hook') || sat('s_wake') || sat('s_recap') || (sat('s_dig') && u < 0.3)) {
     if (dp > 0.8) { const pk = Math.max(0, Math.sin(t * 7)) * 14; X.fillStyle = '#e8392f'; X.beginPath(); X.moveTo(HOLE_X - 14, hb - 4 + pk); X.lineTo(HOLE_X + 14, hb - 4 + pk); X.lineTo(HOLE_X, hb + 22 + pk); X.fill(); }
     for (let q = 0; q < 9; q++) { const ph = (t * 1.3 + q / 9) % 1; X.fillStyle = '#7a5434'; X.beginPath(); X.arc(HOLE_X - 18 + (q % 3) * 14, lerp(hb, hb + 420, ph), 4 + (q % 2) * 2, 0, 7); X.fill(); } }
   if (sat('s_dig')) { const e = t - (seg('s_stay').start - 1.2); if (e > 0 && e < 0.8) for (let q = 0; q < 14; q++) { const an = q * 2.3; X.fillStyle = `rgba(122,84,52,${1 - e / 0.8})`; X.beginPath(); X.arc(HX + 40 + Math.cos(an) * 120 * e, FEET - 10 - Math.abs(Math.sin(an)) * 80 * e + 200 * e * e, 6, 0, 7); X.fill(); } }
@@ -64,8 +65,9 @@ window.p6world = (t, sat, sfrom, u, sh) => {
   if (!sfrom('s_yard') || sat('s_alert') || sat('s_light')) { const [kx, ky, kp] = kidPos(sat, sfrom, u); person(kx, ky, 0.62, kp, t, 1, KID);
     X.fillStyle = 'rgba(255,240,200,.9)'; if (sfrom('s_stay')) { X.beginPath(); X.arc(kx - 20, ky - 40, 5, 0, 7); X.fill(); } }
   // you
-  if (sat('s_hook') || sat('s_recap')) person(HX - 18, 1460, 0.9, 'breath', t);
-  if (sat('s_dig')) person(HX - 70, u < 0.2 ? lerp(1460, FEET, sm(u / 0.2)) : FEET, 0.9, 'breath', t);
+  if (sat('s_hook')) { lying(HX - 30, FEET - 24, 0.95, 0); for (let q = 0; q < 3; q++) { const ph = (t * 0.5 + q / 3) % 1; txt('z', HX - 150 + ph * 40, FEET - 70 - ph * 90, 34 + q * 6, '#cfd8ff', 'center', 1 - ph); } }
+  if (sat('s_wake')) { const up = sm((u - 0.15) / 0.2); if (up < 1) lying(HX - 30, FEET - 24, 0.95, 0); else person(HX - 70, FEET, 0.95, 'breath', t); if (up >= 1) txt('!', HX - 70, FEET - 175, 60, '#ffd23f'); }
+  if (sat('s_recap') || sat('s_dig')) person(HX - 70, FEET, 0.95, 'breath', t);
   if (sat('s_stay') || sat('s_me')) person(HX - 80, FEET, 0.95, 'hands', t);
   if (sat('s_photo') || sat('s_mirror') || sat('s_alert')) person(HX - 80, FEET, 0.95, 'stand', t + Math.sin(t * 20) * 0.02);
   if (sat('s_light')) { person(HX - 50, FEET, 0.95, 'stand', t); X.strokeStyle = '#f1c7a4'; X.lineWidth = 6; X.beginPath(); X.moveTo(HX - 20, FEET - 40); X.lineTo(HX + 18, FEET - 40); X.stroke();
@@ -114,8 +116,8 @@ window.p6over = (t, sat, sfrom, u, sh) => {
   if (sat('s_bang') || sat('s_tunnel') || sat('s_breath')) { sepia(sat('s_bang') ? sm(u / 0.1) : 1); grain(t, 0.25); }
   if (sat('s_breath')) { X.strokeStyle = 'rgba(200,220,255,.45)'; X.lineWidth = 3; for (let q = 0; q < 90; q++) { const x = (q * 97 + t * 900) % (W + 200) - 100, y = (q * 211 + t * 2400) % (H + 200) - 100; X.beginPath(); X.moveTo(x, y); X.lineTo(x - 14, y + 50); X.stroke(); } }
   // text hook (frame 0) — kept in the lower half so the top stays clear for a comment sticker
-  if (t < 3.6) { const a = 1 - sm((t - 3.2) / 0.4), p = 1 + 0.05 * Math.sin(t * 6); X.save(); X.globalAlpha = a; X.translate(540, 1520); X.scale(p, p); X.fillStyle = '#d42d2d'; X.beginPath(); X.roundRect(-380, -62, 760, 104, 22); X.fill(); X.restore(); txt("HE'S ALMOST THROUGH", 540, 1536, 60, '#fff', 'center', a);
-    X.save(); X.globalAlpha = a; X.fillStyle = '#ffd23f'; X.beginPath(); X.roundRect(120, 1640, 840, 96, 48); X.fill(); X.restore(); txt('FINAL PART · YOU VOTED: STAY SILENT', 540, 1705, 44, '#10141c', 'center', a); }
+  if (t < 3.6) { const a = 1 - sm((t - 3.2) / 0.4), p = 1 + 0.05 * Math.sin(t * 6); X.save(); X.globalAlpha = a; X.translate(540, 1690); X.scale(p, p); X.fillStyle = '#d42d2d'; X.beginPath(); X.roundRect(-430, -50, 860, 96, 22); X.fill(); X.restore(); txt("3:00 AM · SOMEONE'S DIGGING", 540, 1708, 50, '#fff', 'center', a);
+    X.save(); X.globalAlpha = a; X.fillStyle = '#ffd23f'; X.beginPath(); X.roundRect(120, 1770, 840, 90, 45); X.fill(); X.restore(); txt('FINAL PART · YOU VOTED: STAY SILENT', 540, 1830, 42, '#10141c', 'center', a); }
   if (sat('s_dig') && u > 0.55) { const a = sm((u - 0.55) / 0.08); X.fillStyle = `rgba(0,0,0,${0.55 * a})`; X.beginPath(); X.roundRect(330, 1560, 420, 120, 26); X.fill(); txt('6:12 AM', 540, 1645, 76, '#ffd9a8', 'center', a); }
   // the photo
   if (sat('s_photo')) { const a = sm(u / 0.15); X.fillStyle = `rgba(0,0,0,${0.7 * a})`; X.fillRect(0, 0, W, H);

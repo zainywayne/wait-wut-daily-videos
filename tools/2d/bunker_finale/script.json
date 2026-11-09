@@ -1,21 +1,128 @@
-{"voice":"am_michael","speed":1.0,"scenes":[
-{"shot":"s_hook","text":"You stayed silent. So he dug.","pause":0.6},
-{"shot":"s_recap","text":"For weeks, a family's been trying to reach you. Last night, their kid found your secret vent.","pause":0.5},
-{"shot":"s_dig","text":"All night. With a beach shovel.","pause":2.8},
-{"shot":"s_stay","text":"Stay back.","pause":1.5,"voice":"bm_george","speed":0.82,"pitch":0.9},
-{"shot":"s_me","text":"Grandpa... it's me.","pause":0.9,"voice":"af_sky","speed":0.85,"pitch":1.18},
-{"shot":"s_photo","text":"You built me that swing. Remember?","pause":1.4,"voice":"af_sky","speed":0.85,"pitch":1.18},
-{"shot":"s_mirror","text":"","pause":3.2},
-{"shot":"s_yard","text":"This was never your backyard. It's your daughter's. You moved in two years ago.","pause":0.6,"speed":0.92},
-{"shot":"s_bang","text":"The banging? They were begging you to come inside.","pause":0.5,"speed":0.92},
-{"shot":"s_tunnel","text":"The tunnel? The only way to reach you, without breaking the hatch you'd bolted.","pause":0.5,"speed":0.92},
-{"shot":"s_note","text":"And the note.","pause":0.8,"speed":0.92},
-{"shot":"s_noteread","text":"Dad. A big storm is coming tonight. Rain will flood your vent, so we have to cover it. Please, open the hatch, or no air till it passes. We're right here.","pause":0.8,"voice":"af_heart","speed":0.9},
-{"shot":"s_breath","text":"They weren't guarding your vent. They were listening, to make sure you were still breathing.","pause":1.2,"speed":0.9},
-{"shot":"s_alert","text":"The alert went off once. Over forty years ago. But some nights, for you, it never stopped.","pause":1.4,"speed":0.88},
-{"shot":"s_light","text":"Dad? It's me. Let's go inside.","pause":1.0,"voice":"af_heart","speed":0.88},
-{"shot":"s_climb","text":"","pause":3.6},
-{"shot":"s_pancake","text":"Can you make pancakes?","pause":1.6,"voice":"af_sky","speed":0.85,"pitch":1.18},
-{"shot":"s_end","text":"","pause":3.8},
-{"shot":"s_next","text":"Thank you for watching. Which series should we make next? Comment one, two, or three.","pause":0.4}
-]}
+{
+ "voice": "am_michael",
+ "speed": 1.0,
+ "scenes": [
+  {
+   "shot": "s_hook",
+   "text": "Last time, you chose to stay silent. So you went to sleep.",
+   "pause": 0.5
+  },
+  {
+   "shot": "s_wake",
+   "text": "But in the middle of the night, you hear digging.",
+   "pause": 0.9
+  },
+  {
+   "shot": "s_recap",
+   "text": "For weeks, a family's been trying to reach you. Now their kid is digging straight down.",
+   "pause": 0.4
+  },
+  {
+   "shot": "s_dig",
+   "text": "All night. With a beach shovel.",
+   "pause": 2.2
+  },
+  {
+   "shot": "s_stay",
+   "text": "Stay back.",
+   "pause": 1.0,
+   "voice": "bm_george",
+   "speed": 0.82,
+   "pitch": 0.9
+  },
+  {
+   "shot": "s_me",
+   "text": "Grandpa... it's me.",
+   "pause": 0.6,
+   "voice": "af_sky",
+   "speed": 0.85,
+   "pitch": 1.18
+  },
+  {
+   "shot": "s_photo",
+   "text": "You built me that swing. Remember?",
+   "pause": 0.9,
+   "voice": "af_sky",
+   "speed": 0.85,
+   "pitch": 1.18
+  },
+  {
+   "shot": "s_mirror",
+   "text": "",
+   "pause": 2.4
+  },
+  {
+   "shot": "s_yard",
+   "text": "This was never your backyard. It's your daughter's. You moved in two years ago.",
+   "pause": 0.4,
+   "speed": 1.0
+  },
+  {
+   "shot": "s_bang",
+   "text": "The banging? They were begging you to come inside.",
+   "pause": 0.35,
+   "speed": 1.0
+  },
+  {
+   "shot": "s_tunnel",
+   "text": "The tunnel? The only way to reach you, without breaking the hatch you'd bolted.",
+   "pause": 0.35,
+   "speed": 1.0
+  },
+  {
+   "shot": "s_note",
+   "text": "And the note.",
+   "pause": 0.4,
+   "speed": 1.0
+  },
+  {
+   "shot": "s_noteread",
+   "text": "Dad. A big storm is coming tonight. Rain will flood your vent, so we have to cover it. Please, open the hatch, or no air till it passes. We're right here.",
+   "pause": 0.6,
+   "voice": "af_heart",
+   "speed": 0.95
+  },
+  {
+   "shot": "s_breath",
+   "text": "They weren't guarding your vent. They were listening, to make sure you were still breathing.",
+   "pause": 0.8,
+   "speed": 1.0
+  },
+  {
+   "shot": "s_alert",
+   "text": "The alert went off once. Over forty years ago. But some nights, for you, it never stopped.",
+   "pause": 0.9,
+   "speed": 1.0
+  },
+  {
+   "shot": "s_light",
+   "text": "Dad? It's me. Let's go inside.",
+   "pause": 0.7,
+   "voice": "af_heart",
+   "speed": 0.95
+  },
+  {
+   "shot": "s_climb",
+   "text": "",
+   "pause": 3.0
+  },
+  {
+   "shot": "s_pancake",
+   "text": "Can you make pancakes?",
+   "pause": 1.3,
+   "voice": "af_sky",
+   "speed": 0.85,
+   "pitch": 1.18
+  },
+  {
+   "shot": "s_end",
+   "text": "",
+   "pause": 3.6
+  },
+  {
+   "shot": "s_next",
+   "text": "Thank you for watching. Which series should we make next? Comment one, two, or three.",
+   "pause": 0.4
+  }
+ ]
+}
