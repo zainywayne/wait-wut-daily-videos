@@ -17,3 +17,10 @@ Foreshadowing in Part 1 (subtle, never narrated):
 - big bare footprints, and one foot drags (an old injury: he limps from the wreck)
 Ideas for later parts: a carved toy boat with the white star; him humming the song your mom sang; a knot he taught you; the raft hidden under fronds; a second, older dead beacon in his camp (his own, from 20 years ago); a woman's ring on a string around his neck.
 Part 1 vote: 1 Follow the footprints / 2 Turn it on, stay up and watch / 3 Set a trap
+
+Part 1 reposted by accident and flopped; Part 2 recaps fully so it works as a starting point.
+Part 2 (vote: SET A TRAP): net in the palm over the beacon, tripwire, shells-on-a-string alarm, beacon as bait.
+2 AM someone hums in the dark (an original slow tune; later it's revealed as the song your mom used to sing).
+The beacon goes dark right before the shells rattle; the net drops; nobody's in it.
+Left for you: a cooked fish in a leaf, and "DON'T" scratched in the sand. Limping footprints again.
+Part 2 vote: 1 Turn the beacon back on / 2 Write back in the sand / 3 Track them into the jungle
