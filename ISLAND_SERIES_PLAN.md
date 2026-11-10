@@ -24,3 +24,9 @@ Part 2 (vote: SET A TRAP): net in the palm over the beacon, tripwire, shells-on-
 The beacon goes dark right before the shells rattle; the net drops; nobody's in it.
 Left for you: a cooked fish in a leaf, and "DON'T" scratched in the sand. Limping footprints again.
 Part 2 vote: 1 Turn the beacon back on / 2 Write back in the sand / 3 Track them into the jungle
+
+Part 3 (vote: WRITE BACK IN THE SAND): you scratch "WHO ARE YOU?" under DON'T; build a lookout in the tallest palm (notches, platform, frond roof).
+From the lookout: the whole island and the reef ring all the way round (aerial, "THE REEF"). At night: a tiny light deep in the jungle (his camp).
+Sunrise answer in the sand: "BOATS DIE HERE" + a drawing of the island, the reef ring, and a boat breaking on it.
+Left beside it: a small carved wooden boat with a white star on the sail (same star as your boat and the wreck). A music-box version of the humming tune plays.
+Part 3 vote: 1 Turn the beacon on anyway / 2 Write: SHOW YOURSELF / 3 Swim out and check the reef
