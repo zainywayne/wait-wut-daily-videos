@@ -1,0 +1,71 @@
+{
+ "voice": "am_michael",
+ "speed": 1.0,
+ "scenes": [
+  {
+   "shot": "u_hook",
+   "text": "Someone on this island left you a warning. So you write back.",
+   "pause": 0.5
+  },
+  {
+   "shot": "u_recap",
+   "text": "You're shipwrecked. Every night, someone switches off your emergency beacon. Last night, they left you food, and one word.",
+   "pause": 0.4
+  },
+  {
+   "shot": "u_write",
+   "text": "Right under it, you scratch three words. Who are you?",
+   "pause": 0.6
+  },
+  {
+   "shot": "u_look",
+   "text": "Then you build a lookout, at the top of the tallest palm.",
+   "pause": 0.3
+  },
+  {
+   "shot": "u_steps",
+   "text": "Notches for your feet. A platform of lashed sticks. A roof of fronds.",
+   "pause": 0.4
+  },
+  {
+   "shot": "u_view",
+   "text": "From up here, you can see the whole island. And the reef, wrapped all the way around it.",
+   "pause": 0.7
+  },
+  {
+   "shot": "u_night",
+   "text": "And that night, you watch the beach.",
+   "pause": 1.0
+  },
+  {
+   "shot": "u_light",
+   "text": "Nothing. Except, for a second, a tiny light, deep in the jungle.",
+   "pause": 1.3
+  },
+  {
+   "shot": "u_sleep",
+   "text": "Then, somehow, you fall asleep.",
+   "pause": 0.8
+  },
+  {
+   "shot": "u_dawn",
+   "text": "At sunrise, you climb down. There's a new message.",
+   "pause": 0.6
+  },
+  {
+   "shot": "u_msg",
+   "text": "",
+   "pause": 3.0
+  },
+  {
+   "shot": "u_boat",
+   "text": "And next to it, someone left a tiny carved boat.",
+   "pause": 1.6
+  },
+  {
+   "shot": "u_ask",
+   "text": "Whoever they are, they've been here a long time. And they know something you don't. What do you do? Top comment decides part four.",
+   "pause": 0.3
+  }
+ ]
+}
