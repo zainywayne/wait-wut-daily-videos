@@ -30,3 +30,7 @@ From the lookout: the whole island and the reef ring all the way round (aerial, 
 Sunrise answer in the sand: "BOATS DIE HERE" + a drawing of the island, the reef ring, and a boat breaking on it.
 Left beside it: a small carved wooden boat with a white star on the sail (same star as your boat and the wreck). A music-box version of the humming tune plays.
 Part 3 vote: 1 Turn the beacon on anyway / 2 Write: SHOW YOURSELF / 3 Swim out and check the reef
+
+Part 3 vote result: 3 SWIM OUT AND CHECK THE REEF.
+Part 4: float from bottle + driftwood, swim to the reef (razor coral all the way round), the wreck up close (red stripe, white star, faded name starting with "M" under barnacles), a dead beacon inside (his own, 20 years old). The tide turns, the current drags you into the coral, your leg is cut, blackout. You wake on the beach, leg wrapped in old sail cloth with a white star. A grey-haired man limps away into the jungle.
+Part 4 vote: 1 Chase after him / 2 Call out to him / 3 Go back to the wreck

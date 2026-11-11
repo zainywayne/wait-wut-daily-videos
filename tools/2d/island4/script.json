@@ -1,0 +1,18 @@
+{"voice":"am_michael","speed":1.0,"scenes":[
+{"shot":"v_hook","text":"Someone says boats die on this reef. So you swim out to see for yourself.","pause":0.4},
+{"shot":"v_recap","text":"You're shipwrecked. Every night, someone switches off your beacon. Then they left a message in the sand. Boats die here.","pause":0.4},
+{"shot":"v_float","text":"First, a float. Your empty bottle, tied to a piece of driftwood.","pause":0.3},
+{"shot":"v_swim","text":"Then you swim. All the way out to the reef.","pause":0.4},
+{"shot":"v_reef","text":"Up close, it's razor sharp coral, just under the surface. The waves smash over it, all the way around the island.","pause":0.5},
+{"shot":"v_wreck","text":"And stuck on top of it, the old wreck you saw from the lookout.","pause":0.4},
+{"shot":"v_closer","text":"A sailboat. Older than you. Rust everywhere.","pause":1.0},
+{"shot":"v_inside","text":"Inside, a beacon. The same kind as yours. Dead for years.","pause":1.2},
+{"shot":"v_current","text":"Then the tide turns.","pause":0.5},
+{"shot":"v_drag","text":"The current drags you toward the coral. You can't swim against it.","pause":0.3},
+{"shot":"v_cut","text":"Your leg hits the reef.","pause":0.9},
+{"shot":"v_black","text":"Everything goes dark.","pause":1.5},
+{"shot":"v_wake","text":"You wake up on the beach.","pause":0.6},
+{"shot":"v_bandage","text":"Your leg is wrapped in an old piece of cloth. Someone dragged you out.","pause":0.7},
+{"shot":"v_figure","text":"And at the edge of the jungle, a man is walking away. Limping.","pause":1.3},
+{"shot":"v_ask","text":"He saved your life. And he still doesn't want to be found. What do you do? Top comment decides part five.","pause":0.3}
+]}
