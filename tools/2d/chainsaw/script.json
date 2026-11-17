@@ -1,0 +1,15 @@
+{"voice":"am_michael","speed":1.15,"scenes":[
+{"shot":"c_hook","text":"Your roommate snores like a chainsaw. And it's three A M.","pause":0.3},
+{"shot":"c_log","text":"So you, being a certified genius, slide a log into his bed.","pause":0.45},
+{"shot":"c_morn","text":"By morning, it's firewood. Perfectly stacked.","pause":0.45},
+{"shot":"c_hold","text":"Hold up. That's good firewood.","pause":0.35},
+{"shot":"c_sell","text":"So you sell it.","pause":0.5},
+{"shot":"c_ten","text":"Next night, ten logs. Then a whole tree, straight through the window.","pause":0.4},
+{"shot":"c_co","text":"You start a lumber company. He's your only employee. He has no idea.","pause":0.45},
+{"shot":"c_forest","text":"You feed him an entire forest. Then every forest. You're a billionaire.","pause":0.5},
+{"shot":"c_cabin","text":"So you buy the one thing you've always wanted. A quiet cabin in the woods.","pause":0.6},
+{"shot":"c_nowoods","text":"There are no woods.","pause":1.3},
+{"shot":"c_oxy","text":"No trees. No oxygen. Now the whole planet is getting sleepy.","pause":0.35},
+{"shot":"c_world","text":"Eight billion people, sawing logs.","pause":0.5},
+{"shot":"c_you","text":"And the only one still awake, is you. Because,","pause":0.05}
+]}
