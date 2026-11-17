@@ -1,0 +1,15 @@
+{"voice":"blend","speed":1.17,"scenes":[
+{"shot":"d_hook","text":"Your roommate snores like a chainsaw.","pause":0.15},
+{"shot":"d_3am","text":"And it's three A M.","pause":0.3},
+{"shot":"d_pillow","text":"So you shove a pillow in his face.","pause":0.3},
+{"shot":"d_shred","text":"He shreds it.","pause":0.8},
+{"shot":"d_idea","text":"Okay. If he wants to be a chainsaw, he can work like one.","pause":0.3},
+{"shot":"d_feed","text":"You feed him a log. Out comes a chair.","pause":0.5},
+{"shot":"d_nice","text":"Hold on. That's a really nice chair.","pause":0.35},
+{"shot":"d_tree","text":"So you feed him a whole tree. A table. A bookshelf. A full bedroom set.","pause":0.35},
+{"shot":"d_store","text":"You open a furniture store. It blows up. Everybody on Earth wants one.","pause":0.3},
+{"shot":"d_orders","text":"Eight billion orders. One employee. And he's asleep. Perfect.","pause":0.5},
+{"shot":"d_wake","text":"Then one morning, he wakes up. Well rested. For the first time in years.","pause":0.4},
+{"shot":"d_stop","text":"The factory stops.","pause":1.5},
+{"shot":"d_lull","text":"So now it's three A M, and you're singing him a lullaby, begging him to snore like a chainsaw.","pause":0.0}
+]}
