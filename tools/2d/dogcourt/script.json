@@ -1,0 +1,21 @@
+{"voice":"blend","speed":1.17,"scenes":[
+{"shot":"d_hook","text":"Your dog ate your homework.","pause":0.25},
+{"shot":"d_prove","text":"Your teacher says, prove it.","pause":0.35},
+{"shot":"d_court","text":"So you take it to court.","pause":0.3},
+{"shot":"d_evid","text":"The judge asks, where's the evidence?","pause":0.35},
+{"shot":"d_inside","text":"The evidence is inside the dog.","pause":0.6},
+{"shot":"d_eat","text":"Her lawyer slams down the case file. Prove it. Eat this.","pause":0.25},
+{"shot":"d_gulp","text":"He eats it. No evidence. Case dismissed.","pause":0.5},
+{"shot":"d_famous","text":"Hold on. A dog that eats the evidence? He can never lose.","pause":0.3},
+{"shot":"d_cookie","text":"A cookie thief. He eats the cookie. Not guilty.","pause":0.2},
+{"shot":"d_bank","text":"A bank robber. He eats the money. Not guilty.","pause":0.3},
+{"shot":"d_star","text":"He becomes the most famous lawyer on Earth.","pause":0.35},
+{"shot":"d_hire","text":"Then your teacher hires him.","pause":0.3},
+{"shot":"d_sue","text":"To sue you.","pause":0.6},
+{"shot":"d_rule","text":"The judge says, bark once for yes. Twice for no.","pause":0.3},
+{"shot":"d_q","text":"Did you eat this kid's homework?","pause":0.9},
+{"shot":"d_bark","text":"","pause":1.7},
+{"shot":"d_blank","text":"Two barks. Because the page he ate was blank. You never did it.","pause":0.5},
+{"shot":"d_sent","text":"So the judge gives you a thousand pages of homework.","pause":0.4},
+{"shot":"d_loop","text":"And the dog is licking his lips. So tomorrow, you tell your teacher.","pause":0.0}
+]}
