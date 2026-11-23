@@ -65,21 +65,21 @@ def whoosh(t0, amp=0.08): noise(t0, 0.45, amp, 30, lambda x: np.sin(np.pi * np.m
 def ding(t0, amp=0.1): note(t0, 1318.5, amp, 4, 1.0); note(t0 + 0.07, 1975.5, amp * 0.7, 4, 1.0)
 def buzz(t0, amp=0.06):
     i0 = int(t0 * sr); n = int(0.35 * sr); x = np.arange(n) / sr; mus[i0:i0 + n] += np.sign(np.sin(2 * np.pi * 150 * x)) * np.exp(-x * 6) * amp
-for r, c in (("r1", 8), ("r2", 8), ("r3", 10)):
+for r, c in (("r1", 10), ("r2", 10), ("r3", 12)):
     c0 = T_[r + "_c"]; EV[r + "c"] = c0
     for q in range(c): tick(c0 + q, 0.1, 2400); tick(c0 + q + 0.5, 0.05, 1800)
     for q in range(c):   # low pulse that speeds up near the end
         note(c0 + q, 73.4, 0.05 + 0.03 * q / c, 6, 0.6)
     for q in range(3): note(c0 + c - 3 + q, 440, 0.05, 8, 0.25)
     buzz(c0 + c, 0.07)
-EV["w1"] = wt("r1_r", "white"); EV["n1"] = T_["r1_r2"]; whoosh(EV["w1"] - 0.15); ding(EV["n1"] + 0.1)
-EV["p2"] = wt("r2_r", "painting"); EV["f2"] = wt("r2_r", "faded"); whoosh(EV["p2"] - 0.15); ding(EV["f2"] + 0.1)
-EV["cat"] = wt("r3_r", "cat"); EV["dbl"] = wt("r3_r", "doubled"); whoosh(EV["cat"] - 0.15); ding(EV["dbl"] + 0.1)
-EV["walls"] = wt("r3_r2", "walls"); whoosh(EV["walls"] - 0.15); EV["two"] = T_["r3_r3"]; ding(EV["two"] + 0.1); ding(EV["two"] + 0.35, 0.08)
+EV["w1"] = wt("r1_r", "red"); EV["n1"] = T_["r1_r2"]; whoosh(EV["w1"] - 0.15); ding(EV["n1"] + 0.1)
+EV["p2"] = wt("r2_r", "lamp"); EV["f2"] = wt("r2_r", "faded"); whoosh(EV["p2"] - 0.15); ding(EV["f2"] + 0.1)
+EV["cat"] = wt("r3_r", "yellow"); EV["dbl"] = wt("r3_r", "slid"); whoosh(EV["cat"] - 0.15); ding(EV["dbl"] + 0.1)
+EV["walls"] = wt("r3_r2", "frame"); whoosh(EV["walls"] - 0.15); EV["two"] = T_["r3_r3"]; ding(EV["two"] + 0.1); ding(EV["two"] + 0.35, 0.08)
 EV["four"] = wt("out", "four"); EV["again"] = wt("out", "again")
 for k, n_ in (("r1_in", "r1_c"), ("r2_in", "r2_c"), ("r3_in", "r3_c")): pop(T_[k] + 0.02, 784, 0.06); pop(T_[k] + 0.1, 1047, 0.05)
 bt = 60 / 118; bass = [130.8, 110.0, 87.3, 98.0]; mel = [523.3, 659.3, 784.0, 659.3, 587.3, 698.5, 784.0, 880.0]
-mute = [(T_[r + "_c"] - 0.1, T_[r + "_c"] + c + 0.3) for r, c in (("r1", 8), ("r2", 8), ("r3", 10))]
+mute = [(T_[r + "_c"] - 0.1, T_[r + "_c"] + c + 0.3) for r, c in (("r1", 10), ("r2", 10), ("r3", 12))]
 k_ = 0
 for t0 in np.arange(0.0, total, bt / 2):
     k_ += 1

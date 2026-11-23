@@ -1,15 +1,71 @@
-{"voice":"blend","speed":1.12,"scenes":[
-{"shot":"r1_in","text":"Something in this room is changing. You have eight seconds.","pause":0.2},
-{"shot":"r1_c","text":"","pause":8.0},
-{"shot":"r1_r","text":"Did you catch it? The fridge. It was white.","pause":0.35},
-{"shot":"r1_r2","text":"Now it's green.","pause":0.7},
-{"shot":"r2_in","text":"Round two. This one's harder.","pause":0.2},
-{"shot":"r2_c","text":"","pause":8.0},
-{"shot":"r2_r","text":"The painting above the bed. It faded away the whole time.","pause":0.7},
-{"shot":"r3_in","text":"Final round. Almost nobody gets this one.","pause":0.2},
-{"shot":"r3_c","text":"","pause":10.0},
-{"shot":"r3_r","text":"The cat. He doubled in size.","pause":0.5},
-{"shot":"r3_r2","text":"And the walls? They were blue.","pause":0.4},
-{"shot":"r3_r3","text":"Two changes. At the same time.","pause":0.7},
-{"shot":"out","text":"So how many did you catch, out of four? Now watch it again.","pause":0.0}
-]}
+{
+"voice": "blend",
+"speed": 1.12,
+"scenes": [
+{
+"shot": "r1_in",
+"text": "Something in this room is changing. You have ten seconds.",
+"pause": 0.2
+},
+{
+"shot": "r1_c",
+"text": "",
+"pause": 10.0
+},
+{
+"shot": "r1_r",
+"text": "Did you catch it? The curtains. They were red.",
+"pause": 0.35
+},
+{
+"shot": "r1_r2",
+"text": "Now they're blue.",
+"pause": 0.7
+},
+{
+"shot": "r2_in",
+"text": "Round two. This one's harder.",
+"pause": 0.2
+},
+{
+"shot": "r2_c",
+"text": "",
+"pause": 10.0
+},
+{
+"shot": "r2_r",
+"text": "The lamp. It faded away, right in front of you.",
+"pause": 0.7
+},
+{
+"shot": "r3_in",
+"text": "Final round. Almost nobody gets this one.",
+"pause": 0.2
+},
+{
+"shot": "r3_c",
+"text": "",
+"pause": 12.0
+},
+{
+"shot": "r3_r",
+"text": "The yellow pillow. It slid across the couch.",
+"pause": 0.5
+},
+{
+"shot": "r3_r2",
+"text": "And that little frame? It was green.",
+"pause": 0.4
+},
+{
+"shot": "r3_r3",
+"text": "Two changes. At the same time.",
+"pause": 0.7
+},
+{
+"shot": "out",
+"text": "So how many did you catch, out of four? Now watch it again.",
+"pause": 0.0
+}
+]
+}
