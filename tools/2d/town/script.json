@@ -1,14 +1,76 @@
-{"voice":"blend","speed":1.12,"scenes":[
-{"shot":"d_spit","text":"A whale just spat this guy out.","pause":0.2},
-{"shot":"d_tiny","text":"Onto the smallest island on Earth.","pause":0.3},
-{"shot":"d_swim","text":"He tries to swim home.","pause":0.5},
-{"shot":"d_nope1","text":"Nope.","pause":0.5},
-{"shot":"d_coco","text":"He tries a coconut.","pause":0.45},
-{"shot":"d_nope2","text":"Nope.","pause":0.4},
-{"shot":"d_help","text":"He writes help in the sand.","pause":0.6},
-{"shot":"d_nope3","text":"Nope.","pause":0.6},
-{"shot":"d_you","text":"He has nothing. Except you.","pause":0.4},
-{"shot":"d_rule","text":"Comment one thing. The top comment gets built tomorrow.","pause":0.25},
-{"shot":"d_troll","text":"Even if it's a terrible idea.","pause":0.4},
-{"shot":"d_end","text":"So. What does he get?","pause":0.0}
-]}
+{
+"voice": "blend",
+"speed": 1.12,
+"scenes": [
+{
+"shot": "d_spit",
+"text": "A whale just spat this guy out.",
+"pause": 0.2
+},
+{
+"shot": "d_tiny",
+"text": "Onto the smallest island on Earth.",
+"pause": 0.3
+},
+{
+"shot": "d_swim",
+"text": "He tries to swim home.",
+"pause": 0.5
+},
+{
+"shot": "d_nope1",
+"text": "Nope.",
+"pause": 0.75
+},
+{
+"shot": "d_coco",
+"text": "He tries a coconut.",
+"pause": 0.45
+},
+{
+"shot": "d_nope2",
+"text": "Nope.",
+"pause": 0.7
+},
+{
+"shot": "d_help",
+"text": "He writes help in the sand.",
+"pause": 0.6
+},
+{
+"shot": "d_nope3",
+"text": "Nope.",
+"pause": 0.8
+},
+{
+"shot": "d_sun",
+"text": "And now, the sun is going down.",
+"pause": 0.3
+},
+{
+"shot": "d_night",
+"text": "He will not make it through the night. Alone.",
+"pause": 0.45
+},
+{
+"shot": "d_you",
+"text": "So you decide what he gets.",
+"pause": 0.3
+},
+{
+"shot": "d_rule",
+"text": "The top comment gets built tomorrow. With your name on it.",
+"pause": 0.25
+},
+{
+"shot": "d_troll",
+"text": "Even if it's a terrible idea.",
+"pause": 0.4
+},
+{
+"shot": "d_end",
+"text": "One word. Go.",
+"pause": 0.8
+}
+]
+}

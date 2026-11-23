@@ -77,11 +77,21 @@ EV["coco"] = wt("d_coco", "coconut") + 0.5; EV["n2"] = wt("d_nope2", "nope"); bo
 EV["help"] = wt("d_help", "help"); for_ = [noise(EV["help"] + 0.1 + q * 0.28, 0.2, 0.04, 8, lambda x: np.sin(np.pi * x / 0.2)) for q in range(4)]
 EV["wave"] = T_["d_nope3"] - 0.4; noise(EV["wave"], 1.2, 0.16, 4, lambda x: np.sin(np.pi * np.minimum(1, x / 1.2)) ** 1.5); EV["n3"] = wt("d_nope3", "nope") + 0.35; buzzer(EV["n3"])
 EV["you"] = wt("d_you", "you"); note(EV["you"], 523.3, 0.05, 3, 1.2); note(EV["you"] + 0.15, 659.3, 0.04, 3, 1.2); note(EV["you"] + 0.3, 784, 0.04, 3, 1.2)
+EV["sun"] = T_["d_sun"]; EV["night"] = T_["d_night"]; EV["alone"] = wt("d_night", "alone")
+for q in range(4): note(EV["sun"] + q * 0.5, [392, 349.2, 329.6, 293.7][q], 0.05, 3, 0.9)
+note(EV["alone"], 98, 0.12, 2, 1.4); note(EV["alone"], 146.8, 0.06, 2, 1.4)
+def cackle(t0, amp=0.07):
+    for k in range(4):
+        i0 = int((t0 + k * 0.13) * sr); n = int(0.09 * sr); x = np.arange(n) / sr
+        if i0 + n >= N: return
+        f = 1300 - 500 * x / 0.09 + 80 * np.sin(2 * np.pi * 60 * x); mus[i0:i0 + n] += np.tanh(2.5 * np.sin(2 * np.pi * np.cumsum(f) / sr)) * np.sin(np.pi * x / 0.09) * amp
+EV["ha1"] = EV["n1"] + 0.5; EV["ha2"] = EV["n2"] + 0.55; EV["ha3"] = EV["n3"] + 0.5
+for k in ("ha1", "ha2", "ha3"): cackle(EV[k])
 EV["top"] = wt("d_rule", "top"); EV["built"] = wt("d_rule", "built"); pop(EV["top"], 784); ching(EV["built"], 0.07)
 EV["terr"] = wt("d_troll", "terrible"); whomp(EV["terr"], 0.35); noise(EV["terr"], 1.0, 0.07, 2, lambda x: np.exp(-x * 3))
-EV["end"] = T_["d_end"]; EV["get"] = wt("d_end", "get"); pop(EV["get"], 988); pop(EV["get"] + 0.08, 1175)
+EV["end"] = T_["d_end"]; EV["go"] = wt("d_end", "go"); pop(EV["go"], 988); pop(EV["go"] + 0.08, 1175)
 bt = 60 / 108; bass = [130.8, 174.6, 196.0, 130.8]; mel = [659.3, 784.0, 880.0, 784.0, 659.3, 587.3, 523.3, 587.3]
-mute = [(EV["fin"] - 0.1, EV["n1"] + 0.3), (EV["terr"] - 0.05, EV["terr"] + 0.8)]
+mute = [(EV["fin"] - 0.1, EV["n1"] + 0.3), (EV["sun"] - 0.05, EV["alone"] + 1.2), (EV["terr"] - 0.05, EV["terr"] + 0.8)]
 k_ = 0
 for t0 in np.arange(0.0, total, bt / 2):
     k_ += 1
