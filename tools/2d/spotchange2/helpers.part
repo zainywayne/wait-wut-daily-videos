@@ -1,0 +1,12 @@
+const SKIN = '#f3c9a5', SKIN2 = '#e2b08a', BLUE = '#3d7bd9', GREEN = '#58a35a', INK = '#22242e', FLOOR = 1250, BX = 280;
+const ev = k => T.ev[k], seg = n => T.segs.find(q => q.shot === n);
+function wordT(shot, w) { return seg(shot).words.find(([x]) => x.toLowerCase().includes(w))[1]; }
+function rr(x, y, w, h, r, col) { X.fillStyle = col; X.beginPath(); X.roundRect(x, y, w, h, r); X.fill(); }
+function el(x, y, rx, ry, col, rot = 0) { X.fillStyle = col; X.beginPath(); X.ellipse(x, y, Math.max(0, rx), Math.max(0, ry), rot, 0, 7); X.fill(); }
+function cam(cx, cy, z) { X.translate(540, 900); X.scale(z, z); X.translate(-cx, -cy); }
+const pulse = (t, t0, d = 0.25) => { const e = t - t0; return e < 0 || e > d ? 0 : Math.sin(e / d * Math.PI); };
+const after = (t, t0, d = 0.2) => back((t - t0) / d);
+function stamp(s, x, y, rot, a, col = '#e02424', size = 80) { if (a <= 0) return; X.save(); X.translate(x, y); X.rotate(rot); const k = 1 + (1 - Math.min(1, a)) * 1.4; X.scale(k, k); X.globalAlpha = Math.min(1, a * 1.5); X.font = `${size}px P`; X.textAlign = 'center'; const w = X.measureText(s).width; rr(-w / 2 - 26, -size * 0.92, w + 52, size * 1.25, 14, 'rgba(255,255,255,.92)'); X.strokeStyle = col; X.lineWidth = 9; X.beginPath(); X.roundRect(-w / 2 - 26, -size * 0.92, w + 52, size * 1.25, 14); X.stroke(); X.fillStyle = col; X.fillText(s, 0, 0); X.restore(); }
+function sawWave(x0, y0, x1, y1, t, amp, a = 1, w = 9) { const n = 12, dx = x1 - x0, dy = y1 - y0, L = Math.hypot(dx, dy), nx = -dy / L, ny = dx / L, ph = (t * 3) % 1; X.save(); X.globalAlpha = a; for (const [col, lw] of [[INK, w + 8], ['#ffd23f', w]]) { X.strokeStyle = col; X.lineWidth = lw; X.beginPath();
+    for (let i = 0; i <= n * 2; i++) { const f = Math.min(1, (i + ph * 2) / (n * 2)), o = (i % 2 ? 1 : -1) * amp * Math.sin(f * Math.PI) * (0.6 + 0.4 * Math.sin(t * 8)); const x = x0 + dx * f + nx * o, y = y0 + dy * f + ny * o; i ? X.lineTo(x, y) : X.moveTo(x, y); } X.stroke(); } X.restore(); }
+function rrrr(x, y, t, size = 90) { X.save(); X.translate(x + Math.sin(t * 50) * 6, y + Math.cos(t * 43) * 5); X.rotate(-0.07); X.font = `${size}px P`; X.textAlign = 'center'; X.lineWidth = 14; X.strokeStyle = INK; X.strokeText('RRRRRRRR', 0, 0); X.fillStyle = '#ffd23f'; X.fillText('RRRRRRRR', 0, 0); X.restore(); }

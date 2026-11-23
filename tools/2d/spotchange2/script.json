@@ -1,0 +1,46 @@
+{
+"voice": "blend",
+"speed": 1.12,
+"scenes": [
+{
+"shot": "r1_in",
+"text": "Something in this room is changing. You have ten seconds.",
+"pause": 0.2
+},
+{
+"shot": "r1_c",
+"text": "",
+"pause": 10.0
+},
+{
+"shot": "r1_r",
+"text": "Did you catch it? The curtains. They were red.",
+"pause": 0.35
+},
+{
+"shot": "r1_r2",
+"text": "Now they're blue.",
+"pause": 0.7
+},
+{
+"shot": "r2_in",
+"text": "Round two. This one's harder.",
+"pause": 0.2
+},
+{
+"shot": "r2_c",
+"text": "",
+"pause": 10.0
+},
+{
+"shot": "r2_r",
+"text": "The lamp. It faded away, right in front of you.",
+"pause": 0.7
+},
+{
+"shot": "out",
+"text": "So, did you catch both? Now watch it again.",
+"pause": 0.0
+}
+]
+}
