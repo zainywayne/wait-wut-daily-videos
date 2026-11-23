@@ -58,34 +58,36 @@ def ching(t0, amp=0.09):
 names = [x["shot"] for x in segs if x["shot"] != "end"]; T_ = {n: sec(n) for n in names}
 def pop(t0, f, amp=0.07): note(t0, f, amp, 10, 0.35)
 rng = np.random.default_rng(3)
-# ocean bed: slow swelling filtered noise the whole way
 nz = np.convolve(rng.standard_normal(N), np.ones(60) / 60, 'same'); xs = np.arange(N) / sr
-mus += nz * (0.10 + 0.06 * np.sin(2 * np.pi * xs / 5.5)) * 0.9
-def gull(t0, amp=0.05):
-    for k in range(3):
-        i0 = int((t0 + k * 0.22) * sr); n = int(0.18 * sr); x = np.arange(n) / sr
-        if i0 + n >= N: return
-        f = 1500 + 600 * np.sin(np.pi * x / 0.18); mus[i0:i0 + n] += np.sin(2 * np.pi * np.cumsum(f) / sr) * np.sin(np.pi * x / 0.18) * amp
-gull(0.9); gull(T_["d1_name"] + 1.2, 0.035)
-EV["zoom"] = 0.0; noise(0.0, 0.7, 0.07, 30, lambda x: np.sin(np.pi * np.minimum(1, x / 0.7)) ** 2)
-EV["coco"] = wt("d1_tree", "tree") + 0.45; bonk(EV["coco"], 0.5); pop(EV["coco"] + 0.15, 523, 0.05)
-EV["name"] = wt("d1_name", "name"); note(EV["name"] + 0.1, 392, 0.06, 4, 0.5); note(EV["name"] + 0.3, 370, 0.06, 4, 0.7)
-EV["world"] = wt("d1_rule", "world"); ching(EV["world"], 0.08)
-EV["top"] = wt("d1_how", "top"); EV["you"] = wt("d1_how", "name"); pop(EV["top"], 784); pop(EV["you"], 988); pop(EV["you"] + 0.08, 1175)
-EV["h"] = wt("d1_ideas", "house"); EV["d"] = wt("d1_ideas", "dog"); EV["v"] = wt("d1_ideas", "volcano"); EV["any"] = wt("d1_ideas", "anything")
-for k, f in (("h", 659), ("d", 784), ("v", 988)): pop(EV[k], f, 0.08)
-for q in range(8): pop(EV["any"] + q * 0.05, 700 + q * 90, 0.04)
-EV["forever"] = wt("d1_stay", "forever"); EV["stays"] = wt("d1_stay", "stays")
-note(EV["stays"], 55, 0.25, 1.5, 1.8); note(EV["stays"], 58.3, 0.18, 1.5, 1.8); noise(EV["forever"], 0.6, 0.12, 2, lambda x: np.exp(-x * 4))
-EV["day"] = T_["d1_end"]; EV["first"] = wt("d1_end", "first"); ching(EV["day"], 0.07)
-bt = 60 / 104; bass = [130.8, 174.6, 196.0, 130.8]; mel = [659.3, 784.0, 880.0, 784.0, 659.3, 587.3, 523.3, 587.3]
-mute = [(EV["stays"] - 0.05, EV["forever"] + 0.9)]
+mus += nz * (0.09 + 0.05 * np.sin(2 * np.pi * xs / 5.5))
+def splash(t0, amp=0.25): noise(t0, 0.6, amp, 6, lambda x: np.exp(-x * 7))
+def buzzer(t0, amp=0.09):
+    i0 = int(t0 * sr); n = int(0.45 * sr); x = np.arange(n) / sr; mus[i0:i0 + n] += np.sign(np.sin(2 * np.pi * 110 * x)) * np.minimum(1, x * 60) * np.exp(-x * 3) * amp
+def whomp(t0, amp=0.5):
+    i0 = int(t0 * sr); n = int(0.5 * sr); x = np.arange(n) / sr; mus[i0:i0 + n] += np.sin(2 * np.pi * (60 + 140 * np.exp(-x * 10)) * x) * np.exp(-x * 6) * amp
+EV["spit"] = 0.0; whomp(0.0, 0.4); splash(0.02, 0.2); noise(0.05, 0.9, 0.06, 30, lambda x: np.sin(np.pi * np.minimum(1, x / 0.9)))
+EV["land"] = 1.35; bonk(EV["land"], 0.45); noise(EV["land"], 0.3, 0.12, 3, lambda x: np.exp(-x * 14))
+EV["tiny"] = wt("d_tiny", "smallest"); noise(EV["tiny"] - 0.3, 0.6, 0.06, 30, lambda x: np.sin(np.pi * np.minimum(1, x / 0.6)) ** 2)
+EV["swim"] = T_["d_swim"]
+for q in range(7): splash(EV["swim"] + 0.1 + q * 0.26, 0.05)
+EV["fin"] = T_["d_nope1"] - 0.35; note(EV["fin"], 82.4, 0.2, 3, 0.35); note(EV["fin"] + 0.4, 87.3, 0.2, 3, 0.35)
+EV["n1"] = wt("d_nope1", "nope") + 0.3; buzzer(EV["n1"])
+for q in range(8): splash(EV["n1"] - 0.1 + q * 0.09, 0.05)
+EV["coco"] = wt("d_coco", "coconut") + 0.5; EV["n2"] = wt("d_nope2", "nope"); bonk(EV["n2"] - 0.05, 0.5); buzzer(EV["n2"] + 0.3)
+EV["help"] = wt("d_help", "help"); for_ = [noise(EV["help"] + 0.1 + q * 0.28, 0.2, 0.04, 8, lambda x: np.sin(np.pi * x / 0.2)) for q in range(4)]
+EV["wave"] = T_["d_nope3"] - 0.4; noise(EV["wave"], 1.2, 0.16, 4, lambda x: np.sin(np.pi * np.minimum(1, x / 1.2)) ** 1.5); EV["n3"] = wt("d_nope3", "nope") + 0.35; buzzer(EV["n3"])
+EV["you"] = wt("d_you", "you"); note(EV["you"], 523.3, 0.05, 3, 1.2); note(EV["you"] + 0.15, 659.3, 0.04, 3, 1.2); note(EV["you"] + 0.3, 784, 0.04, 3, 1.2)
+EV["top"] = wt("d_rule", "top"); EV["built"] = wt("d_rule", "built"); pop(EV["top"], 784); ching(EV["built"], 0.07)
+EV["terr"] = wt("d_troll", "terrible"); whomp(EV["terr"], 0.35); noise(EV["terr"], 1.0, 0.07, 2, lambda x: np.exp(-x * 3))
+EV["end"] = T_["d_end"]; EV["get"] = wt("d_end", "get"); pop(EV["get"], 988); pop(EV["get"] + 0.08, 1175)
+bt = 60 / 108; bass = [130.8, 174.6, 196.0, 130.8]; mel = [659.3, 784.0, 880.0, 784.0, 659.3, 587.3, 523.3, 587.3]
+mute = [(EV["fin"] - 0.1, EV["n1"] + 0.3), (EV["terr"] - 0.05, EV["terr"] + 0.8)]
 k_ = 0
 for t0 in np.arange(0.0, total, bt / 2):
     k_ += 1
     if any(a0 <= t0 < a1 for a0, a1 in mute): continue
-    if k_ % 2 == 0: note(t0, bass[(k_ // 16) % 4] / 2, 0.075, 6, 0.45)
-    if k_ % 2 == 1: note(t0, mel[(k_ // 2) % 8], 0.03, 9, 0.25); note(t0 + bt / 4, mel[(k_ // 2 + 2) % 8], 0.018, 9, 0.2)
+    if k_ % 2 == 0: note(t0, bass[(k_ // 16) % 4] / 2, 0.07, 6, 0.45)
+    if k_ % 2 == 1: note(t0, mel[(k_ // 2) % 8], 0.028, 9, 0.25); note(t0 + bt / 4, mel[(k_ // 2 + 2) % 8], 0.016, 9, 0.2)
 
 mix = voice + mus; mix *= np.minimum(1, (total - tt) / 0.08); mix /= max(1, np.abs(mix).max() / 0.95)
 sf.write("audio.wav", mix.astype(np.float32), sr)
