@@ -1,0 +1,10 @@
+{"voice":"blend","speed":1.12,"scenes":[
+{"shot":"d1_hook","text":"This island has one guy. Nothing else.","pause":0.3},
+{"shot":"d1_tree","text":"No house. No food. Just one palm tree.","pause":0.55},
+{"shot":"d1_name","text":"He doesn't even have a name.","pause":0.45},
+{"shot":"d1_rule","text":"So you're going to build his whole world.","pause":0.25},
+{"shot":"d1_how","text":"Every day, the top comments get built. With your name on them.","pause":0.3},
+{"shot":"d1_ideas","text":"A house. A dog. A volcano. Anything.","pause":0.35},
+{"shot":"d1_stay","text":"But whatever you build, stays. Forever.","pause":0.6},
+{"shot":"d1_end","text":"Day one. Name him, and tell me what he gets first.","pause":0.0}
+]}
