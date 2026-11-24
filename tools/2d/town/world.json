@@ -1,1 +1,13 @@
-{"day": 1, "name": null, "builds": [], "notes": "Day 1 posted empty island + palm tree. Each day: take top comments, append to builds with the commenter handle, render island with all builds so far."}
+{
+ "day": 2,
+ "name": null,
+ "builds": [
+  {
+   "day": 2,
+   "item": "yacht chained to the island (named STUPIDER8)",
+   "by": "@stupider8"
+  }
+ ],
+ "notes": "Day 1 posted empty island + palm tree. Each day: take top comments, append to builds with the commenter handle, render island with all builds so far.",
+ "state": "island ripped out of the seabed, towed by the yacht, out of gas, lost at sea, the whale from day 1 is back next to the yacht"
+}

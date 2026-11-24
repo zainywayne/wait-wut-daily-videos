@@ -1,0 +1,17 @@
+{"voice":"blend","speed":1.12,"scenes":[
+{"shot":"d2_drop","text":"Day two. You gave him a yacht.","pause":0.3},
+{"shot":"d2_recap","text":"Yesterday, a whale spat him onto this island.","pause":0.25},
+{"shot":"d2_rule","text":"But the top comment had one rule.","pause":0.35},
+{"shot":"d2_card","text":"Give him a yacht, that is chained to the island, so it can't leave.","pause":0.45},
+{"shot":"d2_party","text":"He did not read the fine print.","pause":0.3},
+{"shot":"d2_go","text":"Full speed.","pause":0.15},
+{"shot":"d2_snap","text":"","pause":1.25},
+{"shot":"d2_try","text":"So he tries harder.","pause":0.4},
+{"shot":"d2_rip","text":"And the whole island rips out of the ocean.","pause":0.55},
+{"shot":"d2_logic","text":"The yacht can't leave the island. But nobody said the island can't leave.","pause":0.35},
+{"shot":"d2_tow","text":"So he takes it with him.","pause":1.0},
+{"shot":"d2_gas","text":"For about ten minutes.","pause":0.8},
+{"shot":"d2_lost","text":"Now he's lost at sea. With an island. And no gas.","pause":0.3},
+{"shot":"d2_whale","text":"","pause":1.3},
+{"shot":"d2_end","text":"Day three. What does he get next? One word.","pause":0.8}
+]}
