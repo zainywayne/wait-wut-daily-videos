@@ -1,0 +1,450 @@
+{
+"voice": "am_puck",
+"speed": 1.08,
+"scenes": [
+{
+"shot": "l01",
+"spk": "J",
+"text": "Am I something you'd eat?",
+"pause": 0.35,
+"voice": "am_puck",
+"speed": 1.08,
+"fx": {
+"M": "think",
+"K": "smirk"
+}
+},
+{
+"shot": "l02",
+"spk": "M",
+"text": "Bro. Please, no.",
+"pause": 0.2,
+"voice": "am_onyx",
+"speed": 0.98,
+"fx": {
+"M": "disgust",
+"J": "confused",
+"K": "laugh"
+},
+"zoom": "M"
+},
+{
+"shot": "l03",
+"spk": "K",
+"text": "Absolutely not.",
+"pause": 0.45,
+"voice": "bm_george",
+"speed": 1.04,
+"fx": {
+"K": "disgust",
+"J": "confused",
+"M": "disgust"
+}
+},
+{
+"shot": "l04",
+"spk": "K",
+"text": "Would I fit in this room?",
+"pause": 0.25,
+"voice": "bm_george",
+"speed": 1.04,
+"fx": {
+"J": "smirk",
+"M": "think"
+}
+},
+{
+"shot": "l05",
+"spk": "J",
+"text": "Bro, you'd eat this room.",
+"pause": 0.2,
+"voice": "am_puck",
+"speed": 1.08,
+"fx": {
+"J": "laugh",
+"M": "laugh"
+},
+"zoom": "J"
+},
+{
+"shot": "l06",
+"spk": "K",
+"text": "I'd what?",
+"pause": 0.55,
+"voice": "bm_george",
+"speed": 1.04,
+"fx": {
+"K": "shock",
+"J": "laugh",
+"M": "laugh"
+},
+"zoom": "K"
+},
+{
+"shot": "l07",
+"spk": "M",
+"text": "Okay. Do I float?",
+"pause": 0.2,
+"voice": "am_onyx",
+"speed": 0.98,
+"fx": {}
+},
+{
+"shot": "l08",
+"spk": "J",
+"text": "Yeah.",
+"pause": 0.1,
+"voice": "am_puck",
+"speed": 1.08,
+"fx": {
+"J": "smirk"
+}
+},
+{
+"shot": "l09",
+"spk": "K",
+"text": "Very much so.",
+"pause": 0.3,
+"voice": "bm_george",
+"speed": 1.04,
+"fx": {
+"K": "smirk"
+}
+},
+{
+"shot": "l10",
+"spk": "M",
+"text": "Am I a boat?",
+"pause": 0.25,
+"voice": "am_onyx",
+"speed": 0.98,
+"fx": {
+"M": "proud"
+}
+},
+{
+"shot": "l11",
+"spk": "J",
+"text": "You're the captain of the bath.",
+"pause": 0.3,
+"voice": "am_puck",
+"speed": 1.08,
+"fx": {
+"J": "laugh",
+"K": "laugh"
+},
+"zoom": "J"
+},
+{
+"shot": "l12",
+"spk": "M",
+"text": "I'm a captain?",
+"pause": 0.6,
+"voice": "am_onyx",
+"speed": 0.98,
+"fx": {
+"M": "proud",
+"J": "smirk",
+"K": "smirk"
+},
+"zoom": "M"
+},
+{
+"shot": "l13",
+"spk": "J",
+"text": "Do people sit on me?",
+"pause": 0.25,
+"voice": "am_puck",
+"speed": 1.08,
+"fx": {}
+},
+{
+"shot": "l14",
+"spk": "M",
+"text": "Every single day.",
+"pause": 0.2,
+"voice": "am_onyx",
+"speed": 0.98,
+"fx": {
+"M": "smirk",
+"K": "laugh"
+}
+},
+{
+"shot": "l15",
+"spk": "J",
+"text": "Am I a couch?",
+"pause": 0.15,
+"voice": "am_puck",
+"speed": 1.08,
+"fx": {}
+},
+{
+"shot": "l16",
+"spk": "K",
+"text": "No.",
+"pause": 0.1,
+"voice": "bm_george",
+"speed": 1.04,
+"fx": {
+"K": "smirk"
+}
+},
+{
+"shot": "l17",
+"spk": "J",
+"text": "A throne?",
+"pause": 0.3,
+"voice": "am_puck",
+"speed": 1.08,
+"fx": {
+"J": "think"
+}
+},
+{
+"shot": "l18",
+"spk": "K",
+"text": "Kind of, actually.",
+"pause": 0.3,
+"voice": "bm_george",
+"speed": 1.04,
+"fx": {
+"K": "laugh",
+"M": "laugh"
+}
+},
+{
+"shot": "l19",
+"spk": "J",
+"text": "I'm a throne!",
+"pause": 0.6,
+"voice": "am_puck",
+"speed": 1.1400000000000001,
+"fx": {
+"J": "proud",
+"M": "laugh",
+"K": "laugh"
+},
+"zoom": "J",
+"ev": "crown"
+},
+{
+"shot": "l20",
+"spk": "K",
+"text": "Do I have a lot of teeth?",
+"pause": 0.2,
+"voice": "bm_george",
+"speed": 1.04,
+"fx": {}
+},
+{
+"shot": "l21",
+"spk": "M",
+"text": "So many teeth.",
+"pause": 0.2,
+"voice": "am_onyx",
+"speed": 0.98,
+"fx": {
+"M": "shock"
+}
+},
+{
+"shot": "l22",
+"spk": "K",
+"text": "Am I a shark?",
+"pause": 0.2,
+"voice": "bm_george",
+"speed": 1.04,
+"fx": {
+"K": "think"
+}
+},
+{
+"shot": "l23",
+"spk": "J",
+"text": "Yes!",
+"pause": 0.7,
+"voice": "am_puck",
+"speed": 1.1400000000000001,
+"fx": {
+"J": "happy",
+"M": "happy",
+"K": "happy"
+},
+"zoom": "K",
+"ev": "gotK"
+},
+{
+"shot": "l24",
+"spk": "M",
+"text": "Do I squeak?",
+"pause": 0.2,
+"voice": "am_onyx",
+"speed": 0.98,
+"fx": {}
+},
+{
+"shot": "l25",
+"spk": "K",
+"text": "When you squeeze it, yes.",
+"pause": 0.2,
+"voice": "bm_george",
+"speed": 1.04,
+"fx": {
+"K": "smirk"
+}
+},
+{
+"shot": "l26",
+"spk": "M",
+"text": "Am I a rubber duck?",
+"pause": 0.25,
+"voice": "am_onyx",
+"speed": 0.98,
+"fx": {
+"M": "think"
+}
+},
+{
+"shot": "l27",
+"spk": "J",
+"text": "Let's go!",
+"pause": 0.7,
+"voice": "am_puck",
+"speed": 1.1400000000000001,
+"fx": {
+"J": "happy",
+"M": "happy",
+"K": "happy"
+},
+"zoom": "M",
+"ev": "gotM"
+},
+{
+"shot": "l28",
+"spk": "J",
+"text": "Okay. When people use me, how do they feel?",
+"pause": 0.3,
+"voice": "am_puck",
+"speed": 1.08,
+"fx": {
+"M": "smirk",
+"K": "smirk"
+}
+},
+{
+"shot": "l29",
+"spk": "M",
+"text": "Relieved.",
+"pause": 0.15,
+"voice": "am_onyx",
+"speed": 0.98,
+"fx": {
+"M": "smirk"
+}
+},
+{
+"shot": "l30",
+"spk": "K",
+"text": "Very, very relieved.",
+"pause": 0.35,
+"voice": "bm_george",
+"speed": 1.04,
+"fx": {
+"K": "laugh",
+"M": "laugh"
+}
+},
+{
+"shot": "l31",
+"spk": "J",
+"text": "Am I a massage chair?",
+"pause": 0.25,
+"voice": "am_puck",
+"speed": 1.08,
+"fx": {
+"J": "proud",
+"M": "smirk",
+"K": "smirk"
+}
+},
+{
+"shot": "l32",
+"spk": "K",
+"text": "Think. Where do you find a rubber duck?",
+"pause": 0.25,
+"voice": "bm_george",
+"speed": 1.04,
+"fx": {
+"K": "think",
+"M": "proud"
+}
+},
+{
+"shot": "l33",
+"spk": "J",
+"text": "A bathroom.",
+"pause": 0.3,
+"voice": "am_puck",
+"speed": 1.08,
+"fx": {
+"J": "think"
+}
+},
+{
+"shot": "l34",
+"spk": "J",
+"text": "Wait.",
+"pause": 0.8,
+"voice": "am_puck",
+"speed": 1.08,
+"fx": {
+"J": "shock",
+"M": "smirk",
+"K": "smirk"
+},
+"zoom": "J",
+"ev": "wait"
+},
+{
+"shot": "l35",
+"spk": "J",
+"text": "Have I been a toilet this whole time?",
+"pause": 0.45,
+"voice": "am_puck",
+"speed": 1.08,
+"fx": {
+"J": "shock"
+},
+"zoom": "J",
+"ev": "gotJ"
+},
+{
+"shot": "l36",
+"spk": "M",
+"text": "The whole time, bro.",
+"pause": 0.5,
+"voice": "am_onyx",
+"speed": 0.98,
+"fx": {
+"M": "laugh",
+"K": "laugh",
+"J": "sad"
+}
+},
+{
+"shot": "l37",
+"spk": "K",
+"text": "Comment what we should be next.",
+"pause": 0.9,
+"voice": "bm_george",
+"speed": 1.04,
+"fx": {
+"J": "happy",
+"M": "happy",
+"K": "happy"
+},
+"ev": "cta"
+}
+]
+}
