@@ -39,7 +39,7 @@
 "shot": "l04",
 "spk": "K",
 "text": "Mine? Every day. Multiple times.",
-"pause": 0.02,
+"pause": 0.06,
 "voice": "bm_george",
 "speed": 1.1,
 "fx": {
@@ -77,7 +77,7 @@
 "shot": "l07",
 "spk": "J",
 "text": "Okay okay. If I launched a video game right now, how long till I find your item?",
-"pause": -0.3,
+"pause": 0.06,
 "voice": "am_puck",
 "speed": 1.2,
 "fx": {
@@ -89,7 +89,7 @@
 "shot": "l08",
 "spk": "K",
 "text": "That's not a real question.",
-"pause": 0.02,
+"pause": 0.06,
 "voice": "bm_george",
 "speed": 1.1,
 "fx": {
@@ -135,7 +135,7 @@
 "shot": "l12",
 "spk": "J",
 "text": "Mine would find you.",
-"pause": 0.55,
+"pause": 0.5,
 "voice": "am_puck",
 "speed": 1.2,
 "fx": {
@@ -149,7 +149,7 @@
 "shot": "l13",
 "spk": "K",
 "text": "What?",
-"pause": 0.04,
+"pause": 0.06,
 "voice": "bm_george",
 "speed": 1.1,
 "fx": {
@@ -199,7 +199,7 @@
 "shot": "l17",
 "spk": "K",
 "text": "That's a yes! That's a yes!",
-"pause": -0.12,
+"pause": 0.06,
 "voice": "bm_george",
 "speed": 1.1600000000000001,
 "fx": {
@@ -224,7 +224,7 @@
 "shot": "l19",
 "spk": "J",
 "text": "How?!",
-"pause": 0.55,
+"pause": 0.5,
 "voice": "am_puck",
 "speed": 1.26,
 "fx": {
@@ -263,7 +263,7 @@
 "shot": "l22",
 "spk": "M",
 "text": "Yes or no, bro.",
-"pause": 0.04,
+"pause": 0.06,
 "voice": "am_onyx",
 "speed": 0.93,
 "fx": {
@@ -364,7 +364,7 @@
 "shot": "l30",
 "spk": "J",
 "text": "Okay Mo, last one. You float. You're yellow.",
-"pause": -0.15,
+"pause": 0.06,
 "voice": "am_puck",
 "speed": 1.2,
 "fx": {
@@ -388,7 +388,7 @@
 "shot": "l32",
 "spk": "J",
 "text": "Are you a banana?",
-"pause": 0.6,
+"pause": 0.5,
 "voice": "am_puck",
 "speed": 1.2,
 "fx": {
@@ -455,7 +455,7 @@
 "shot": "l37",
 "spk": "K",
 "text": "Comment what we should be next.",
-"pause": 0.9,
+"pause": 0.5,
 "voice": "bm_george",
 "speed": 1.1,
 "fx": {
