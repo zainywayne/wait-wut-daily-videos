@@ -9,5 +9,6 @@
   }
  ],
  "notes": "Day 1 posted empty island + palm tree. Each day: take top comments, append to builds with the commenter handle, render island with all builds so far.",
- "state": "island ripped out of the seabed, towed by the yacht, out of gas, lost at sea, the whale from day 1 is back next to the yacht"
+ "state": "yacht STUPIDER8 is chained to the palm tree and can never leave; he drove it in circles until the gas ran out; he now lives on the yacht (HOME sign, laundry line, plant) and fishes off it for food; at night a shark fin circles the yacht",
+ "rule": "He never escapes. He has to survive with whatever the top comment gives him, even if it is terrible."
 }

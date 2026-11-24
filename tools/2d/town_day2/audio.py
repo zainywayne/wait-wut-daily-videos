@@ -88,25 +88,28 @@ EV["card"] = T_["d2_card"]; pop(EV["card"], 784); EV["chained"] = wt("d2_card", 
 EV["party"] = T_["d2_party"]; EV["fine"] = wt("d2_party", "fine")
 EV["go"] = wt("d2_go", "full"); engine(EV["go"] - 0.1, 1.6, 0.09, 50, 95)
 EV["snap"] = T_["d2_snap"] + 0.05; clank(EV["snap"], 0.18); whomp(EV["snap"], 0.5); bonk(EV["snap"] + 0.12, 0.5); buzzer(EV["snap"] + 0.5); EV["ha1"] = EV["snap"] + 0.6; cackle(EV["ha1"])
-EV["try"] = T_["d2_try"]; EV["lever"] = wt("d2_try", "harder"); engine(EV["lever"], 2.6, 0.11, 70, 150)
-EV["rip"] = wt("d2_rip", "rips"); whomp(EV["rip"], 0.6); noise(EV["rip"], 1.2, 0.16, 3, lambda x: np.exp(-x * 2.5)); splash(EV["rip"] + 0.2, 0.25, 1.0)
-EV["logic"] = T_["d2_logic"]; EV["nobody"] = wt("d2_logic", "nobody"); EV["bulb"] = wt("d2_logic", "island") ; ching(EV["nobody"], 0.08)
-EV["tow"] = T_["d2_tow"]; engine(EV["tow"], seg_dur("d2_tow") if False else 2.4, 0.07, 120, 120)
-for q in range(6): splash(EV["tow"] + 0.2 + q * 0.4, 0.04, 0.3)
-EV["gas"] = T_["d2_gas"]; engine(EV["gas"], 1.0, 0.06, 110, 40)
-for q in range(4): bonk(EV["gas"] + 0.8 + q * 0.28 + (q % 2) * 0.07, 0.12)
-EV["empty"] = EV["gas"] + 0.9
-EV["lost"] = T_["d2_lost"]; note(EV["lost"], 98, 0.08, 2, 2.5); note(EV["lost"], 116.5, 0.06, 2, 2.5)
-EV["whale"] = T_["d2_whale"] + 0.1; splash(EV["whale"], 0.18, 1.0); EV["blink"] = EV["whale"] + 0.8
-for k in range(2): note(EV["whale"] + k * 0.45, [65.4, 61.7][k], 0.22, 2.5, 0.5)
+EV["try"] = T_["d2_try"]; EV["lever"] = wt("d2_try", "harder"); EV["circ"] = EV["lever"] + 0.35
+EV["gas"] = T_["d2_gas"]; EV["out"] = wt("d2_gas", "out"); engine(EV["lever"], EV["out"] + 0.3 - EV["lever"], 0.1, 70, 140); engine(EV["out"] + 0.3, 0.8, 0.07, 140, 35)
+for q in range(4): bonk(EV["out"] + 0.9 + q * 0.26 + (q % 2) * 0.06, 0.12)
+for q in range(10): splash(EV["circ"] + q * 0.35, 0.04, 0.3)
+EV["ha2"] = EV["out"] + 1.0; cackle(EV["ha2"], 0.06)
+EV["stop"] = T_["d2_stop"]; note(EV["stop"], 392, 0.05, 3, 0.8); note(EV["stop"] + 0.4, 330, 0.05, 3, 1.0)
+EV["home"] = wt("d2_home", "in")
+for q in range(4): pop(EV["home"] + 0.1 + q * 0.2, [659, 784, 880, 1047][q], 0.07)
+EV["fish"] = T_["d2_fish"]; EV["cast"] = wt("d2_fish", "back"); noise(EV["cast"], 0.3, 0.06, 20, lambda x: np.sin(np.pi * x / 0.3)); splash(EV["cast"] + 0.35, 0.06, 0.3)
+EV["boot"] = EV["cast"] + 0.9; splash(EV["boot"], 0.1, 0.4); buzzer(EV["boot"] + 0.15, 0.06)
+EV["catch"] = EV["boot"] + 1.0; splash(EV["catch"], 0.14, 0.5); ching(EV["catch"] + 0.15, 0.08)
+EV["sunS"] = T_["d_sun"]; EV["dinner"] = wt("d_sun", "dinner"); ching(EV["dinner"], 0.07)
+for q in range(5): note(EV["sunS"] + q * 0.45, [523.3, 659.3, 784, 659.3, 880][q], 0.04, 3, 0.9)
+EV["night"] = T_["d_night"]; EV["circling"] = wt("d_night", "circling"); note(EV["circling"], 82.4, 0.2, 3, 0.4); note(EV["circling"] + 0.45, 87.3, 0.2, 3, 0.4); note(EV["circling"] + 0.9, 82.4, 0.2, 3, 0.4); note(EV["circling"] + 1.3, 87.3, 0.22, 3, 0.5)
 EV["end"] = T_["d2_end"]; EV["word"] = wt("d2_end", "word"); pop(EV["word"], 988); pop(EV["word"] + 0.08, 1175)
 bt = 60 / 112; bass = [130.8, 174.6, 196.0, 130.8]; mel = [659.3, 784.0, 880.0, 784.0, 659.3, 587.3, 523.3, 587.3]
-mute = [(EV["snap"] - 0.05, EV["snap"] + 0.5), (EV["rip"] - 0.05, EV["rip"] + 0.6), (EV["gas"] + 0.7, EV["end"] - 0.05)]
+mute = [(EV["snap"] - 0.05, EV["snap"] + 0.5), (EV["out"] + 0.3, EV["stop"] + 1.2), (EV["circling"] - 0.1, EV["end"] - 0.05)]
 k_ = 0
 for t0 in np.arange(0.0, total, bt / 2):
     k_ += 1
     if any(a0 <= t0 < a1 for a0, a1 in mute): continue
-    fast = EV["tow"] <= t0 < EV["gas"] + 0.7
+    fast = EV["circ"] <= t0 < EV["out"] + 0.3
     if k_ % 2 == 0: note(t0, bass[(k_ // 16) % 4] / 2, 0.075, 6, 0.45)
     if k_ % 2 == 1 or fast: note(t0, mel[(k_ // 2) % 8] * (2 if fast and k_ % 2 == 0 else 1), 0.028, 9, 0.25)
 
