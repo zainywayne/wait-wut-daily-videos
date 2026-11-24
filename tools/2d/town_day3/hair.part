@@ -1,0 +1,10 @@
+// ---------- extra looks for the human rig ----------
+const HAIRC = { bun: '#6b3f22', slick: '#24262e', kid: '#3a2a1e', wig: '#f4f4f0', curl: '#2a1d14' };
+function HAIRB(o) { if (o.hair === 'bun') el(0, -96, 36, 32, HAIRC.bun); if (o.hair === 'wig') for (const sd of [-1, 1]) for (let q = 0; q < 5; q++) el(sd * 82, -50 + q * 28, 24, 18, q % 2 ? '#e6e6e0' : HAIRC.wig); }
+function HAIRF(o) { const h = o.hair; if (!h) return;
+  if (h === 'bun' || h === 'slick') { X.fillStyle = HAIRC[h]; X.beginPath(); X.ellipse(0, -46, 86, 46, 0, Math.PI, 0); X.fill(); if (h === 'slick') { X.strokeStyle = 'rgba(255,255,255,.25)'; X.lineWidth = 5; X.beginPath(); X.arc(-10, -40, 60, Math.PI * 1.1, Math.PI * 1.5); X.stroke(); } }
+  if (h === 'kid') { X.fillStyle = HAIRC.kid; X.beginPath(); X.ellipse(0, -44, 84, 44, 0, Math.PI, 0); X.fill(); for (let q = 0; q < 5; q++) { X.beginPath(); X.moveTo(-60 + q * 30, -60); X.lineTo(-48 + q * 30 + 8, -112 + (q % 2) * 14); X.lineTo(-36 + q * 30, -62); X.fill(); } }
+  if (h === 'wig') for (let q = 0; q < 6; q++) el(-62 + q * 25, -70 - Math.sin(q / 5 * Math.PI) * 14, 22, 18, q % 2 ? '#e6e6e0' : HAIRC.wig); }
+function ACC(o, t) { if (o.glasses) { X.strokeStyle = INK; X.lineWidth = 5; for (const sd of [-1, 1]) { X.beginPath(); X.arc(sd * 30 + (o.look || 0) * 6, -8, 24, 0, 7); X.stroke(); } X.beginPath(); X.moveTo(-6, -10); X.lineTo(6, -10); X.stroke(); }
+  if (o.mask) { rr(-84, -34, 168, 46, 18, '#15171c'); for (const sd of [-1, 1]) { el(sd * 30, -10, 15, 12, '#fff'); el(sd * 30 + (o.look || 0) * 5, -10, 6, 6, INK); } }
+  if (o.crumbs) for (let q = 0; q < 6; q++) el(-30 + q * 13, 56 + (q % 2) * 8, 5, 4, '#a8743a'); }

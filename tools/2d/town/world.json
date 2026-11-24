@@ -1,14 +1,19 @@
 {
- "day": 2,
+ "day": 3,
  "name": null,
  "builds": [
   {
    "day": 2,
    "item": "yacht chained to the island (named STUPIDER8)",
    "by": "@stupider8"
+  },
+  {
+   "day": 3,
+   "item": "T-Rex that eats ALL his food every 7 days (friendly otherwise: scared off the shark, catches fish)",
+   "by": "@bob.the.seal8"
   }
  ],
  "notes": "Day 1 posted empty island + palm tree. Each day: take top comments, append to builds with the commenter handle, render island with all builds so far.",
- "state": "yacht STUPIDER8 is chained to the palm tree and can never leave; he drove it in circles until the gas ran out; he now lives on the yacht (HOME sign, laundry line, plant) and fishes off it for food; at night a shark fin circles the yacht",
+ "state": "yacht STUPIDER8 chained to palm, he lives on it; T-Rex lives on the island, they are best friends; every 7 days it eats all his food (ate his pile, the coconuts, the fish in his hand); next feast day 14; open problem: hide food from the T-Rex",
  "rule": "He never escapes. He has to survive with whatever the top comment gives him, even if it is terrible."
 }
