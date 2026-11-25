@@ -97,18 +97,26 @@ for k_, sh in (("c1", "d3_day1"), ("c4", "d3_day4"), ("c6", "d3_day6")): EV[k_] 
 EV["shark"] = wt("d3_day1", "scares"); roar(EV["shark"], 0.7, 0.12); splash(EV["shark"] + 0.4, 0.1, 0.6)
 EV["catch"] = wt("d3_day4", "catches"); splash(EV["catch"], 0.15, 0.6); pop(EV["catch"] + 0.5, 660); pop(EV["catch"] + 0.62, 880)
 EV["pile"] = wt("d3_day6", "pile"); ching(EV["pile"], 0.07)
+EV["arms"] = wt("d3_arms", "short"); note(EV["arms"], 523, 0.04, 6, 0.3); note(EV["arms"] + 0.25, 494, 0.04, 6, 0.3); note(EV["arms"] + 0.5, 466, 0.05, 4, 0.6)
+EV["spit"] = wt("d3_spit", "spits") + 0.15; noise(EV["spit"], 0.25, 0.14, 3, lambda x: np.exp(-x * 9)); EV["splat"] = EV["spit"] + 0.4; whomp(EV["splat"], 0.3); noise(EV["splat"], 0.3, 0.16, 2, lambda x: np.exp(-x * 12)); EV["ha1b"] = EV["splat"] + 0.25; cackle(EV["ha1b"])
+EV["c6"] = T_["d3_day6"]; flip(EV["c6"]); EV["pile"] = wt("d3_day6", "pile"); ching(EV["pile"], 0.07)
 EV["c7"] = T_["d3_day7"]; flip(EV["c7"], 0.08); EV["seven"] = wt("d3_day7", "seven"); note(EV["seven"], 82.4, 0.24, 2.5, 0.5); note(EV["seven"] + 0.45, 77.8, 0.26, 2, 0.8)
-EV["eat"] = wt("d3_eat", "eats"); roar(EV["eat"] - 0.3, 0.6, 0.16); chomps(EV["eat"], EV["eat"] + 1.0, 0.2, 0.13) if False else None
-EV["all"] = T_["d3_all"]; EV["hand"] = wt("d3_all", "hand")
-for q in range(14): chomp_t = EV["eat"] + q * 0.17; noise(chomp_t, 0.08, 0.18, 2, lambda x: np.exp(-x * 40))
+EV["eat"] = wt("d3_eat", "eats"); roar(EV["eat"] - 0.3, 0.6, 0.16)
+for q in range(12): noise(EV["eat"] + q * 0.15, 0.08, 0.18, 2, lambda x: np.exp(-x * 40))
+EV["all"] = T_["d3_all"]
 for w_ in ("fish", "coconuts", "hand"): t_ = wt("d3_all", w_) + 0.25; noise(t_, 0.1, 0.22, 2, lambda x: np.exp(-x * 30)); whomp(t_, 0.2)
-EV["burp"] = T_["d3_burp"] + 0.2; i0 = int(EV["burp"] * sr); n = int(1.0 * sr); x = np.arange(n) / sr; mus[i0:i0 + n] += np.tanh(3 * np.sin(2 * np.pi * np.cumsum(75 + 18 * np.sin(2 * np.pi * 9 * x)) / sr)) * np.sin(np.pi * x / 1.0) * 0.28
-EV["ha2"] = EV["burp"] + 0.95; cackle(EV["ha2"])
-EV["again"] = T_["d3_again"]; EV["againw"] = wt("d3_again", "again"); for_ = [flip(EV["again"] + 0.2 + q * 0.12, 0.04) for q in range(7)]; note(EV["againw"], 98, 0.15, 2.5, 0.6)
-EV["ask"] = T_["d3_ask"]; EV["hide"] = wt("d3_ask", "hide")
-EV["end"] = T_["d3_end"]; EV["word"] = wt("d3_end", "word"); pop(EV["word"], 988); pop(EV["word"] + 0.08, 1175)
+EV["gull"] = wt("d3_gull", "seagull"); noise(EV["gull"] + 0.1, 0.12, 0.2, 2, lambda x: np.exp(-x * 30))
+for q in range(8): noise(EV["gull"] + 0.25 + q * 0.09, 0.06, 0.06, 4, lambda x: np.sin(np.pi * x / 0.06))
+EV["ha2"] = EV["gull"] + 0.9; cackle(EV["ha2"], 0.07)
+EV["burp"] = T_["d3_burp"] + 0.15; i0 = int(EV["burp"] * sr); n = int(0.9 * sr); x = np.arange(n) / sr; mus[i0:i0 + n] += np.tanh(3 * np.sin(2 * np.pi * np.cumsum(75 + 18 * np.sin(2 * np.pi * 9 * x)) / sr)) * np.sin(np.pi * x / 0.9) * 0.28
+EV["look"] = wt("d3_look", "looks"); note(EV["look"] + 0.4, 98, 0.16, 2.5, 0.5); note(EV["look"] + 0.9, 92.5, 0.18, 2, 0.8); EV["smack"] = EV["look"] + 0.7; noise(EV["smack"], 0.3, 0.08, 3, lambda x: np.sin(np.pi * x / 0.3) * (0.5 + 0.5 * np.sin(2 * np.pi * 12 * x)))
+EV["hug"] = wt("d3_hug", "hug"); ching(EV["hug"], 0.07); note(EV["hug"] + 0.5, 523, 0.04, 5, 0.3); note(EV["hug"] + 0.75, 494, 0.04, 5, 0.3); note(EV["hug"] + 1.0, 440, 0.05, 3, 0.7)
+EV["ask"] = T_["d3_ask"]; ching(EV["ask"] + 0.3, 0.06)
+EV["jet"] = wt("d3_ideas", "jetpack"); EV["gran"] = wt("d3_ideas", "grandma"); EV["rex2"] = wt("d3_ideas", "second")
+for k_, f_ in (("jet", 784), ("gran", 988), ("rex2", 1175)): pop(EV[k_], f_, 0.08)
+EV["end"] = T_["d3_end"]; EV["anything"] = wt("d3_end", "anything"); EV["word"] = wt("d3_end", "built"); pop(EV["word"], 988); pop(EV["word"] + 0.08, 1175); ching(EV["anything"], 0.07)
 bt = 60 / 112; bass = [130.8, 174.6, 196.0, 130.8]; mel = [659.3, 784.0, 880.0, 784.0, 659.3, 587.3, 523.3, 587.3]
-mute = [(EV["drop"] - 0.05, EV["drop"] + 1.2), (EV["seven"] - 0.3, EV["burp"] + 1.6)]
+mute = [(EV["drop"] - 0.05, EV["drop"] + 1.2), (EV["seven"] - 0.3, EV["gull"] - 0.2), (EV["look"] + 0.2, EV["hug"] - 0.1)]
 k_ = 0
 for t0 in np.arange(0.0, total, bt / 2):
     k_ += 1
