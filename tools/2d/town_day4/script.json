@@ -1,111 +1,13 @@
-{
-"voice": "blend",
-"speed": 1.15,
-"scenes": [
-{
-"shot": "d4_drop",
-"text": "Day four. A giant bag falls from the sky.",
-"pause": 0.3
-},
-{
-"shot": "d4_recap",
-"text": "So far, a yacht he can't leave, and a T-Rex that eats all his food every week.",
-"pause": 0.2
-},
-{
-"shot": "d4_card",
-"text": "And the same guy who gave him the yacht, won again.",
-"pause": 0.3
-},
-{
-"shot": "d4_read",
-"text": "Give him a big bag of bricks, concrete, and wood, to make a house.",
-"pause": 0.3
-},
-{
-"shot": "d4_never",
-"text": "One problem. He has never built anything.",
-"pause": 0.25
-},
-{
-"shot": "d4_try1",
-"text": "Attempt one.",
-"pause": 1.0
-},
-{
-"shot": "d4_sneeze",
-"text": "",
-"pause": 1.5
-},
-{
-"shot": "d4_mix",
-"text": "So the T-Rex helps. Its tail mixes the concrete.",
-"pause": 0.4
-},
-{
-"shot": "d4_nail",
-"text": "Its arms can't hold a hammer. So it uses its head.",
-"pause": 1.0
-},
-{
-"shot": "d4_later",
-"text": "Three days later.",
-"pause": 0.3
-},
-{
-"shot": "d4_done",
-"text": "He has a house.",
-"pause": 0.5
-},
-{
-"shot": "d4_why",
-"text": "But it's not for him.",
-"pause": 0.4
-},
-{
-"shot": "d4_pantry",
-"text": "It's for his food.",
-"pause": 0.7
-},
-{
-"shot": "d4_day14",
-"text": "Day fourteen.",
-"pause": 0.8
-},
-{
-"shot": "d4_fit",
-"text": "The T-Rex can't fit through the door.",
-"pause": 0.4
-},
-{
-"shot": "d4_arms",
-"text": "And its arms are too short to open it.",
-"pause": 0.5
-},
-{
-"shot": "d4_sad",
-"text": "",
-"pause": 1.4
-},
-{
-"shot": "d4_share",
-"text": "So he shares a fish anyway.",
-"pause": 0.8
-},
-{
-"shot": "d4_ask",
-"text": "Day five is up to you.",
-"pause": 0.2
-},
-{
-"shot": "d4_ideas",
-"text": "A penguin? A pizza oven? A tiny volcano?",
-"pause": 0.3
-},
-{
-"shot": "d4_end",
-"text": "Literally anything. Top comment gets built.",
-"pause": 0.9
-}
-]
-}
+{"voice":"blend","speed":1.2,"scenes":[
+{"shot":"d4_drop","text":"Day four. The same guy won again.","pause":0.2},
+{"shot":"d4_read","text":"A giant bag of bricks, concrete, and wood. To build a house.","pause":0.2},
+{"shot":"d4_never","text":"Problem. He has never built anything.","pause":0.2},
+{"shot":"d4_try1","text":"Attempt one.","pause":0.6},
+{"shot":"d4_sneeze","text":"","pause":1.2},
+{"shot":"d4_build","text":"So the T-Rex helps.","pause":2.2},
+{"shot":"d4_done","text":"Boom. A house.","pause":0.4},
+{"shot":"d4_jump","text":"The T-Rex is so happy, it jumps.","pause":0.9},
+{"shot":"d4_sink","text":"And the island starts sinking.","pause":0.7},
+{"shot":"d4_panic","text":"Turns out, bricks are heavy.","pause":0.5},
+{"shot":"d4_end","text":"Day five decides everything. Comment anything.","pause":0.9}
+]}

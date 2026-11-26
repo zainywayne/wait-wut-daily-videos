@@ -90,39 +90,31 @@ def brick(t0, amp=0.12):
     if i0 + n < N: mus[i0:i0 + n] += (np.sin(2 * np.pi * 420 * x) * 0.6 + np.random.default_rng(int(t0 * 77)).standard_normal(n) * 0.5) * np.exp(-x * 50) * amp
 EV["drop"] = 0.6; noise(0.0, 0.6, 0.07, 30, lambda x: np.sin(np.pi * np.minimum(1, x / 0.6)) ** 2); whomp(EV["drop"], 0.7); EV["burst"] = EV["drop"] + 0.25
 for q in range(14): brick(EV["burst"] + q * 0.05 + (q % 3) * 0.02, 0.1)
-EV["recap"] = T_["d4_recap"]; noise(EV["recap"] - 0.15, 0.4, 0.07, 30, lambda x: np.sin(np.pi * x / 0.4) ** 2); EV["rchain"] = wt("d4_recap", "leave"); clank(EV["rchain"], 0.1); EV["rrex"] = wt("d4_recap", "eats"); roar(EV["rrex"], 0.6, 0.1)
-EV["back"] = T_["d4_card"]; noise(EV["back"] - 0.15, 0.4, 0.07, 30, lambda x: np.sin(np.pi * x / 0.4) ** 2); EV["card"] = wt("d4_card", "same"); pop(EV["card"], 784); EV["again"] = wt("d4_card", "again"); ching(EV["again"], 0.08)
-EV["hl"] = wt("d4_read", "house")
+EV["again"] = wt("d4_drop", "again"); ching(EV["again"], 0.08)
+EV["card"] = T_["d4_read"]; pop(EV["card"], 784); EV["hl"] = wt("d4_read", "house")
 EV["never"] = wt("d4_never", "never"); note(EV["never"], 392, 0.05, 4, 0.4); note(EV["never"] + 0.3, 330, 0.05, 3, 0.6)
 EV["try1"] = T_["d4_try1"]
-for q in range(8): brick(EV["try1"] + 0.3 + q * 0.16, 0.08)
-EV["sneeze"] = T_["d4_sneeze"] + 0.35; noise(EV["sneeze"] - 0.3, 0.3, 0.05, 6, lambda x: np.sin(np.pi * x / 0.3)); noise(EV["sneeze"], 0.35, 0.3, 2, lambda x: np.exp(-x * 8)); whomp(EV["sneeze"], 0.3)
-for q in range(10): brick(EV["sneeze"] + 0.15 + q * 0.07, 0.1)
-EV["nope"] = EV["sneeze"] + 0.55; buzzer(EV["nope"]); EV["ha1"] = EV["nope"] + 0.3; cackle(EV["ha1"])
-EV["mix"] = wt("d4_mix", "tail"); noise(EV["mix"], 1.6, 0.06, 20, lambda x: 0.5 + 0.5 * np.sin(2 * np.pi * 3 * x))
-EV["nail"] = wt("d4_nail", "head")
-for q in range(5): bonk(EV["nail"] + 0.15 + q * 0.32, 0.35)
-EV["later"] = T_["d4_later"]
-for q in range(10): brick(EV["later"] + 0.1 + q * 0.12, 0.05)
-EV["done"] = wt("d4_done", "house"); ching(EV["done"], 0.09); pop(EV["done"] + 0.1, 988); pop(EV["done"] + 0.2, 1175)
-EV["why"] = wt("d4_why", "not"); note(EV["why"] + 0.3, 330, 0.05, 3, 0.6)
-EV["pantry"] = wt("d4_pantry", "food"); ching(EV["pantry"], 0.08)
-EV["c14"] = T_["d4_day14"]; flip(EV["c14"], 0.08); EV["fourteen"] = wt("d4_day14", "fourteen"); note(EV["fourteen"] + 0.1, 82.4, 0.24, 2.5, 0.5); note(EV["fourteen"] + 0.55, 77.8, 0.26, 2, 0.8); roar(EV["fourteen"] + 0.5, 0.7, 0.12)
-EV["fit"] = wt("d4_fit", "fit"); bonk(EV["fit"], 0.5); EV["fit2"] = EV["fit"] + 0.35; bonk(EV["fit2"], 0.4)
-EV["arms"] = wt("d4_arms", "short"); note(EV["arms"], 523, 0.04, 6, 0.3); note(EV["arms"] + 0.25, 494, 0.04, 6, 0.3); note(EV["arms"] + 0.5, 466, 0.05, 4, 0.6)
-EV["sad"] = T_["d4_sad"]; note(EV["sad"] + 0.1, 392, 0.05, 2, 1.2); note(EV["sad"] + 0.5, 370, 0.05, 2, 1.2)
-EV["share"] = wt("d4_share", "fish"); ching(EV["share"] + 0.2, 0.08); EV["gulp"] = EV["share"] + 0.6; note(EV["gulp"], 220, 0.12, 14, 0.25)
-EV["ask"] = T_["d4_ask"]; ching(EV["ask"] + 0.3, 0.06)
-EV["jet"] = wt("d4_ideas", "penguin"); EV["gran"] = wt("d4_ideas", "pizza"); EV["rex2"] = wt("d4_ideas", "volcano")
-for k_, f_ in (("jet", 784), ("gran", 988), ("rex2", 1175)): pop(EV[k_], f_, 0.08)
-EV["end"] = T_["d4_end"]; EV["anything"] = wt("d4_end", "anything"); EV["word"] = wt("d4_end", "built"); pop(EV["word"], 988); pop(EV["word"] + 0.08, 1175); ching(EV["anything"], 0.07)
+for q in range(8): brick(EV["try1"] + 0.2 + q * 0.12, 0.08)
+EV["sneeze"] = T_["d4_sneeze"] + 0.3; noise(EV["sneeze"] - 0.3, 0.3, 0.05, 6, lambda x: np.sin(np.pi * x / 0.3)); noise(EV["sneeze"], 0.35, 0.3, 2, lambda x: np.exp(-x * 8)); whomp(EV["sneeze"], 0.3)
+for q in range(10): brick(EV["sneeze"] + 0.15 + q * 0.06, 0.1)
+EV["nope"] = EV["sneeze"] + 0.5; buzzer(EV["nope"]); EV["ha1"] = EV["nope"] + 0.25; cackle(EV["ha1"])
+EV["build"] = T_["d4_build"]; EV["mix"] = EV["build"] + 0.9; EV["nail"] = EV["build"] + 1.9
+noise(EV["mix"], 0.9, 0.06, 20, lambda x: 0.5 + 0.5 * np.sin(2 * np.pi * 4 * x))
+for q in range(4): bonk(EV["nail"] + 0.1 + q * 0.25, 0.35)
+EV["done"] = wt("d4_done", "house"); ching(EV["done"], 0.09); pop(EV["done"] + 0.1, 988); pop(EV["done"] + 0.2, 1175); EV["boom"] = wt("d4_done", "boom"); whomp(EV["boom"], 0.3)
+EV["jump"] = wt("d4_jump", "jumps") + 0.1; noise(EV["jump"] - 0.2, 0.3, 0.05, 20, lambda x: np.sin(np.pi * x / 0.3)); EV["land"] = EV["jump"] + 0.55; whomp(EV["land"], 0.8); whomp(EV["land"] + 0.06, 0.5); splash(EV["land"], 0.25, 1.0)
+EV["crack"] = EV["land"] + 0.15; noise(EV["crack"], 0.25, 0.25, 1, lambda x: np.exp(-x * 14)); noise(EV["crack"] + 0.12, 0.2, 0.18, 1, lambda x: np.exp(-x * 16))
+EV["sink"] = T_["d4_sink"]; EV["sinkw"] = wt("d4_sink", "sinking"); note(EV["sinkw"], 82.4, 0.24, 2.5, 0.5); note(EV["sinkw"] + 0.45, 77.8, 0.26, 2, 0.9)
+for q in range(6): noise(EV["sink"] + q * 0.35, 0.4, 0.07, 10, lambda x: np.sin(np.pi * x / 0.4))
+EV["panic"] = T_["d4_panic"]; EV["heavy"] = wt("d4_panic", "heavy"); EV["ha2"] = EV["heavy"] + 0.3; cackle(EV["ha2"])
+EV["end"] = T_["d4_end"]; EV["anything"] = wt("d4_end", "anything"); EV["word"] = EV["anything"]; pop(EV["word"], 988); pop(EV["word"] + 0.08, 1175)
 bt = 60 / 112; bass = [130.8, 174.6, 196.0, 130.8]; mel = [659.3, 784.0, 880.0, 784.0, 659.3, 587.3, 523.3, 587.3]
-mute = [(EV["drop"] - 0.05, EV["drop"] + 0.9), (EV["sneeze"] - 0.4, EV["nope"] + 0.4), (EV["fourteen"], EV["share"] - 0.1)]
+mute = [(EV["drop"] - 0.05, EV["drop"] + 0.9), (EV["sneeze"] - 0.4, EV["nope"] + 0.4), (EV["land"] - 0.1, EV["panic"])]
 k_ = 0
 for t0 in np.arange(0.0, total, bt / 2):
     k_ += 1
     if any(a0 <= t0 < a1 for a0, a1 in mute): continue
-    fast = EV["mix"] <= t0 < EV["done"]
+    fast = EV["build"] <= t0 < EV["done"] or EV["panic"] <= t0
     if k_ % 2 == 0: note(t0, bass[(k_ // 16) % 4] / 2, 0.075, 6, 0.45)
     if k_ % 2 == 1 or fast: note(t0, mel[(k_ // 2) % 8] * (2 if fast and k_ % 2 == 0 else 1), 0.028, 9, 0.25)
 
