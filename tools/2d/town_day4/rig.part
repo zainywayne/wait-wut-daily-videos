@@ -1,0 +1,26 @@
+// ---------- face + character rig ----------
+function face(o, t) { const e = o.eyes || 'open', lk = o.look || 0, m = o.mouth || 'flat'; X.lineCap = 'round';
+  for (const sd of [-1, 1]) { const ex = sd * 30 + lk * 6, ey = -8;
+    if (e === 'closed' || e === 'happy') { X.strokeStyle = INK; X.lineWidth = 6; X.beginPath(); X.arc(ex, ey + (e === 'happy' ? 6 : -2), 13, e === 'happy' ? Math.PI * 1.1 : 0.15, e === 'happy' ? Math.PI * 1.9 : Math.PI - 0.15); X.stroke(); }
+    else { const R = e === 'wide' ? 21 : 16, tw = e === 'wide' ? Math.sin(t * 37) * 1.5 : 0; el(ex + tw, ey, R, e === 'angry' ? R * 0.8 : R, '#fff'); if (e === 'wide') { X.strokeStyle = 'rgba(220,60,60,.75)'; X.lineWidth = 2; for (let q = 0; q < 4; q++) { X.beginPath(); X.moveTo(ex + Math.cos(q * 1.7 + sd) * R, ey + Math.sin(q * 1.7 + sd) * R); X.lineTo(ex + Math.cos(q * 1.7 + sd) * 8, ey + Math.sin(q * 1.7 + sd) * 8); X.stroke(); } }
+      el(ex + lk * 6 + tw, ey + (o.lookY || 0) * 5, e === 'wide' ? 6 : 7, e === 'wide' ? 6 : 7, INK); }
+    const br = o.brow != null ? o.brow : (e === 'angry' ? 1 : e === 'wide' ? -0.8 : 0); X.strokeStyle = INK; X.lineWidth = 7; X.beginPath(); X.moveTo(ex - sd * 16, ey - 30 - br * sd * -9 * sd - (br < 0 ? 8 : 0)); X.lineTo(ex + sd * 16, ey - 30 + br * 10 * -1 + (br > 0 ? 14 : 0) - (br < 0 ? 8 : 0)); if (e !== 'closed' && e !== 'happy') X.stroke(); }
+  if (e === 'wide') { X.strokeStyle = 'rgba(120,70,110,.55)'; X.lineWidth = 4; for (const sd of [-1, 1]) { X.beginPath(); X.arc(sd * 30, 2, 22, 0.35, 2.8); X.stroke(); } }
+  X.strokeStyle = INK; X.lineWidth = 7; X.fillStyle = '#5a1f24';
+  if (m === 'flat') { X.beginPath(); X.moveTo(-16, 36); X.lineTo(16, 36); X.stroke(); }
+  if (m === 'frown') { X.beginPath(); X.arc(0, 52, 20, Math.PI * 1.2, Math.PI * 1.8); X.stroke(); }
+  if (m === 'smile') { X.beginPath(); X.arc(0, 22, 22, 0.25, Math.PI - 0.25); X.stroke(); }
+  if (m === 'grin') { X.beginPath(); X.moveTo(-30, 26); X.quadraticCurveTo(0, 62, 34, 20); X.closePath(); X.fillStyle = '#fff'; X.fill(); X.stroke(); }
+  if (m === 'o') { el(0, 40, 13, 16 + Math.sin(t * 3) * 2, '#5a1f24'); }
+  if (m === 'shock') { el(0, 44, 20, 26, '#5a1f24'); }
+  if (m === 'sing') { el(0, 40, 16, 12 + 10 * Math.abs(Math.sin(t * 5)), '#5a1f24'); } }
+function arm(sx, sy, hx, hy, col, w = 30) { X.strokeStyle = col; X.lineWidth = w; X.lineCap = 'round'; X.beginPath(); X.moveTo(sx, sy); X.quadraticCurveTo((sx + hx) / 2 + (sx < 0 ? -26 : 26), (sy + hy) / 2 + 20, hx, hy); X.stroke(); el(hx, hy, 21, 21, SKIN); }
+function guy(x, y, s, o = {}, t = 0) { const sq = o.squash || 0, bob = o.bob != null ? o.bob : Math.sin(t * 2.4) * 3; X.save(); X.translate(x, y); X.scale(s * (o.flip ? -1 : 1) * (1 + sq * 0.12), s * (1 - sq * 0.12)); if (o.tilt) X.rotate(o.tilt);
+  el(0, 4, 90, 14, 'rgba(0,0,0,.2)'); if (!o.noLegs) { rr(-44, -110, 34, 110, 14, '#2b3044'); rr(10, -110, 34, 110, 14, '#2b3044'); rr(-52, -22, 48, 24, 10, INK); rr(4, -22, 48, 24, 10, INK); }
+  const by = -250 + bob; rr(-66, by, 132, 160, 44, o.shirt || BLUE); if (o.tie) { X.fillStyle = '#d42d2d'; X.beginPath(); X.moveTo(-10, by + 12); X.lineTo(10, by + 12); X.lineTo(16, by + 80); X.lineTo(0, by + 102); X.lineTo(-16, by + 80); X.fill(); }
+  const hl = o.hl || [-84, -120], hr = o.hr || [84, -120]; arm(-56, by + 30, hl[0], hl[1] + bob, o.shirt || BLUE); arm(56, by + 30, hr[0], hr[1] + bob, o.shirt || BLUE);
+  const hy = -330 + bob * 1.5; X.save(); X.translate(o.headX || 0, hy); if (o.headTilt) X.rotate(o.headTilt); el(-80, 4, 16, 22, SKIN2); el(80, 4, 16, 22, SKIN2); HAIRB(o); el(0, 0, 82, 82, SKIN); HAIRF(o); face(o, t); ACC(o, t);
+  if (o.hat === 'top') { rr(-70, -84, 140, 16, 6, '#15171c'); rr(-46, -180, 92, 100, 8, '#15171c'); rr(-46, -110, 92, 16, 0, '#d42d2d'); }
+  if (o.feathers) for (let q = 0; q < 7; q++) { X.save(); X.translate(-60 + q * 20, -74 - (q % 2) * 10); X.rotate(q - 3); el(0, 0, 18, 7, '#fff'); X.restore(); }
+  if (o.sweat) { const ph = (t * 1.2) % 1; el(74, -40 + ph * 60, 8, 12, 'rgba(140,200,255,.9)'); }
+  X.restore(); X.restore(); }

@@ -1,5 +1,5 @@
 {
- "day": 3,
+ "day": 4,
  "name": null,
  "builds": [
   {
@@ -11,9 +11,14 @@
    "day": 3,
    "item": "T-Rex that eats ALL his food every 7 days (friendly otherwise: scared off the shark, catches fish)",
    "by": "@bob.the.seal8"
+  },
+  {
+   "day": 4,
+   "item": "big bag of bricks, concrete and wood -> he built a brick house that is a food pantry with a NO DINOS sign (T-Rex cannot fit or open the door)",
+   "by": "@stupider8 (second win)"
   }
  ],
  "notes": "Day 1 posted empty island + palm tree. Each day: take top comments, append to builds with the commenter handle, render island with all builds so far.",
- "state": "yacht STUPIDER8 chained to palm, he lives on it; T-Rex lives on the island, they are best friends; every 7 days it eats all his food (ate his pile, the coconuts, the fish in his hand); next feast day 14; open problem: hide food from the T-Rex",
+ "state": "island is wider now; T-Rex on the left, palm, brick pantry house on the right; yacht STUPIDER8 chained further out, he lives on it; T-Rex is his best friend; he shares a fish with it on feast days",
  "rule": "He never escapes. He has to survive with whatever the top comment gives him, even if it is terrible."
 }
